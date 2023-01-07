@@ -1,0 +1,72 @@
+/* icon and fonts */
+@import 'fonts';
+@import 'reset';
+@import 'line-awesome/line-awesome';
+@import 'grid';
+
+:root {
+	--primary: #5e77f9;
+	--primary-hover: #4b68f7;
+	--grey-light: #f2f2f2;
+	--grey-blue-light: #cdd6e9;
+	--grey-grey-light: #9ba1af;
+	--red-delete: #fc6161;
+	--red-delete-hover: #e73a3a;
+	--border-color: #1d1e22;
+	--black: #1f212a;
+	--dark: #242730;
+	--white: #ffffff;
+	--alert-success: #05b187;
+	--alert-warning: #fec90f;
+	--alert-error: #fc4b6c;
+	--font-family: 'Inter', sans-serif;
+	--border-radius: 10px;
+	--transition: all 0.3s;
+}
+
+body {
+	margin: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-family: var(--font-family);
+	font-weight: 400;
+	line-height: 1.4;
+	font-size: 14px;
+	color: var(--grey-blue-light);
+	background: var(--black);
+	min-width: 320px;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+		monospace;
+}
+
+.wrapper {
+	padding: 25px;
+
+	&__body {
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+	}
+}
+
+.container {
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 0 20px;
+	margin-bottom: 50px;
+}
+
+@import 'header';
+@import 'sidebar';
+@import 'page';
+@import 'body';
+@import 'form';
+@import 'widgets';
+@import 'alert';
+@import 'auth';
+@import 'notFound';
+@import 'modal';
+@import 'footer';

@@ -6,7 +6,7 @@
 				:linkItem="linkItem.attributes"
 				:key="linkItem.id"
 				:id-link="linkItem.id"
-				:id-category="idCategory"
+				:id-category="menuStore.idCategory"
 				@refresh="refreshLinks"
 			></link-grid-item>
 		</template>
@@ -39,7 +39,7 @@
 			</div>
 		</div>
 		<link-add
-			:id-category="idCategory || 1"
+			:id-category="menuStore.idCategory"
 			:is-open="dialogLinkAdd.status"
 			@success="dialogYes"
 			@close="dialogClose"
@@ -47,70 +47,55 @@
 	</div>
 </template>
 
-<script>
-import { mapState } from 'pinia';
+<script setup>
+import { ref, reactive } from 'vue';
 import { useMenuStore } from '@/stores/menu';
 import LinkGridItem from './LinkGridItem.vue';
 import LinkAdd from './LinkAdd.vue';
 import links from '@/service/endpoints/links';
 
-export default {
-	emits: ['refresh'],
-	props: {
-		linksList: {
-			type: Array,
-			required: false,
-			default: [],
-		},
+const menuStore = useMenuStore();
+const emit = defineEmits(['refresh']);
+const props = defineProps({
+	linksList: {
+		type: Array,
+		required: false,
+		default: [],
 	},
-	data: () => ({
-		isOpenAddLink: true,
-		dialogLinkAdd: {
-			status: false,
-		},
-		dialogLink: false,
-	}),
+});
 
-	computed: {
-		...mapState(useMenuStore, ['idCategory']),
-	},
+const isOpenAddLink = ref(true);
+const dialogLinkAdd = reactive({
+	status: false,
+});
+const dialogLink = ref(false);
 
-	methods: {
-		async getLinks(id) {
-			this.newLinkList = await links
-				.getLinks(id)
-				.then((response) => {
-					//	console.log(response.data.data.attributes.links.data);
-					return response.data.data.attributes.links.data;
-				})
-				.catch((error) => console.log(error));
-		},
+const getLinks = async (id) => {
+	await links
+		.getLinks(id)
+		.then((response) => {
+			//	console.log(response.data.data.attributes.links.data);
+			return response.data.data.attributes.links.data;
+		})
+		.catch((error) => console.log(error));
+};
 
-		openDialogLinkAdd() {
-			this.dialogLinkAdd.status = true;
-		},
-		dialogClose() {
-			this.dialogLinkAdd.status = false;
-			//	this.dialogLinkAdd.idCategory = 2;
-		},
-		dialogYes() {
-			this.dialogLinkAdd.status = false;
-			//this.dialogLinkAdd.idCategory = 2;
-			this.$emit('refresh');
-		},
-		refreshLinks() {
-			this.$emit('refresh');
-		},
-	},
+const openDialogLinkAdd = () => {
+	dialogLinkAdd.status = true;
+};
 
-	mounted() {
-		//	console.log(this.linksList);
-	},
+const dialogClose = () => {
+	dialogLinkAdd.status = false;
+	//	dialogLinkAdd.idCategory = 2;
+};
+const dialogYes = () => {
+	dialogLinkAdd.status = false;
+	//dialogLinkAdd.idCategory = 2;
+	emit('refresh');
+};
 
-	components: {
-		LinkGridItem,
-		LinkAdd,
-	},
+const refreshLinks = () => {
+	emit('refresh');
 };
 </script>
 

@@ -1,66 +1,59 @@
 <template>
 	<div class="toaster__item" :class="colorToast">
 		<div class="toaster__close" @click="closeToast">&times;</div>
-		<div class="toaster__text">{{ text }}</div>
+		<div class="toaster__text">{{ props.text }}</div>
 	</div>
 </template>
 
-<script>
-import { mapState, mapActions } from 'pinia';
+<script setup>
+import { onMounted, computed, ref } from 'vue';
 import { useSettingStore } from '@/stores/settings';
-export default {
-	name: 'ToasterItem',
-	emits: ['close-toast'],
-	props: {
-		type: {
-			type: String,
-			required: false,
-			default: 'success',
-		},
-		text: {
-			type: String,
-			required: false,
-			default: 'success',
-		},
-	},
 
-	data: () => ({
-		//
-	}),
-	computed: {
-		colorToast() {
-			switch (this.type) {
-				case 'success':
-					return 'toaster__item_success';
-				case 'warning':
-					return 'toaster__item_warning';
-				case 'error':
-					return 'toaster__item_error';
-				default:
-					return 'toaster__item_success';
-			}
-		},
-	},
+const settingStore = useSettingStore();
 
-	methods: {
-		/**
-		 * Нажатие на кнопку закрыть
-		 */
-		closeToast() {
-			this.$emit('close-toast');
-		},
-		...mapActions(useSettingStore, ['removeToast']),
-	},
+const emit = defineEmits(['close-toast']);
 
-	mounted() {
-		setTimeout(
-			function () {
-				this.removeToast();
-			}.bind(this),
-			5500
-		);
+const props = defineProps({
+	type: {
+		type: String,
+		required: false,
+		default: 'success',
 	},
+	text: {
+		type: String,
+		required: false,
+		default: 'success',
+	},
+});
+
+const colorToast = computed(() => {
+	switch (props.type) {
+		case 'success':
+			return 'toaster__item_success';
+		case 'warning':
+			return 'toaster__item_warning';
+		case 'error':
+			return 'toaster__item_error';
+		default:
+			return 'toaster__item_success';
+	}
+});
+
+/**
+ * Нажатие на кнопку закрыть
+ */
+const closeToast = () => {
+	emit('close-toast');
 };
+
+onMounted(() => {
+	setTimeout(
+		function () {
+			settingStore.removeToast();
+		}.bind(this),
+		5500
+	);
+});
 </script>
 
 <style lang="scss" scoped></style>

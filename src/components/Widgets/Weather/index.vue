@@ -13,10 +13,10 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'WidgetWeather',
-};
+<script setup>
+import { ref } from 'vue';
+
+//
 </script>
 
 <style lang="scss" scoped></style>

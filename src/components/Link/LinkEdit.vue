@@ -44,7 +44,7 @@
 									id="linkColor"
 									placeholder="Цвет"
 								>
-									<template v-for="item in menu" :key="item.id">
+									<template v-for="item in menuStore.menu" :key="item.id">
 										<option :value="item.id">
 											{{ item.attributes.title }}
 										</option>
@@ -160,212 +160,207 @@
 	</div>
 </template>
 
-<script>
-import { mapState, mapActions } from 'pinia';
+<script setup>
+import { onMounted, reactive, ref, watch } from 'vue';
 import { useMenuStore } from '@/stores/menu';
 import { useSettingStore } from '@/stores/settings';
 import links from '@/service/endpoints/links';
 
-export default {
-	name: 'LinkEdit',
-	emits: ['close', 'success'],
+const settingStore = useSettingStore();
+const menuStore = useMenuStore();
 
-	props: {
-		idLink: {
-			type: Number,
-			required: true,
-		},
-		idCategory: {
-			type: Number,
-			required: false,
-		},
-		isOpen: {
-			type: Boolean,
-			required: true,
-			default: false,
-		},
+const emit = defineEmits(['close', 'success']);
+
+const props = defineProps({
+	idLink: {
+		type: Number,
+		required: true,
 	},
-
-	data: () => ({
-		form: false,
-		editLink: {
-			id: null,
-			title: null,
-			link: null,
-			icon: null,
-			sort: 1,
-			color: 'standard',
-			desc: null,
-			category: null,
-		},
-		icon: true,
-	}),
-
-	computed: {
-		...mapState(useMenuStore, ['menu']),
+	idCategory: {
+		type: Number,
+		required: false,
 	},
+	isOpen: {
+		type: Boolean,
+		required: true,
+		default: false,
+	},
+});
 
-	methods: {
-		/**
-		 * Получаем данные конкретной ссылки
-		 * @param {number} id - ID ссылки
-		 */
-		async getLink(id) {
-			await links
-				.getLink(id)
-				.then((response) => {
-					console.log(response.data.data.attributes);
-					if (response.data.data.attributes) {
-						this.editLink.id = id;
-						this.editLink.title = response.data.data.attributes.title;
-						this.editLink.link = response.data.data.attributes.url;
+const form = ref(false);
+const editLink = reactive({
+	id: null,
+	title: null,
+	link: null,
+	icon: null,
+	sort: 1,
+	color: 'standard',
+	desc: null,
+	category: null,
+});
+const icon = ref(true);
 
-						this.editLink.sort = response.data.data.attributes.sort;
-						this.editLink.color = response.data.data.attributes.color
-							? response.data.data.attributes.color
-							: 'standard';
-						this.editLink.desc = response.data.data.attributes.desc;
-						this.editLink.category =
-							response.data.data.attributes.categoty.data.id;
-						if (response.data.data.attributes.icon) {
-							this.editLink.icon = response.data.data.attributes.icon;
-						} else {
-							this.icon = false;
-						}
-					}
-					return response.data;
-				})
-				.catch((error) => {
-					this.addToast('error', error.response.data.error.message);
-					return console.log(error);
-				});
-		},
+/**
+ * Получаем данные конкретной ссылки
+ * @param {number} id - ID ссылки
+ */
+const getLink = async (id) => {
+	await links
+		.getLink(id)
+		.then((response) => {
+			console.log(response.data?.data.attributes);
+			if (response.data?.data.attributes) {
+				editLink.id = id;
+				editLink.title = response.data?.data.attributes.title;
+				editLink.link = response.data?.data.attributes.url;
 
-		/**
-		 * Изменение ссылки
-		 * @param {number} id - ID ссылки
-		 * @param {string} title - Заголовок ссылки
-		 * @param {string} link - Url ссылки
-		 * @param {string} icon - Иконка ссылки
-		 * @param {number} sort - Сортировка ссылки
-		 * @param {string} color - Цветовая схема ссылки
-		 * @param {string} desc - Описание ссылки
-		 * @param {number} categotyId - ID категории
-		 */
-		async editLinkSend(id, title, link, icon, sort, color, desc, categotyId) {
-			await links
-				.putLink(id, title, link, icon, sort, color, desc, categotyId)
-				.then((response) => {
-					//	console.log(response.data);
-					return response.data;
-				})
-				.then(() => {
-					this.addToast('success', `Ссылка '${title}' изменена`);
-					this.$emit('success');
-					this.resetFields();
-				})
-				.catch((error) => {
-					this.addToast('error', error);
-					return console.log(error);
-				});
-		},
-
-		/**
-		 * Закрытие окна формы
-		 */
-		dialogEditClose() {
-			this.$emit('close');
-		},
-
-		/**
-		 * Сохранение изменений
-		 */
-		dialogEditSuccess() {
-			//	console.log(this.editLink);
-			//	console.log(this.idCategory);
-			this.icon ? null : (this.editLink.icon = null);
-
-			if (
-				this.editLink.id &&
-				this.editLink.title &&
-				this.editLink.link &&
-				this.editLink.title &&
-				this.editLink.category &&
-				this.editLink.sort
-			) {
-				this.editLinkSend(
-					this.editLink.id,
-					this.editLink.title,
-					this.editLink.link,
-					this.editLink.icon,
-					this.editLink.sort,
-					this.editLink.color,
-					this.editLink.desc,
-					this.editLink.category
-				);
-			} else {
-				console.log('Что то не заполнено');
+				editLink.sort = response.data?.data.attributes.sort;
+				editLink.color = response.data?.data.attributes.color
+					? response.data?.data.attributes.color
+					: 'standard';
+				editLink.desc = response.data?.data.attributes.desc;
+				editLink.category = response.data?.data.attributes.categoty.data.id;
+				if (response.data?.data.attributes.icon) {
+					editLink.icon = response.data?.data.attributes.icon;
+				} else {
+					icon.value = false;
+				}
 			}
-		},
-
-		/**
-		 * Сброс полей формы в значение по умолчанию
-		 */
-		resetFields() {
-			this.editLink.title = null;
-			this.editLink.link = null;
-			this.editLink.icon = null;
-			this.editLink.sort = 1;
-			this.editLink.color = 'standard';
-			this.editLink.desc = null;
-			this.icon = true;
-		},
-
-		/**
-		 * Начальное значение категории для select
-		 * @param {number} id - ID категории
-		 */
-		getCategoryId(id) {
-			this.editLink.category = id;
-		},
-
-		/**
-		 * Удаление ссылки
-		 * @param {number} id - ID ссылки
-		 */
-		async removeLink(id, title) {
-			await links
-				.delLink(id)
-				.then((response) => {
-					//	console.log(response.data);
-				})
-				.then(() => {
-					this.addToast('error', `Ссылка '${title}' удалена`);
-					this.$emit('success');
-					this.resetFields();
-				})
-				.catch((error) => {
-					this.addToast('error', error.response.data.error.message);
-					return console.log(error);
-				});
-		},
-
-		...mapActions(useSettingStore, ['addToast']),
-	},
-	created() {
-		//		this.getCategoryId(this.idCategory);
-		//	this.getLink(this.idLink);
-		//	console.log(this.idLink);
-	},
-	mounted() {
-		this.getLink(this.idLink);
-	},
-	watch: {
-		idCategory(val) {
-			this.getCategoryId(this.idCategory);
-		},
-	},
+			return response;
+		})
+		.catch((error) => {
+			settingStore.addToast('error', error.response.data?.error?.message);
+			return console.log(error);
+		});
 };
+
+/**
+ * Изменение ссылки
+ * @param {number} id - ID ссылки
+ * @param {string} title - Заголовок ссылки
+ * @param {string} link - Url ссылки
+ * @param {string} icon - Иконка ссылки
+ * @param {number} sort - Сортировка ссылки
+ * @param {string} color - Цветовая схема ссылки
+ * @param {string} desc - Описание ссылки
+ * @param {number} categotyId - ID категории
+ */
+const editLinkSend = async (
+	id,
+	title,
+	link,
+	icon,
+	sort,
+	color,
+	desc,
+	categotyId
+) => {
+	await links
+		.putLink(id, title, link, icon, sort, color, desc, categotyId)
+		.then((response) => {
+			console.log(response.data);
+			return response.data;
+		})
+		.then(() => {
+			settingStore.addToast('success', `Ссылка '${title}' изменена`);
+			emit('success');
+			resetFields();
+		})
+		.catch((error) => {
+			settingStore.addToast('error', error.response.data?.error?.message);
+			return console.log(error);
+		});
+};
+
+/**
+ * Закрытие окна формы
+ */
+const dialogAddClose = () => {
+	emit('close');
+};
+
+/**
+ * Сохранение изменений
+ */
+const dialogEditSuccess = () => {
+	icon ? null : (editLink.icon = null);
+
+	if (
+		editLink.id &&
+		editLink.title &&
+		editLink.link &&
+		editLink.title &&
+		editLink.category &&
+		editLink.sort
+	) {
+		editLinkSend(
+			editLink.id,
+			editLink.title,
+			editLink.link,
+			editLink.icon,
+			editLink.sort,
+			editLink.color,
+			editLink.desc,
+			editLink.category
+		);
+	} else {
+		console.log('Что то не заполнено');
+	}
+};
+
+/**
+ * Сброс полей формы в значение по умолчанию
+ */
+const resetFields = () => {
+	editLink.title = null;
+	editLink.link = null;
+	editLink.icon = null;
+	editLink.sort = 1;
+	editLink.color = 'standard';
+	editLink.desc = null;
+	icon.value = true;
+};
+
+/**
+ * Начальное значение категории для select
+ * @param {number} id - ID категории
+ */
+const getCategoryId = (id) => {
+	editLink.category = id;
+};
+
+/**
+ * Удаление ссылки
+ * @param {number} id - ID ссылки
+ */
+const removeLink = async (id, title) => {
+	await links
+		.delLink(id)
+		.then((response) => {
+			console.log(response.data);
+		})
+		.then(() => {
+			settingStore.addToast('error', `Ссылка '${title}' удалена`);
+			emit('success');
+			resetFields();
+		})
+		.catch((error) => {
+			settingStore.addToast('error', error.response.data.error?.message);
+			return console.log(error);
+		});
+};
+
+onMounted(() => {
+	getLink(props.idLink);
+	//getCategoryId(props.idCategory);
+});
+
+watch(
+	() => props.idCategory,
+	(newV, oldV) => {
+		getCategoryId(props.idCategory);
+	}
+);
 </script>
 
 <style lang="scss" scoped></style>

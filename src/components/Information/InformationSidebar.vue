@@ -1,6 +1,6 @@
 <template>
 	<div class="sidebar__info info">
-		<div class="info__title">Информация</div>
+		<div class="info__title">{{ title }}</div>
 		<ul class="info__list">
 			<li class="info__item">
 				<router-link to="/info" class="info__link">
@@ -16,13 +16,10 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'InformationSidebar',
-	data: () => ({
-		//text: 'Календарь',
-	}),
-};
+<script setup>
+import { ref } from 'vue';
+
+const title = ref('Информация');
 </script>
 
 <style lang="scss" scoped></style>

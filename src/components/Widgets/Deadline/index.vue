@@ -22,10 +22,10 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'WidgetDeadline',
-};
+<script setup>
+import { ref } from 'vue';
+
+//
 </script>
 
 <style lang="scss" scoped></style>

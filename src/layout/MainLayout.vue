@@ -9,20 +9,10 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 import HeaderLayout from './HeaderLayout/index.vue';
 import SidebarLayout from './SidebarLayout/index.vue';
 import FooterLayout from './FooterLayout/index.vue';
-
-export default {
-	data: () => ({}),
-
-	components: {
-		'header-layout': HeaderLayout,
-		'sidebar-layout': SidebarLayout,
-		'footer-layout': FooterLayout,
-	},
-};
 </script>
 
 <style lang="scss" scoped></style>

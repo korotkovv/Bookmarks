@@ -42,7 +42,7 @@
 									id="linkColor"
 									placeholder="Цвет"
 								>
-									<template v-for="item in menu" :key="item.id">
+									<template v-for="item in menuStore.menu" :key="item.id">
 										<option :value="item.id">
 											{{ item.attributes.title }}
 										</option>
@@ -149,140 +149,140 @@
 	</div>
 </template>
 
-<script>
-import { mapState, mapActions } from 'pinia';
+<script setup>
+import { onMounted, reactive, ref, watch } from 'vue';
 import { useMenuStore } from '@/stores/menu';
 import { useSettingStore } from '@/stores/settings';
 import links from '@/service/endpoints/links';
 
-export default {
-	name: 'LinkAdd',
-	emits: ['close', 'success'],
+const settingStore = useSettingStore();
+const menuStore = useMenuStore();
 
-	props: {
-		idCategory: {
-			type: Number,
-			required: false,
-		},
-		isOpen: {
-			type: Boolean,
-			required: true,
-			default: false,
-		},
+const emit = defineEmits(['close', 'success']);
+
+const props = defineProps({
+	idCategory: {
+		type: Number,
+		required: false,
 	},
-
-	data: () => ({
-		form: false,
-		addLink: {
-			title: null,
-			link: null,
-			icon: null,
-			sort: 1,
-			color: 'standard',
-			desc: null,
-			category: null,
-		},
-		icon: true,
-	}),
-
-	computed: {
-		...mapState(useMenuStore, ['menu']),
+	isOpen: {
+		type: Boolean,
+		required: true,
+		default: false,
 	},
+});
 
-	methods: {
-		/**
-		 * Добавление новой ссылки
-		 * @param {string} title - Заголовок ссылки
-		 * @param {string} link - Url ссылки
-		 * @param {string} icon - Иконка ссылки
-		 * @param {number} sort - Сортировка ссылки
-		 * @param {string} color - Цветовая схема ссылки
-		 * @param {string} desc - Описание ссылки
-		 * @param {number} categotyId - Id категории
-		 */
-		async addLinkSend(title, link, icon, sort, color, desc, categotyId) {
-			await links
-				.postLink(title, link, icon, sort, color, desc, categotyId)
-				.then((response) => {
-					//console.log(response.data);
-					return response.data;
-				})
-				.then(() => {
-					this.addToast('success', `Добавлена ссылка '${title}'`);
-					this.$emit('success');
-					this.resetFields();
-				})
-				.catch((error) => {
-					this.addToast('error', error.response.data.error.message);
-					return console.log(error);
-				});
-		},
+const form = ref(false);
+const addLink = reactive({
+	title: null,
+	link: null,
+	icon: null,
+	sort: 1,
+	color: 'standard',
+	desc: null,
+	category: null,
+});
+const icon = ref(true);
 
-		/**
-		 * Закрытие окна формы
-		 */
-		dialogAddClose() {
-			this.$emit('close');
-		},
-
-		/**
-		 * Сохранение ссылки
-		 */
-		dialogAddSuccess() {
-			//console.log(this.addLink);
-			//console.log(this.idCategory);
-			if (
-				this.addLink.title &&
-				this.addLink.link &&
-				this.addLink.title &&
-				this.addLink.category &&
-				this.addLink.sort
-			) {
-				this.addLinkSend(
-					this.addLink.title,
-					this.addLink.link,
-					this.addLink.icon,
-					this.addLink.sort,
-					this.addLink.color,
-					this.addLink.desc,
-					this.addLink.category
-				);
-			} else {
-				console.log('Что то не заполнено');
-			}
-		},
-
-		/**
-		 * Сброс полей формы в значение по умолчанию
-		 */
-		resetFields() {
-			this.addLink.title = null;
-			this.addLink.link = null;
-			this.addLink.icon = null;
-			this.addLink.sort = 1;
-			this.addLink.color = 'standard';
-			this.addLink.desc = null;
-			this.icon = true;
-		},
-
-		/**
-		 * Начальное значение категории для select
-		 */
-		getCategoryId(id) {
-			this.addLink.category = id;
-		},
-
-		...mapActions(useSettingStore, ['addToast']),
-	},
-	created() {
-		this.getCategoryId(this.idCategory);
-	},
-	watch: {
-		idCategory(val) {
-			this.getCategoryId(this.idCategory);
-		},
-	},
+/**
+ * Добавление новой ссылки
+ * @param {string} title - Заголовок ссылки
+ * @param {string} link - Url ссылки
+ * @param {string} icon - Иконка ссылки
+ * @param {number} sort - Сортировка ссылки
+ * @param {string} color - Цветовая схема ссылки
+ * @param {string} desc - Описание ссылки
+ * @param {number} categotyId - Id категории
+ */
+const addLinkSend = async (
+	title,
+	link,
+	icon,
+	sort,
+	color,
+	desc,
+	categotyId
+) => {
+	await links
+		.postLink(title, link, icon, sort, color, desc, categotyId)
+		.then((response) => {
+			console.log(response.data);
+			return response.data;
+		})
+		.then(() => {
+			settingStore.addToast('success', `Добавлена ссылка '${title}'`);
+			emit('success');
+			resetFields();
+		})
+		.catch((error) => {
+			settingStore.addToast('error', error.response.data.error?.message);
+			return console.log(error);
+		});
 };
+
+/**
+ * Закрытие окна формы
+ */
+const dialogAddClose = () => {
+	emit('close');
+};
+
+/**
+ * Сохранение ссылки
+ */
+const dialogAddSuccess = () => {
+	if (
+		addLink.title &&
+		addLink.link &&
+		addLink.title &&
+		addLink.category &&
+		addLink.sort
+	) {
+		addLinkSend(
+			addLink.title,
+			addLink.link,
+			addLink.icon,
+			addLink.sort,
+			addLink.color,
+			addLink.desc,
+			addLink.category
+		);
+	} else {
+		console.log('Что то не заполнено');
+	}
+};
+
+/**
+ * Сброс полей формы в значение по умолчанию
+ */
+const resetFields = () => {
+	addLink.title = null;
+	addLink.link = null;
+	addLink.icon = null;
+	addLink.sort = 1;
+	addLink.color = 'standard';
+	addLink.desc = null;
+	icon.value = true;
+};
+
+/**
+ * Начальное значение категории для select
+ * @param {number} id - ID категории
+ */
+const getCategoryId = (id) => {
+	addLink.category = id;
+};
+
+onMounted(() => {
+	getCategoryId(props.idCategory);
+});
+
+watch(
+	() => props.idCategory,
+	(newV, oldV) => {
+		getCategoryId(props.idCategory);
+	}
+);
 </script>
 
 <style lang="scss" scoped></style>

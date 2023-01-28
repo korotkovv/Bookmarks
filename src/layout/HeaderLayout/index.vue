@@ -85,19 +85,8 @@
 	</header>
 </template>
 
-<script>
+<script setup>
 //import { useSettingsStore } from '@/stores/settings';
-//import { mapState } from 'pinia';
-
-export default {
-	name: 'HeaderLayout',
-
-	data: () => ({}),
-
-	computed: {
-		//...mapState(useSettingsStore, ['setIsSidebarOpen']),
-	},
-};
 </script>
 
 <style lang="scss" scoped></style>

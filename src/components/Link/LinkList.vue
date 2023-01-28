@@ -6,7 +6,7 @@
 				:linkItem="linkItem.attributes"
 				:key="linkItem.id"
 				:id-link="linkItem.id"
-				:id-category="idCategory"
+				:id-category="menuStore.idCategory"
 				@refresh="refreshLinks"
 			></link-list-item>
 		</template>
@@ -38,7 +38,7 @@
 			</div>
 		</div>
 		<link-add
-			:id-category="idCategory || 1"
+			:id-category="menuStore.idCategory"
 			:is-open="dialogLinkAdd.status"
 			@success="dialogYes"
 			@close="dialogClose"
@@ -46,55 +46,43 @@
 	</div>
 </template>
 
-<script>
-import { mapState } from 'pinia';
+<script setup>
+import { ref, reactive } from 'vue';
 import { useMenuStore } from '@/stores/menu';
 import LinkListItem from './LinkListItem.vue';
 import LinkAdd from './LinkAdd.vue';
 
-export default {
-	emits: ['refresh'],
-	props: {
-		linksList: {
-			type: Array,
-			required: false,
-			default: [],
-		},
+const menuStore = useMenuStore();
+const emit = defineEmits(['refresh']);
+const props = defineProps({
+	linksList: {
+		type: Array,
+		required: false,
+		default: [],
 	},
-	data: () => ({
-		isOpenAddLink: true,
-		dialogLinkAdd: {
-			status: false,
-		},
-	}),
-	computed: {
-		...mapState(useMenuStore, ['idCategory']),
-	},
+});
+const isOpenAddLink = ref(true);
+const dialogLinkAdd = reactive({
+	status: false,
+});
+const dialogLink = ref(false);
 
-	methods: {
-		openDialogLinkAdd() {
-			this.dialogLinkAdd.status = true;
-		},
-		dialogClose() {
-			this.dialogLinkAdd.status = false;
-		},
-		dialogYes() {
-			this.dialogLinkAdd.status = false;
-			this.$emit('refresh');
-		},
-		refreshLinks() {
-			this.$emit('refresh');
-		},
-	},
+const openDialogLinkAdd = () => {
+	dialogLinkAdd.status = true;
+};
 
-	mounted() {
-		//console.log(this.linksList);
-	},
+const dialogClose = () => {
+	dialogLinkAdd.status = false;
+	//	dialogLinkAdd.idCategory = 2;
+};
+const dialogYes = () => {
+	dialogLinkAdd.status = false;
+	//dialogLinkAdd.idCategory = 2;
+	emit('refresh');
+};
 
-	components: {
-		LinkListItem,
-		LinkAdd,
-	},
+const refreshLinks = () => {
+	emit('refresh');
 };
 </script>
 

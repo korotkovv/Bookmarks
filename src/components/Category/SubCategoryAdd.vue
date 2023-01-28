@@ -15,17 +15,10 @@
 	</div>
 </template>
 
-<script>
-//import { mapActions } from 'pinia';
-//import { useSettingStore } from '@/stores/settings';
+<script setup>
+import { ref } from 'vue';
 
-export default {
-	name: 'SubCategoryAdd',
-
-	methods: {
-		//
-	},
-};
+//
 </script>
 
 <style lang="scss" scoped></style>

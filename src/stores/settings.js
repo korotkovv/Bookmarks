@@ -1,62 +1,67 @@
 import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
-export const useSettingStore = defineStore('setting', {
-	state: () => ({
-		name: 'Bookmarks',
-		switcher: localStorage.getItem('switcher')
-			? localStorage.getItem('switcher')
-			: 'grid',
-		isOpenSettings: false,
-		toasterList: [
-			/* { type: 'success', text: 'Какое-то сообщение' },
-			{ type: 'error', text: 'Какое-то сообщение и предупреждение' },
-			{
-				type: 'warning',
-				text: 'Какое-то длинное сообщение, чтобы был текст в несколько строчек, для теста уведомлений',
-			}, */
-		],
-	}),
-	actions: {
-		/**
-		 * Переключить в режим grid
-		 */
-		switcherGridHandle() {
-			if (this.switcher === 'list') {
-				this.switcher = 'grid';
-				localStorage.setItem('switcher', 'grid');
-			}
-		},
-		/**
-		 * Переключить в режим list
-		 */
-		switcherListHandle() {
-			if (this.switcher === 'grid') {
-				this.switcher = 'list';
-				localStorage.setItem('switcher', 'list');
-			}
-		},
+export const useSettingStore = defineStore('setting', () => {
+	const name = ref('Bookmarks');
+	const switcher = localStorage.getItem('switcher')
+		? localStorage.getItem('switcher')
+		: 'grid';
+	const isOpenSettings = ref(false);
+	const toasterList = ref([]);
 
-		/**
-		 * Закрытие одного уведомления
-		 * @param {number} idx - индекс уведомления в массиве
-		 */
-		closeToast(idx) {
-			this.toasterList.splice(idx, 1);
-		},
-		/**
-		 * Добавление уведомления в список
-		 * @param {string} type - тип уведомления success | warning | error
-		 * @param {string} text - текст уведомления
-		 */
-		addToast(type, text) {
-			this.toasterList.push({ type: type, text: text });
-		},
+	/**
+	 * Переключить в режим grid
+	 */
+	const switcherGridHandle = () => {
+		if (switcher.value === 'list') {
+			switcher.value = 'grid';
+			localStorage.setItem('switcher', 'grid');
+		}
+	};
 
-		/**
-		 * Удаление первого элемента из списка уведомлений
-		 */
-		removeToast() {
-			this.toasterList.shift();
-		},
-	},
+	/**
+	 * Переключить в режим list
+	 */
+	const switcherListHandle = () => {
+		if (switcher.value === 'grid') {
+			switcher.value = 'list';
+			localStorage.setItem('switcher', 'list');
+		}
+	};
+
+	/**
+	 * Закрытие одного уведомления
+	 * @param {number} idx - индекс уведомления в массиве
+	 */
+	const closeToast = (idx) => {
+		toasterList.value.splice(idx, 1);
+	};
+
+	/**
+	 * Добавление уведомления в список
+	 * @param {string} type - тип уведомления success | warning | error
+	 * @param {string} text - текст уведомления
+	 */
+	const addToast = (type, text) => {
+		toasterList.value.push({ type: type, text: text });
+	};
+
+	/**
+	 * Удаление первого элемента из списка уведомлений
+	 */
+	const removeToast = () => {
+		toasterList.value.shift();
+	};
+
+	return {
+		name,
+		switcher,
+		isOpenSettings,
+		toasterList,
+		switcherGridHandle,
+		switcherListHandle,
+		closeToast,
+		addToast,
+		removeToast,
+	};
 });

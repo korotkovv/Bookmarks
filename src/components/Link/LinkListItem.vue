@@ -27,83 +27,75 @@
 	</template>
 </template>
 
-<script>
+<script setup>
+import { ref, computed, reactive } from 'vue';
 import LinkEdit from './LinkEdit.vue';
 
-export default {
-	emits: ['refresh'],
-	props: {
-		idLink: {
-			type: Number,
-			required: true,
-		},
-		linkItem: {
-			type: Object,
-			required: true,
-			default: null,
-		},
-		idCategory: {
-			type: Number,
-			required: false,
-		},
+const emit = defineEmits(['refresh']);
+const props = defineProps({
+	idLink: {
+		type: Number,
+		required: true,
 	},
-	data: () => ({
-		isOpenEditLink: false,
-		dialogLinkEdit: {
-			status: false,
-		},
-		dialogLink: false,
-	}),
-	computed: {
-		colorTheme() {
-			switch (this.linkItem.color) {
-				case 'standard':
-					return 'list__img_dark';
-				case 'orange':
-					return 'list__img_orange';
-				case 'blue':
-					return 'list__img_indigo';
-				case 'green':
-					return 'list__img_green';
-				case 'yellow':
-					return 'list__img_yellow';
-				case 'purple':
-					return 'list__img_purple';
-				default:
-					return 'list__img_dark';
-			}
-		},
+	linkItem: {
+		type: Object,
+		required: true,
+		default: null,
 	},
+	idCategory: {
+		type: Number,
+		required: false,
+	},
+});
 
-	methods: {
-		/**
-		 * Открываем окно редактирование ссылки
-		 */
-		openDialogLinkEdit() {
-			this.isOpenEditLink = true;
-			this.dialogLinkEdit.status = true;
-		},
+const isOpenEditLink = ref(false);
+const dialogLinkEdit = reactive({
+	status: false,
+});
+const dialogLink = ref(false);
 
-		/**
-		 * Закрываем окно редактирование ссылки
-		 */
-		dialogClose() {
-			this.dialogLinkEdit.status = false;
-			this.isOpenEditLink = false;
-		},
+const colorTheme = computed(() => {
+	switch (props.linkItem.color) {
+		case 'standard':
+			return 'list__img_dark';
+		case 'orange':
+			return 'list__img_orange';
+		case 'blue':
+			return 'list__img_indigo';
+		case 'green':
+			return 'list__img_green';
+		case 'yellow':
+			return 'list__img_yellow';
+		case 'purple':
+			return 'list__img_purple';
+		default:
+			return 'list__img_dark';
+	}
+});
 
-		/**
-		 * Нажатие кнопки сохранения изменений
-		 */
-		dialogYes() {
-			this.dialogLinkEdit.status = false;
-			this.isOpenEditLink = false;
-			this.$emit('refresh');
-		},
-	},
-	components: {
-		LinkEdit,
-	},
+/**
+ * Открываем окно редактирование ссылки
+ */
+const openDialogLinkEdit = () => {
+	isOpenEditLink.value = true;
+	dialogLinkEdit.status = true;
+};
+
+/**
+ * Закрываем окно редактирование ссылки
+ */
+const dialogClose = () => {
+	dialogLinkEdit.status = false;
+	isOpenEditLink.value = false;
+};
+
+/**
+ * Нажатие кнопки сохранения изменений
+ */
+const dialogYes = () => {
+	dialogLinkEdit.status = false;
+	isOpenEditLink.value = false;
+	emit('refresh');
 };
 </script>
 

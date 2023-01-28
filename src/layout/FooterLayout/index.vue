@@ -4,16 +4,8 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 import ToasterList from '@/components/Toaster/ToasterList.vue';
-
-export default {
-	name: 'FooterLayout',
-
-	components: {
-		ToasterList,
-	},
-};
 </script>
 
 <style lang="scss" scoped></style>

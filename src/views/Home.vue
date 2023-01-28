@@ -1,50 +1,5 @@
 <template>
 	<router-view></router-view>
-
-	<!-- 	<div class="modal modal__addlink active">
-		<div class="modal__dialog">
-			<div class="modal__header">
-				<div class="modal__title">Добавить ссылку</div>
-				<div class="modal__close">&times;</div>
-			</div>
-			<div class="modal__body"></div>
-
-			<div class="modal__footer">
-				<button class="btn modal__btn_save">Сохранить</button>
-				<button class="btn_outline modal__btn_close">Закрыть</button>
-			</div>
-		</div>
-	</div> -->
-
-	<!-- <div class="modal modal__addcategory">
-		<div class="modal__dialog">
-			<div class="modal__header">
-				<div class="modal__title">Добавить категорию</div>
-				<div class="modal__close">&times;</div>
-			</div>
-			<div class="modal__body"></div>
-
-			<div class="modal__footer">
-				<button class="btn modal__btn_save">Сохранить</button>
-				<button class="btn_outline modal__btn_close">Закрыть</button>
-			</div>
-		</div>
-	</div> -->
-
-	<!-- 	<div class="modal modal__addsubcategory">
-		<div class="modal__dialog">
-			<div class="modal__header">
-				<div class="modal__title">Добавить подкатегорию</div>
-				<div class="modal__close">&times;</div>
-			</div>
-			<div class="modal__body"></div>
-
-			<div class="modal__footer">
-				<button class="btn modal__btn_save">Сохранить</button>
-				<button class="btn_outline modal__btn_close">Закрыть</button>
-			</div>
-		</div>
-	</div> -->
 	<!-- <div class="modal modal__setting">
 		<div class="modal__dialog">
 			<div class="modal__header">
@@ -142,8 +97,9 @@
 	</div> -->
 </template>
 
-<script>
-import { mapState, mapActions } from 'pinia';
+<script setup>
+/* import { ref } from 'vue';
+//import { mapState, mapActions } from 'pinia';
 import { useSettingStore } from '@/stores/settings';
 
 import TheWidgets from '@/components/Widgets/TheWidgets.vue';
@@ -151,33 +107,8 @@ import SubCategory from '@/components/Category/SubCategory.vue';
 import LinkGrid from '@/components/Link/LinkGrid.vue';
 import LinkList from '@/components/Link/LinkList.vue';
 
-// Components
-export default {
-	name: 'HomeView',
-
-	data: () => ({
-		slug: null,
-	}),
-
-	computed: {
-		...mapState(useSettingStore, ['switcher']),
-	},
-
-	methods: {
-		...mapActions(useSettingStore, [
-			'switcherGridHandle',
-			'switcherListHandle',
-		]),
-	},
-	mounted() {},
-
-	components: {
-		TheWidgets,
-		SubCategory,
-		LinkGrid,
-		LinkList,
-	},
-};
+const slug = ref(null);
+const settingStore = useSettingStore(); */
 </script>
 
 <style lang="scss" scoped></style>

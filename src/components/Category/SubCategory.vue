@@ -6,9 +6,9 @@
 					v-for="item in subCat"
 					:key="item.id"
 					class="subcategory__item"
-					:class="item.id === idCategory ? 'active' : ''"
+					:class="item.id === menuStore.idCategory ? 'active' : ''"
 					:id="item.id"
-					@click="getCatId(item.id)"
+					@click="getCatId(item.id, item.attributes.title)"
 				>
 					<span class="subcategory__link">
 						<i
@@ -28,78 +28,71 @@
 	</div>
 </template>
 
-<script>
-import { mapState, mapActions } from 'pinia';
+<script setup>
+import { onMounted, computed, ref } from 'vue';
 import { useMenuStore } from '@/stores/menu';
 import { useSettingStore } from '@/stores/settings';
 
-export default {
-	name: 'SubCategory',
-	data: () => ({
-		isLoading: false,
-	}),
-	computed: {
-		subCat() {
-			if (this.slug) {
-				const res = this.menu.filter(
-					(item) => item.attributes.slug === this.slug
-				);
-				const sub = res[0]?.attributes.categoties.data;
-				const links = res[0]?.attributes.links.data;
-				const idMain = res[0]?.id;
-				const id = res[0]?.id;
-				console.log(idMain);
+const settingStore = useSettingStore();
+const menuStore = useMenuStore();
 
-				if (Array.isArray(sub) && sub.length > 0) {
-					this.setIdCategory(sub[0].id);
-					if (Array.isArray(links) && links.length > 0) {
-						const findItem = sub.find((el) => el.attributes.title === 'Общее');
-						console.log('findItem', findItem);
-						if (!findItem)
-							sub.push({
-								id: id,
-								attributes: {
-									icon: 'las la-code',
-									title: 'Общее',
-								},
-							});
-					}
-					return sub;
-				} else {
-					this.setIdCategory(id);
-					return [
-						{
-							id: id,
-							attributes: {
-								icon: 'las la-code',
-								title: 'Общее',
-							},
+const isLoading = ref(false);
+
+const subCat = computed(() => {
+	if (menuStore.slug) {
+		const res = menuStore.menu.filter(
+			(item) => item.attributes.slug === menuStore.slug
+		);
+		const sub = res[0]?.attributes.categoties.data;
+		const links = res[0]?.attributes.links.data;
+		const id = res[0]?.id;
+		const name = res[0]?.attributes.title;
+		//	console.log('name', name);
+		if (Array.isArray(sub) && sub.length > 0) {
+			menuStore.setIdCategory(sub[0].id);
+			menuStore.setNameCategory(sub[0]?.attributes.title);
+			if (Array.isArray(links) && links.length > 0) {
+				const findItem = sub.find((el) => el.attributes.title === 'Общее');
+				//		console.log('findItem', findItem);
+				if (!findItem)
+					sub.push({
+						id: id,
+						attributes: {
+							icon: 'las la-code',
+							title: 'Общее',
 						},
-					];
-				}
+					});
 			}
-			return false;
-		},
+			return sub;
+		} else {
+			menuStore.setIdCategory(id);
+			menuStore.setNameCategory(name);
+			return [
+				{
+					id: id,
+					attributes: {
+						icon: 'las la-code',
+						title: 'Общее',
+					},
+				},
+			];
+		}
+	}
+	return false;
+});
 
-		...mapState(useMenuStore, ['menu', 'idCategory', 'slug']),
-	},
-	methods: {
-		addToaster() {
-			this.addToast('error', 'новый тостер подоспел');
-		},
-
-		getCatId(id) {
-			this.setIdCategory(id);
-		},
-		...mapActions(useMenuStore, ['getSubCategoryMenu', 'setIdCategory']),
-		...mapActions(useSettingStore, ['addToast']),
-	},
-	created() {
-		this.isLoading = true;
-	},
-	mounted() {},
-	watch: {},
+const addToaster = () => {
+	settingStore.addToast('error', 'новый тостер подоспел');
 };
+
+const getCatId = (id, name) => {
+	menuStore.setIdCategory(id);
+	menuStore.setNameCategory(name);
+};
+
+onMounted(() => {
+	isLoading.value = true;
+});
 </script>
 
 <style lang="scss" scoped></style>

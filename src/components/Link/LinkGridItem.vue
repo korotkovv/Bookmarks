@@ -10,7 +10,7 @@
 			</div>
 			<div class="link__body">
 				<div class="link__title">{{ linkItem.title }}</div>
-				<div class="link__desc">{{ linkItem.desc }} {{ linkItem.color }}</div>
+				<div class="link__desc">{{ linkItem.desc }}</div>
 			</div>
 		</a>
 	</div>

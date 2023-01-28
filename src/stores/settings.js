@@ -3,9 +3,9 @@ import { ref } from 'vue';
 
 export const useSettingStore = defineStore('setting', () => {
 	const name = ref('Bookmarks');
-	const switcher = localStorage.getItem('switcher')
-		? localStorage.getItem('switcher')
-		: 'grid';
+	const switcher = ref(
+		localStorage.getItem('switcher') ? localStorage.getItem('switcher') : 'grid'
+	);
 	const isOpenSettings = ref(false);
 	const toasterList = ref([]);
 

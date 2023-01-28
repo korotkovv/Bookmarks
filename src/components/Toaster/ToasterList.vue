@@ -6,7 +6,7 @@
 				:key="idx"
 				:type="item.type"
 				:text="item.text"
-				@close-toast="closeToast(idx)"
+				@close-toast="settingStore.closeToast(idx)"
 			></toaster-item>
 		</div>
 	</div>

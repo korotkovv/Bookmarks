@@ -223,13 +223,13 @@ const getLink = async (id) => {
 				if (response.data?.data.attributes.icon) {
 					editLink.icon = response.data?.data.attributes.icon;
 				} else {
-					icon = false;
+					icon.value = false;
 				}
 			}
 			return response;
 		})
 		.catch((error) => {
-			settingStore.addToast('error', error.response.data?.error.message);
+			settingStore.addToast('error', error.response.data?.error?.message);
 			return console.log(error);
 		});
 };
@@ -267,7 +267,7 @@ const editLinkSend = async (
 			resetFields();
 		})
 		.catch((error) => {
-			settingStore.addToast('error', error);
+			settingStore.addToast('error', error.response.data?.error?.message);
 			return console.log(error);
 		});
 };
@@ -318,7 +318,7 @@ const resetFields = () => {
 	editLink.sort = 1;
 	editLink.color = 'standard';
 	editLink.desc = null;
-	icon = true;
+	icon.value = true;
 };
 
 /**
@@ -345,7 +345,7 @@ const removeLink = async (id, title) => {
 			resetFields();
 		})
 		.catch((error) => {
-			settingStore.addToast('error', error.response.data.error.message);
+			settingStore.addToast('error', error.response.data.error?.message);
 			return console.log(error);
 		});
 };

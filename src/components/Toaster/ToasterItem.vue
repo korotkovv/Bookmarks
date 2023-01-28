@@ -1,7 +1,7 @@
 <template>
 	<div class="toaster__item" :class="colorToast">
 		<div class="toaster__close" @click="closeToast">&times;</div>
-		<div class="toaster__text">{{ text }}</div>
+		<div class="toaster__text">{{ props.text }}</div>
 	</div>
 </template>
 

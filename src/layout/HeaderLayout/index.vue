@@ -64,7 +64,36 @@
 			</div>
 		</div>
 		<div class="header__account">
-			<button class="header__setting"><i class="las la-cog"></i></button>
+			<button
+				class="header__widgets btn__icon"
+				:class="settingStore.isWatchWidgets ? '' : 'btn__icon_disable'"
+				:title="
+					settingStore.isWatchWidgets ? 'Скрыть виджеты' : 'Показать виджеты'
+				"
+				@click.prevent="settingStore.handleWidgets"
+			>
+				<i
+					:class="
+						settingStore.isWatchWidgets
+							? 'las la-cloud-sun'
+							: 'las la-cloud-sun'
+					"
+				></i>
+			</button>
+			<button
+				class="header__setting btn__icon"
+				:class="settingStore.isEdit ? 'btn__icon_edit' : ''"
+				:title="
+					settingStore.isEdit
+						? 'Выключить режим редактирования'
+						: 'Включить режим редактирования'
+				"
+				@click.prevent="settingStore.handleEdit"
+			>
+				<i
+					:class="settingStore.isEdit ? 'las la-tools' : 'las la-sliders-h'"
+				></i>
+			</button>
 			<div class="header__user user">
 				<div class="user__avatar">
 					<img src="@/assets/user_foto.png" alt="" />
@@ -73,7 +102,7 @@
 				<div class="user__menu">
 					<ul class="user__list">
 						<li class="user__item">
-							<router-link to="/40">Профиль</router-link>
+							<router-link to="/profile">Профиль</router-link>
 						</li>
 						<li class="user__item">
 							<router-link to="/auth">Выйти</router-link>
@@ -86,7 +115,9 @@
 </template>
 
 <script setup>
-//import { useSettingsStore } from '@/stores/settings';
+import { useSettingStore } from '@/stores/settings';
+
+const settingStore = useSettingStore();
 </script>
 
 <style lang="scss" scoped></style>

@@ -3,11 +3,36 @@ import { ref } from 'vue';
 
 export const useSettingStore = defineStore('setting', () => {
 	const name = ref('Bookmarks');
+	const isEdit = ref(false);
+	const isWatchWidgets = ref(
+		localStorage.getItem('widgets')
+			? JSON.parse(localStorage.getItem('widgets'))
+			: true
+	);
 	const switcher = ref(
 		localStorage.getItem('switcher') ? localStorage.getItem('switcher') : 'grid'
 	);
 	const isOpenSettings = ref(false);
 	const toasterList = ref([]);
+
+	/**
+	 * Переключение режима редактирования категорий
+	 */
+	const handleEdit = () => {
+		isEdit.value = !isEdit.value;
+	};
+
+	/**
+	 * Переключение отображения виджетов
+	 */
+	const handleWidgets = () => {
+		if (isWatchWidgets.value) {
+			localStorage.setItem('widgets', false);
+		} else {
+			localStorage.setItem('widgets', true);
+		}
+		isWatchWidgets.value = !isWatchWidgets.value;
+	};
 
 	/**
 	 * Переключить в режим grid
@@ -55,9 +80,13 @@ export const useSettingStore = defineStore('setting', () => {
 
 	return {
 		name,
+		isEdit,
 		switcher,
+		isWatchWidgets,
 		isOpenSettings,
 		toasterList,
+		handleEdit,
+		handleWidgets,
 		switcherGridHandle,
 		switcherListHandle,
 		closeToast,

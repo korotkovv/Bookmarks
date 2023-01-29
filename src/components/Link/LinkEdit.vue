@@ -275,7 +275,7 @@ const editLinkSend = async (
 /**
  * Закрытие окна формы
  */
-const dialogAddClose = () => {
+const dialogEditClose = () => {
 	emit('close');
 };
 

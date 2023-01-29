@@ -8,9 +8,11 @@
 					class="subcategory__item"
 					:class="item.id === menuStore.idCategory ? 'active' : ''"
 					:id="item.id"
-					@click="getCatId(item.id, item.attributes.title)"
 				>
-					<span class="subcategory__link">
+					<span
+						class="subcategory__link"
+						@click="getCatId(item.id, item.attributes.title)"
+					>
 						<i
 							:class="
 								item.attributes.icon ? item.attributes.icon : 'las la-code'
@@ -18,6 +20,9 @@
 						></i>
 						{{ item.attributes.title }}
 					</span>
+					<div v-if="settingStore.isEdit" class="app-edit-subcategory">
+						<i class="las la-cog"></i>
+					</div>
 				</li>
 			</template>
 

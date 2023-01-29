@@ -64,13 +64,15 @@ const props = defineProps({
 	},
 });
 
-const isOpenAddLink = ref(true);
+//const isOpenAddLink = ref(true);
+
 const dialogLinkAdd = reactive({
 	status: false,
 });
-const dialogLink = ref(false);
 
-const getLinks = async (id) => {
+//const dialogLink = ref(false);
+
+/* const getLinks = async (id) => {
 	await links
 		.getLinks(id)
 		.then((response) => {
@@ -78,7 +80,7 @@ const getLinks = async (id) => {
 			return response.data.data.attributes.links.data;
 		})
 		.catch((error) => console.log(error));
-};
+}; */
 
 const openDialogLinkAdd = () => {
 	dialogLinkAdd.status = true;

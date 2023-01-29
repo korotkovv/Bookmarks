@@ -71,6 +71,40 @@ input[type='button'] {
 			margin-right: 7px;
 		}
 	}
+	&.btn__icon {
+		background: none;
+		color: var(--primary);
+		opacity: 1;
+		&:hover {
+			color: var(--primary-hover);
+			opacity: 1;
+		}
+		&:active {
+			color: var(--white);
+			background: none;
+		}
+		&:disabled {
+			opacity: 0.5;
+		}
+		i {
+			font-size: 24px;
+			margin-right: 7px;
+		}
+		&_edit {
+			color: var(--red-delete);
+			&:hover {
+				color: var(--red-delete-hover);
+				opacity: 1;
+			}
+		}
+		&_disable {
+			color: var(--grey-grey-light);
+			&:hover {
+				color: var(--primary-hover);
+				opacity: 1;
+			}
+		}
+	}
 	i {
 		font-size: 20px;
 		margin-right: 7px;

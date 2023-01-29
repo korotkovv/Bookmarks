@@ -19,6 +19,33 @@ const links = {
 		),
 
 	/**
+	 * Main category
+	 */
+	getCategory: (id) => api.get(`/api/categoties/${id}?&populate=categoties`),
+	postMainCategory: (title, slug, icon, sort) =>
+		api.post(`/api/categoties`, {
+			data: {
+				isMain: true,
+				title: title,
+				slug: slug,
+				icon: icon,
+				sort: +sort,
+			},
+		}),
+	putMainCategory: (id, title, slug, icon, sort) =>
+		api.put(`/api/categoties/${id}`, {
+			data: {
+				isMain: true,
+				title: title,
+				slug: slug,
+				icon: icon,
+				sort: +sort,
+			},
+		}),
+
+	delCategory: (id) => api.delete(`/api/categoties/${id}`),
+
+	/**
 	 * link
 	 */
 	getLink: (id) => api.get(`/api/links/${id}?&populate=categoty`),

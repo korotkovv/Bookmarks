@@ -12,29 +12,97 @@
 						<i v-else class="lar la-star"></i>
 						<span>{{ item.attributes.title }}</span>
 					</router-link>
+					<div
+						v-if="settingStore.isEdit"
+						class="app-edit-category"
+						@click.prevent="openDialogCategoryEdit(item.id)"
+					>
+						<i class="las la-cog"></i>
+					</div>
 				</li>
-				<li class="category__add" @click="addCategory">
+				<li
+					v-if="settingStore.isEdit"
+					class="category__item category__item_trash"
+				>
+					<router-link :to="'/trash'" class="category__link">
+						<i class="lar la-trash-alt"></i>
+						<span>Корзина</span>
+					</router-link>
+				</li>
+				<li class="category__add" @click="openDialogCategoryAdd">
 					<i class="las la-plus"></i> <span>Добавить</span>
 				</li>
 			</ul>
 			<div v-else>Загрузка ...</div>
 		</div>
 		<information-sidebar></information-sidebar>
+		<category-add
+			:is-open="dialogCategoryAdd.status"
+			@success="dialogYes"
+			@close="dialogClose"
+		></category-add>
+		<category-edit
+			v-if="dialogCategoryEdit.id"
+			:id-category="dialogCategoryEdit.id"
+			:is-open="dialogCategoryEdit.status"
+			@success="dialogYes"
+			@close="dialogClose"
+		></category-edit>
 	</aside>
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, ref } from 'vue';
-
+import { onBeforeMount, onMounted, ref, reactive } from 'vue';
+import { useSettingStore } from '@/stores/settings';
 import { useMenuStore } from '@/stores/menu';
+import CategoryAdd from '@/components/Category/CategoryAdd.vue';
+import CategoryEdit from '@/components/Category/CategoryEdit.vue';
 import InformationSidebar from '@/components/Information/InformationSidebar.vue';
 
 const menuStore = useMenuStore();
+const settingStore = useSettingStore();
 
 const isLoading = ref(false);
 
-const addCategory = () => {
-	console.log('Добавляем категорию');
+const dialogCategoryAdd = reactive({
+	status: false,
+});
+
+const dialogCategoryEdit = reactive({
+	status: false,
+	id: 0,
+});
+
+/**
+ * Открываем окно добавления категории
+ */
+const openDialogCategoryAdd = () => {
+	dialogCategoryAdd.status = true;
+};
+
+/**
+ * Открываем окно редактирования категории
+ */
+const openDialogCategoryEdit = (id) => {
+	dialogCategoryEdit.id = id;
+	dialogCategoryEdit.status = true;
+};
+
+/**
+ * Закрываем окно при отмене добавления категории
+ */
+const dialogClose = () => {
+	dialogCategoryAdd.status = false;
+	dialogCategoryEdit.status = false;
+};
+
+/**
+ * Закрываем окно и обновляем список при добавлении категории
+ */
+const dialogYes = () => {
+	dialogCategoryAdd.status = false;
+	dialogCategoryEdit.status = false;
+	menuStore.getCategoryMenu();
 };
 
 onBeforeMount(() => {

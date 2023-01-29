@@ -1,0 +1,30 @@
+.app-edit-category {
+	position: absolute;
+	top: 17px;
+	right: 10px;
+	display: inline-block;
+	z-index: 2;
+	i {
+		font-size: 20px !important;
+		color: var(--red-delete);
+		margin-left: 3px;
+		margin-right: 10px;
+		&:hover {
+			color: var(--red-delete-hover);
+		}
+	}
+}
+
+.app-edit-subcategory {
+	display: inline-block;
+	i {
+		margin-top: 4px;
+		font-size: 20px !important;
+		color: var(--red-delete);
+		margin-left: 3px;
+		margin-right: 10px;
+		&:hover {
+			color: var(--red-delete-hover);
+		}
+	}
+}

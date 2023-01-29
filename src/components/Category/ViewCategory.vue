@@ -33,14 +33,14 @@
 				:linksList="linksList"
 				@refresh="refreshLinksList"
 			></link-list>
-			<the-widgets></the-widgets>
+			<the-widgets v-if="settingStore.isWatchWidgets"></the-widgets>
 		</div>
 	</main>
 </template>
 
 <script setup>
 import { onMounted, watch, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useSettingStore } from '@/stores/settings';
 import { useMenuStore } from '@/stores/menu';
 
@@ -50,6 +50,7 @@ import LinkGrid from '@/components/Link/LinkGrid.vue';
 import LinkList from '@/components/Link/LinkList.vue';
 import links from '@/service/endpoints/links';
 
+const router = useRouter();
 const route = useRoute();
 const settingStore = useSettingStore();
 const menuStore = useMenuStore();

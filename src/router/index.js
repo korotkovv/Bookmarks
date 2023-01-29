@@ -21,6 +21,7 @@ const routes = [
 				component: () => import('../components/Category/ViewCategory.vue'),
 				props: true,
 				meta: {
+					title: 'Категория',
 					layout: 'main',
 					auth: true,
 					isAdmin: true,
@@ -38,6 +39,17 @@ const routes = [
 				},
 			}, */
 		],
+	},
+	{
+		name: 'Trash',
+		path: '/trash',
+		component: () => import('../components/Category/ViewCategory.vue'),
+		meta: {
+			title: 'Корзина',
+			layout: 'main',
+			auth: true,
+			isAdmin: true,
+		},
 	},
 	{
 		name: 'Info',

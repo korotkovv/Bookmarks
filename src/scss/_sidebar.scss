@@ -25,12 +25,16 @@
 
 	// .category__item
 	&__item {
+		position: relative;
 		font-size: 16px;
 		color: var(--grey-blue-light);
 		transition: var(--transition);
 		padding: 0 0 0 0;
 		cursor: pointer;
+
 		a {
+			position: relative;
+			z-index: 1;
 			display: flex;
 			justify-content: flex-start;
 			align-items: center;
@@ -63,6 +67,15 @@
 				color: var(--primary);
 				i {
 					color: var(--primary);
+				}
+			}
+		}
+		&_trash {
+			color: var(--alert-warning);
+			a {
+				color: var(--alert-warning);
+				i {
+					color: var(--alert-warning);
 				}
 			}
 		}

@@ -2,7 +2,7 @@
 	<div v-if="isOpen" class="modal modal__addlink active">
 		<div class="modal__dialog">
 			<div class="modal__header">
-				<div class="modal__title">Добавить ссылку id:{{ idCategory }}</div>
+				<div class="modal__title">Добавить ссылку</div>
 				<div class="modal__close" @click="dialogAddClose">&times;</div>
 			</div>
 			<form @submit.prevent="dialogAddSuccess">
@@ -176,7 +176,7 @@ const form = ref(false);
 const addLink = reactive({
 	title: null,
 	link: null,
-	icon: null,
+	icon: 'las la-apple-alt',
 	sort: 1,
 	color: 'standard',
 	desc: null,

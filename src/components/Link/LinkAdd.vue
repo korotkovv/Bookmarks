@@ -3,7 +3,7 @@
 		<div class="modal__dialog">
 			<div class="modal__header">
 				<div class="modal__title">Добавить ссылку</div>
-				<div class="modal__close" @click="dialogAddClose">&times;</div>
+				<div class="modal__close" @click="dialogClose">&times;</div>
 			</div>
 			<form @submit.prevent="dialogAddSuccess">
 				<div class="modal__body">
@@ -34,13 +34,13 @@
 								/>
 							</div>
 							<div class="form__group_max">
-								<label for="linkColor">Категория</label>
+								<label for="category">Категория</label>
 							</div>
 							<div class="form__group_max mb-6">
 								<select
 									v-model="addLink.category"
-									id="linkColor"
-									placeholder="Цвет"
+									id="category"
+									placeholder="Категория"
 								>
 									<template v-for="item in menuStore.menu" :key="item.id">
 										<option :value="item.id">
@@ -138,7 +138,7 @@
 
 						<button
 							class="btn_outline modal__btn_close"
-							@click.prevent="dialogAddClose"
+							@click.prevent="dialogClose"
 						>
 							Закрыть
 						</button>
@@ -223,7 +223,7 @@ const addLinkSend = async (
 /**
  * Закрытие окна формы
  */
-const dialogAddClose = () => {
+const dialogClose = () => {
 	emit('close');
 };
 

@@ -7,6 +7,7 @@ export const useMenuStore = defineStore('menu', () => {
 	const subMenu = ref(null);
 	const slug = ref(null);
 	const idCategory = ref(null);
+	const currentMainCategory = ref(null);
 	const nameCategory = ref(null);
 
 	const getCategoryMenu = async () => {
@@ -44,6 +45,14 @@ export const useMenuStore = defineStore('menu', () => {
 		}
 	};
 
+	const setCurrentMainCategory = (id) => {
+		if (typeof id !== 'undefined') {
+			currentMainCategory.value = id;
+		} else {
+			currentMainCategory.value = null;
+		}
+	};
+
 	const setNameCategory = (name) => {
 		if (typeof name !== 'undefined') {
 			nameCategory.value = name;
@@ -57,11 +66,13 @@ export const useMenuStore = defineStore('menu', () => {
 		subMenu,
 		slug,
 		idCategory,
+		currentMainCategory,
 		nameCategory,
 		getCategoryMenu,
 		getSubCategoryMenu,
 		setSlug,
 		setIdCategory,
+		setCurrentMainCategory,
 		setNameCategory,
 	};
 });

@@ -39,6 +39,7 @@
 			</div>
 		</div>
 		<link-add
+			v-if="dialogLinkAdd.status"
 			:id-category="menuStore.idCategory"
 			:is-open="dialogLinkAdd.status"
 			@success="dialogYes"

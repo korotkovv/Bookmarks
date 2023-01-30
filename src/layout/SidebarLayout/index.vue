@@ -29,20 +29,21 @@
 						<span>Корзина</span>
 					</router-link>
 				</li>
-				<li class="category__add" @click="openDialogCategoryAdd">
+				<li class="category__add" @click.prevent="openDialogCategoryAdd">
 					<i class="las la-plus"></i> <span>Добавить</span>
 				</li>
 			</ul>
-			<div v-else>Загрузка ...</div>
+			<the-preloader v-else size="small"></the-preloader>
 		</div>
 		<information-sidebar></information-sidebar>
 		<category-add
+			v-if="dialogCategoryAdd.status"
 			:is-open="dialogCategoryAdd.status"
 			@success="dialogYes"
 			@close="dialogClose"
 		></category-add>
 		<category-edit
-			v-if="dialogCategoryEdit.id"
+			v-if="dialogCategoryEdit.status && dialogCategoryEdit.id"
 			:id-category="dialogCategoryEdit.id"
 			:is-open="dialogCategoryEdit.status"
 			@success="dialogYes"
@@ -58,6 +59,7 @@ import { useMenuStore } from '@/stores/menu';
 import CategoryAdd from '@/components/Category/CategoryAdd.vue';
 import CategoryEdit from '@/components/Category/CategoryEdit.vue';
 import InformationSidebar from '@/components/Information/InformationSidebar.vue';
+import ThePreloader from '@/components/ThePreloader.vue';
 
 const menuStore = useMenuStore();
 const settingStore = useSettingStore();

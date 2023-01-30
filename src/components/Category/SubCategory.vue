@@ -20,29 +20,95 @@
 						></i>
 						{{ item.attributes.title }}
 					</span>
-					<div v-if="settingStore.isEdit" class="app-edit-subcategory">
+					<div
+						v-if="settingStore.isEdit && item.attributes.title !== 'Общее'"
+						class="app-edit-subcategory"
+						@click.prevent="openDialogSubCategoryEdit(item.id)"
+					>
 						<i class="las la-cog"></i>
 					</div>
 				</li>
 			</template>
 
-			<li class="subcategory__add" @click="addToaster">
+			<li class="subcategory__add" @click.prevent="openDialogSubCategoryAdd">
 				<i class="las la-plus"></i> <span>Добавить</span>
 			</li>
 		</ul>
+		<sub-category-add
+			v-if="dialogSubCategoryAdd.status"
+			:id-category="menuStore.currentMainCategory"
+			:is-open="dialogSubCategoryAdd.status"
+			@success="dialogYes"
+			@close="dialogClose"
+		></sub-category-add>
+
+		<sub-category-edit
+			v-if="dialogSubCategoryEdit.status && dialogSubCategoryEdit.id"
+			:id-category="menuStore.currentMainCategory"
+			:id-sub-category="dialogSubCategoryEdit.id"
+			:is-open="dialogSubCategoryEdit.status"
+			@success="dialogYes"
+			@close="dialogClose"
+		></sub-category-edit>
 	</div>
 </template>
 
 <script setup>
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, computed, ref, reactive } from 'vue';
 import { useMenuStore } from '@/stores/menu';
 import { useSettingStore } from '@/stores/settings';
+import SubCategoryAdd from './SubCategoryAdd.vue';
+import SubCategoryEdit from './SubCategoryEdit.vue';
 
 const settingStore = useSettingStore();
 const menuStore = useMenuStore();
 
 const isLoading = ref(false);
 
+const dialogSubCategoryAdd = reactive({
+	status: false,
+});
+
+const dialogSubCategoryEdit = reactive({
+	status: false,
+	id: 0,
+});
+
+/**
+ * Открываем окно добавления категории
+ */
+const openDialogSubCategoryAdd = () => {
+	dialogSubCategoryAdd.status = true;
+};
+
+/**
+ * Открываем окно редактирования категории
+ */
+const openDialogSubCategoryEdit = (id) => {
+	dialogSubCategoryEdit.id = id;
+	dialogSubCategoryEdit.status = true;
+};
+
+/**
+ * Закрываем окно при отмене добавления категории
+ */
+const dialogClose = () => {
+	dialogSubCategoryAdd.status = false;
+	dialogSubCategoryEdit.status = false;
+};
+
+/**
+ * Закрываем окно и обновляем список при добавлении категории
+ */
+const dialogYes = () => {
+	dialogSubCategoryAdd.status = false;
+	dialogSubCategoryEdit.status = false;
+	menuStore.getCategoryMenu();
+};
+
+/**
+ * Получаем список подкатегорий
+ */
 const subCat = computed(() => {
 	if (menuStore.slug) {
 		const res = menuStore.menu.filter(
@@ -55,6 +121,7 @@ const subCat = computed(() => {
 		//	console.log('name', name);
 		if (Array.isArray(sub) && sub.length > 0) {
 			menuStore.setIdCategory(sub[0].id);
+			menuStore.setCurrentMainCategory(id);
 			menuStore.setNameCategory(sub[0]?.attributes.title);
 			if (Array.isArray(links) && links.length > 0) {
 				const findItem = sub.find((el) => el.attributes.title === 'Общее');
@@ -71,6 +138,7 @@ const subCat = computed(() => {
 			return sub;
 		} else {
 			menuStore.setIdCategory(id);
+			menuStore.setCurrentMainCategory(id);
 			menuStore.setNameCategory(name);
 			return [
 				{
@@ -86,10 +154,11 @@ const subCat = computed(() => {
 	return false;
 });
 
-const addToaster = () => {
-	settingStore.addToast('error', 'новый тостер подоспел');
-};
-
+/**
+ * Получаем ID категории
+ * @param {number} id  - ID подкатегории
+ * @param {string} name  - Название  подкатегории
+ */
 const getCatId = (id, name) => {
 	menuStore.setIdCategory(id);
 	menuStore.setNameCategory(name);

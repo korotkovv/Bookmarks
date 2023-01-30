@@ -2,8 +2,8 @@
 	<div v-if="isOpen" class="modal modal__addlink active">
 		<div class="modal__dialog">
 			<div class="modal__header">
-				<div class="modal__title">Добавить категории</div>
-				<div class="modal__close" @click="dialogAddClose">&times;</div>
+				<div class="modal__title">Добавить категорию</div>
+				<div class="modal__close" @click="dialogClose">&times;</div>
 			</div>
 			<form @submit.prevent="dialogAddSuccess">
 				<div class="modal__body">
@@ -72,7 +72,7 @@
 
 						<button
 							class="btn_outline modal__btn_close"
-							@click.prevent="dialogAddClose"
+							@click.prevent="dialogClose"
 						>
 							Закрыть
 						</button>
@@ -140,7 +140,7 @@ const addCategorySend = async (title, slug, icon, sort) => {
 /**
  * Закрытие окна формы
  */
-const dialogAddClose = () => {
+const dialogClose = () => {
 	emit('close');
 };
 

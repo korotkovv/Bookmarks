@@ -16,6 +16,7 @@
 	</div>
 	<template v-if="isOpenEditLink">
 		<link-edit
+			v-if="dialogLinkEdit.status"
 			:id-link="idLink"
 			:id-category="idCategory"
 			:is-open="dialogLinkEdit.status"

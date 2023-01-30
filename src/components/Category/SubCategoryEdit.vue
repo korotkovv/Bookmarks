@@ -2,7 +2,9 @@
 	<div v-if="isOpen" class="modal modal__addlink active">
 		<div class="modal__dialog">
 			<div class="modal__header">
-				<div class="modal__title">Добавить подкатегорию {{ idCategory }}</div>
+				<div class="modal__title">
+					Редактировать подкатегории id: {{ idCategory }} || {{ idSubCategory }}
+				</div>
 				<div class="modal__close" @click="dialogClose">&times;</div>
 			</div>
 			<form @submit.prevent="dialogAddSuccess">
@@ -14,7 +16,7 @@
 							</div>
 							<div class="form__group_max mb-6">
 								<input
-									v-model.trim="addSubCategory.title"
+									v-model.trim="editSubCategory.title"
 									id="title"
 									type="text"
 									placeholder="Заголовок"
@@ -26,7 +28,7 @@
 							</div>
 							<div class="form__group_max mb-6">
 								<input
-									v-model.trim="addSubCategory.slug"
+									v-model.trim="editSubCategory.slug"
 									id="slug"
 									type="text"
 									placeholder="Slug"
@@ -38,7 +40,7 @@
 							</div>
 							<div class="form__group_max mb-6">
 								<select
-									v-model="addSubCategory.category"
+									v-model="editSubCategory.category"
 									id="category"
 									placeholder="Категория"
 								>
@@ -56,7 +58,7 @@
 							</div>
 							<div class="form__group_max mb-6">
 								<input
-									v-model="addSubCategory.sort"
+									v-model="editSubCategory.sort"
 									id="sort"
 									type="number"
 									min="0"
@@ -70,7 +72,7 @@
 							</div>
 							<div class="form__group_max">
 								<input
-									v-model.trim="addSubCategory.icon"
+									v-model.trim="editSubCategory.icon"
 									id="icon"
 									type="text"
 									placeholder="Иконка"
@@ -83,7 +85,7 @@
 				<div class="modal__footer">
 					<div class="modal__action">
 						<button class="btn modal__btn_save" type="submit">
-							<i class="las la-plus"></i> Добавить
+							<i class="las la-save"></i> Сохранить
 						</button>
 
 						<button
@@ -91,6 +93,17 @@
 							@click.prevent="dialogClose"
 						>
 							Закрыть
+						</button>
+					</div>
+					<div class="modal__delete">
+						<button
+							class="btn_delete modal__btn_delete"
+							@click.prevent="
+								removeSubCategory(idSubCategory, editSubCategory.title)
+							"
+						>
+							<i class="las la-trash-alt"></i>
+							Удалить
 						</button>
 					</div>
 				</div>
@@ -111,45 +124,95 @@ const menuStore = useMenuStore();
 const emit = defineEmits(['close', 'success']);
 
 const props = defineProps({
-	idCategory: {
-		type: Number,
-		required: true,
-	},
 	isOpen: {
 		type: Boolean,
 		required: true,
 		default: false,
 	},
+	idCategory: {
+		type: Number,
+		required: true,
+	},
+	idSubCategory: {
+		type: Number,
+		required: true,
+	},
 });
 
 const form = ref(false);
-const addSubCategory = reactive({
-	isMain: false,
+const editSubCategory = reactive({
 	category: null,
+	id: null,
+	isMain: true,
 	title: null,
 	slug: null,
-	icon: 'las la-otter',
+	icon: null,
 	sort: 1,
 });
 
 /**
- * Добавление новой подкатегории
+ * Получаем данные главной категории
+ * @param {number} id - ID категории
+ */
+const getSubCategory = async (id) => {
+	await links
+		.getCategory(id)
+		.then((response) => {
+			console.log(response.data?.data.attributes);
+			if (response.data?.data.attributes) {
+				editSubCategory.title = response.data?.data.attributes.title;
+				editSubCategory.slug = response.data?.data.attributes.slug;
+				editSubCategory.icon = response.data?.data.attributes.icon;
+				editSubCategory.sort = response.data?.data.attributes.sort;
+			}
+			return response;
+		})
+		.catch((error) => {
+			settingStore.addToast('error', error.response.data?.error?.message);
+			return console.log(error);
+		});
+};
+
+/**
+ * Изменение категории
  * @param {number} idCategory - ID категории
- * @param {string} title - Заголовок подкатегории
+ * @param {number} id - ID подкатегории
  * @param {string} title - Заголовок подкатегории
  * @param {string} slug - slug подкатегории
  * @param {string} icon - Иконка подкатегории
  * @param {number} sort - Сортировка подкатегории
  */
-const addSubCategorySend = async (idCategory, title, slug, icon, sort) => {
+const editSubCategorySend = async (idCategory, id, title, slug, icon, sort) => {
 	await links
-		.postSubCategory(idCategory, title, slug, icon, sort)
+		.putSubCategory(idCategory, id, title, slug, icon, sort)
 		.then((response) => {
 			console.log(response.data);
 			return response.data;
 		})
 		.then(() => {
-			settingStore.addToast('success', `Добавлена подкатегория '${title}'`);
+			settingStore.addToast('success', `Изменена главная категория '${title}'`);
+			emit('success');
+			resetFields();
+		})
+		.catch((error) => {
+			settingStore.addToast('error', error.response.data.error?.message);
+			return console.log(error);
+		});
+};
+
+/**
+ * Удаление подкатегории
+ * @param {number} id - ID подкатегории
+ * @param {string} title - Название подкатегории
+ */
+const removeSubCategory = async (id, title) => {
+	await links
+		.delCategory(id)
+		.then((response) => {
+			console.log(response.data);
+		})
+		.then(() => {
+			settingStore.addToast('error', `Подкатегория '${title}' удалена`);
 			emit('success');
 			resetFields();
 		})
@@ -171,18 +234,20 @@ const dialogClose = () => {
  */
 const dialogAddSuccess = () => {
 	if (
-		addSubCategory.category &&
-		addSubCategory.title &&
-		addSubCategory.slug &&
-		addSubCategory.icon &&
-		addSubCategory.sort
+		editSubCategory.category &&
+		props.idSubCategory &&
+		editSubCategory.title &&
+		editSubCategory.slug &&
+		editSubCategory.icon &&
+		editSubCategory.sort
 	) {
-		addSubCategorySend(
-			addSubCategory.category,
-			addSubCategory.title,
-			addSubCategory.slug,
-			addSubCategory.icon,
-			addSubCategory.sort
+		editSubCategorySend(
+			editSubCategory.category,
+			props.idSubCategory,
+			editSubCategory.title,
+			editSubCategory.slug,
+			editSubCategory.icon,
+			editSubCategory.sort
 		);
 	} else {
 		console.log('Что то не заполнено');
@@ -193,11 +258,11 @@ const dialogAddSuccess = () => {
  * Сброс полей формы в значение по умолчанию
  */
 const resetFields = () => {
-	addSubCategory.category = null;
-	addSubCategory.title = null;
-	addSubCategory.slug = null;
-	addSubCategory.icon = null;
-	addSubCategory.sort = 1;
+	editSubCategory.category = null;
+	editSubCategory.title = null;
+	editSubCategory.slug = null;
+	editSubCategory.icon = null;
+	editSubCategory.sort = 1;
 };
 
 /**
@@ -205,14 +270,19 @@ const resetFields = () => {
  * @param {number} id - ID категории
  */
 const getCategoryId = (id) => {
-	addSubCategory.category = id;
+	editSubCategory.category = id;
 };
 
 onMounted(() => {
+	getSubCategory(props.idSubCategory);
 	getCategoryId(props.idCategory);
 });
 
 watch(
+	() => props.idSubCategory,
+	(newV, oldV) => {
+		getSubCategory(props.idSubCategory);
+	},
 	() => props.idCategory,
 	(newV, oldV) => {
 		getCategoryId(props.idCategory);

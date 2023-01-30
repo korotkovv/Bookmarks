@@ -5,7 +5,7 @@
 				<div class="modal__title">
 					Редактировать категории id: {{ idCategory }}
 				</div>
-				<div class="modal__close" @click="dialogAddClose">&times;</div>
+				<div class="modal__close" @click="dialogClose">&times;</div>
 			</div>
 			<form @submit.prevent="dialogAddSuccess">
 				<div class="modal__body">
@@ -74,7 +74,7 @@
 
 						<button
 							class="btn_outline modal__btn_close"
-							@click.prevent="dialogAddClose"
+							@click.prevent="dialogClose"
 						>
 							Закрыть
 						</button>
@@ -177,6 +177,7 @@ const editCategorySend = async (id, title, slug, icon, sort) => {
 /**
  * Удаление категории
  * @param {number} id - ID категории
+ * @param {string} title - Название категории
  */
 const removeCategory = async (id, title) => {
 	await links
@@ -198,7 +199,7 @@ const removeCategory = async (id, title) => {
 /**
  * Закрытие окна формы
  */
-const dialogAddClose = () => {
+const dialogClose = () => {
 	emit('close');
 };
 

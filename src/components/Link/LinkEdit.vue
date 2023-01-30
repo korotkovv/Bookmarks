@@ -36,13 +36,13 @@
 								/>
 							</div>
 							<div class="form__group_max">
-								<label for="linkColor">Категория</label>
+								<label for="category">Категория</label>
 							</div>
 							<div class="form__group_max mb-6">
 								<select
 									v-model="editLink.category"
-									id="linkColor"
-									placeholder="Цвет"
+									id="category"
+									placeholder="Категория"
 								>
 									<template v-for="item in menuStore.menu" :key="item.id">
 										<option :value="item.id">

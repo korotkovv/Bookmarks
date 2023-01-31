@@ -14,24 +14,40 @@
 							</div>
 							<div class="form__group_max mb-6">
 								<input
-									v-model.trim="addCategory.title"
+									v-model="v$.title.$model"
 									id="title"
 									type="text"
 									placeholder="Заголовок"
-									required
 								/>
+								<template v-if="v$.title.$dirty">
+									<div
+										v-for="error of v$.title.$silentErrors"
+										:key="error.$message"
+										class="form__error"
+									>
+										{{ error.$message }}
+									</div>
+								</template>
 							</div>
 							<div class="form__group_max">
 								<label for="slug">Slug<span>*</span></label>
 							</div>
 							<div class="form__group_max mb-6">
 								<input
-									v-model.trim="addCategory.slug"
+									v-model="v$.slug.$model"
 									id="slug"
 									type="text"
 									placeholder="Slug"
-									required
 								/>
+								<template v-if="v$.slug.$dirty">
+									<div
+										v-for="error of v$.slug.$silentErrors"
+										:key="error.$message"
+										class="form__error"
+									>
+										{{ error.$message }}
+									</div>
+								</template>
 							</div>
 						</div>
 						<div class="form__col">
@@ -40,13 +56,22 @@
 							</div>
 							<div class="form__group_max mb-6">
 								<input
-									v-model="addCategory.sort"
+									v-model="v$.sort.$model"
 									id="sort"
 									type="number"
 									min="0"
 									placeholder="Сортировка"
 									required
 								/>
+								<template v-if="v$.sort.$dirty">
+									<div
+										v-for="error of v$.sort.$silentErrors"
+										:key="error.$message"
+										class="form__error"
+									>
+										{{ error.$message }}
+									</div>
+								</template>
 							</div>
 
 							<div class="form__group_max">
@@ -84,9 +109,17 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import { useSettingStore } from '@/stores/settings';
 import links from '@/service/endpoints/links';
+import useVuelidate from '@vuelidate/core';
+import {
+	minLength,
+	required,
+	helpers,
+	numeric,
+	minValue,
+} from '@vuelidate/validators';
 
 const settingStore = useSettingStore();
 
@@ -108,6 +141,35 @@ const addCategory = reactive({
 	icon: 'las la-campground',
 	sort: 1,
 });
+
+// Валидация
+const requiredNameLength = ref(4);
+const rules = computed(() => ({
+	title: {
+		required: helpers.withMessage(`Поле не заполнено`, required),
+		minLength: helpers.withMessage(
+			`Минимальная длина: 4 символа`,
+			minLength(requiredNameLength.value)
+		),
+	},
+	slug: {
+		required: helpers.withMessage(`Поле не заполнено`, required),
+		minLength: helpers.withMessage(
+			`Минимальная длина: 4 символа`,
+			minLength(requiredNameLength.value)
+		),
+	},
+	sort: {
+		required: helpers.withMessage(`Поле не заполнено`, required),
+		numeric: helpers.withMessage(`Вы можете ввести только цифры`, numeric),
+		minValue: helpers.withMessage(
+			`Значение не должно быть отрицательным`,
+			minValue(0)
+		),
+	},
+}));
+
+const v$ = useVuelidate(rules, addCategory);
 
 /**
  * Добавление новой категории
@@ -148,7 +210,12 @@ const dialogClose = () => {
  * Сохранение ссылки
  */
 const dialogAddSuccess = () => {
+	v$.value.$touch();
+	//	console.log(v$.value.$error);
+	if (v$.value.$error) return;
+
 	if (
+		!v$.value.$error &&
 		addCategory.title &&
 		addCategory.slug &&
 		addCategory.icon &&
@@ -156,12 +223,13 @@ const dialogAddSuccess = () => {
 	) {
 		addCategorySend(
 			addCategory.title,
-			addCategory.slug,
+			addCategory.slug.toLowerCase(),
 			addCategory.icon,
 			addCategory.sort
 		);
 	} else {
 		console.log('Что то не заполнено');
+		console.log(v$.value.$error);
 	}
 };
 

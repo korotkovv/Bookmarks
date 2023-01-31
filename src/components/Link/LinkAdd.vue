@@ -14,24 +14,40 @@
 							</div>
 							<div class="form__group_max mb-6">
 								<input
-									v-model.trim="addLink.title"
+									v-model="v$.title.$model"
 									id="linkName"
 									type="text"
 									placeholder="Заголовок"
-									required
 								/>
+								<template v-if="v$.title.$dirty">
+									<div
+										v-for="error of v$.title.$silentErrors"
+										:key="error.$message"
+										class="form__error"
+									>
+										{{ error.$message }}
+									</div>
+								</template>
 							</div>
 							<div class="form__group_max">
 								<label for="linkUrl">Ссылка <span>*</span></label>
 							</div>
 							<div class="form__group_max mb-6">
 								<input
-									v-model.trim="addLink.link"
+									v-model="v$.link.$model"
 									id="linkUrl"
 									type="text"
 									placeholder="Ссылка"
-									required
 								/>
+								<template v-if="v$.link.$dirty">
+									<div
+										v-for="error of v$.link.$silentErrors"
+										:key="error.$message"
+										class="form__error"
+									>
+										{{ error.$message }}
+									</div>
+								</template>
 							</div>
 							<div class="form__group_max">
 								<label for="category">Категория</label>
@@ -78,13 +94,21 @@
 							</div>
 							<div class="form__group_max mb-6">
 								<input
-									v-model="addLink.sort"
+									v-model="v$.sort.$model"
 									id="linkSort"
 									type="number"
 									min="0"
 									placeholder="Сортировка"
-									required
 								/>
+								<template v-if="v$.sort.$dirty">
+									<div
+										v-for="error of v$.sort.$silentErrors"
+										:key="error.$message"
+										class="form__error"
+									>
+										{{ error.$message }}
+									</div>
+								</template>
 							</div>
 							<div class="form__group_max">
 								<label for="linkColor">Цвет </label>
@@ -150,10 +174,18 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref, watch } from 'vue';
+import { onMounted, reactive, ref, watch, computed } from 'vue';
 import { useMenuStore } from '@/stores/menu';
 import { useSettingStore } from '@/stores/settings';
 import links from '@/service/endpoints/links';
+import useVuelidate from '@vuelidate/core';
+import {
+	minLength,
+	required,
+	helpers,
+	numeric,
+	minValue,
+} from '@vuelidate/validators';
 
 const settingStore = useSettingStore();
 const menuStore = useMenuStore();
@@ -183,6 +215,35 @@ const addLink = reactive({
 	category: null,
 });
 const icon = ref(true);
+
+// Валидация
+const requiredNameLength = ref(4);
+const rules = computed(() => ({
+	title: {
+		required: helpers.withMessage(`Поле не заполнено`, required),
+		minLength: helpers.withMessage(
+			`Минимальная длина: 4 символа`,
+			minLength(requiredNameLength.value)
+		),
+	},
+	link: {
+		required: helpers.withMessage(`Поле не заполнено`, required),
+		minLength: helpers.withMessage(
+			`Минимальная длина: 4 символа`,
+			minLength(requiredNameLength.value)
+		),
+	},
+	sort: {
+		required: helpers.withMessage(`Поле не заполнено`, required),
+		numeric: helpers.withMessage(`Вы можете ввести только цифры`, numeric),
+		minValue: helpers.withMessage(
+			`Значение не должно быть отрицательным`,
+			minValue(0)
+		),
+	},
+}));
+
+const v$ = useVuelidate(rules, addLink);
 
 /**
  * Добавление новой ссылки
@@ -231,13 +292,19 @@ const dialogClose = () => {
  * Сохранение ссылки
  */
 const dialogAddSuccess = () => {
+	v$.value.$touch();
+	//	console.log(v$.value.$error);
+	if (v$.value.$error) return;
+
 	if (
+		!v$.value.$error &&
 		addLink.title &&
 		addLink.link &&
 		addLink.title &&
 		addLink.category &&
 		addLink.sort
 	) {
+		icon ? null : (addLinkSend.icon = null);
 		addLinkSend(
 			addLink.title,
 			addLink.link,
@@ -249,6 +316,7 @@ const dialogAddSuccess = () => {
 		);
 	} else {
 		console.log('Что то не заполнено');
+		console.log(v$.value.$error);
 	}
 };
 

@@ -365,23 +365,10 @@ textarea {
 	&__error {
 		display: block;
 		width: 100%;
-		margin: 0 0 20px 0;
-		padding: 10px 20px;
-		//	border: 1px solid $colorBorder;
-		border-radius: 5px;
+		margin: 0;
+		padding: 0 2px;
 		font-size: 13px;
 		color: tomato;
-		border-color: tomato;
-		background: #f8d7da;
-
-		a {
-			color: tomato;
-			font-weight: 700;
-
-			&:hover {
-				color: #c21729;
-			}
-		}
 	}
 	&__row {
 		display: flex;

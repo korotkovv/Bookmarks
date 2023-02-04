@@ -119,3 +119,29 @@
 		}
 	}
 }
+
+.app-icons {
+	&__list {
+		display: flex;
+		align-items: center;
+		justify-content: left;
+		flex-wrap: wrap;
+		padding: 7px;
+		background: var(--black);
+		border-radius: var(--border-radius);
+	}
+	&__item {
+		padding: 8px;
+		margin: 3px;
+		font-size: 26px;
+		transition: var(--transition);
+		background: var(--dark);
+		border-radius: 4px;
+		cursor: pointer;
+		&_active {
+			color: var(--grey-light);
+			background: var(--primary);
+			border-radius: 4px;
+		}
+	}
+}

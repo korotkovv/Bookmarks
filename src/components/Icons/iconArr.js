@@ -1,0 +1,27 @@
+const iconArr = [
+	'las la-plus',
+	'las la-radiation',
+	'las la-coffee',
+	'las la-save',
+	'las la-compass',
+	'las la-icons',
+	'las la-code',
+	'las la-terminal',
+	'las la-chart-pie',
+	'las la-file',
+	'las la-folder',
+	'las la-tag',
+	'las la-sitemap',
+	'las la-paperclip',
+	'las la-envelope',
+	'las la-edit',
+	'las la-briefcase',
+	'las la-calendar',
+	'las la-bullhorn',
+	'las la-book',
+	'las la-calculator',
+	'las la-balance-scale',
+	'las la-save',
+];
+
+export default iconArr;

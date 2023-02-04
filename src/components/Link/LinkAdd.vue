@@ -141,7 +141,7 @@
 								<div class="form__group_max">
 									<label for="linkIcon">Иконка <span>*</span></label>
 								</div>
-								<div class="form__group_max">
+								<div class="form__group">
 									<input
 										v-model.trim="addLink.icon"
 										id="linkIcon"
@@ -149,6 +149,7 @@
 										placeholder="Иконка"
 										required
 									/>
+									<icon-add></icon-add>
 								</div>
 							</template>
 						</div>
@@ -178,7 +179,9 @@ import { onMounted, reactive, ref, watch, computed } from 'vue';
 import { useMenuStore } from '@/stores/menu';
 import { useSettingStore } from '@/stores/settings';
 import links from '@/service/endpoints/links';
+import IconAdd from '@/components/Icons/IconAdd.vue';
 import useVuelidate from '@vuelidate/core';
+
 import {
 	minLength,
 	required,
@@ -315,7 +318,7 @@ const dialogAddSuccess = () => {
 			addLink.category
 		);
 	} else {
-		console.log('Что то не заполнено');
+		console.log('Что-то не заполнено');
 		console.log(v$.value.$error);
 	}
 };

@@ -317,7 +317,7 @@ const dialogAddSuccess = () => {
 			editSubCategory.sort
 		);
 	} else {
-		console.log('Что то не заполнено');
+		console.log('Что-то не заполнено');
 		console.log(v$.value.$error);
 	}
 };

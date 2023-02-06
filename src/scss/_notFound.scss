@@ -1,33 +1,57 @@
 // 404
 
 .not-found {
-	margin-top: 50px;
 	display: flex;
-	justify-content: center;
+	align-items: flex-start;
+	justify-content: flex-start;
+	height: 100vh;
 
-	&__container {
-		display: block;
-		text-align: center;
-		max-width: 420px;
-		width: 420px;
+	&__img {
+		flex: 1 1 60%;
+		max-width: 60%;
 		background: var(--dark);
-		padding: 35px;
-		border-radius: 10px;
+		align-self: stretch;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		padding-bottom: 30px;
+	}
+
+	&__logo {
+		width: 350px;
+		margin-bottom: 80px;
+	}
+	&__image {
+		max-width: 500px;
+	}
+
+	&__info {
+		flex: 1 1 40%;
+		max-width: 40%;
+		align-self: stretch;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		padding-bottom: 20px;
 	}
 
 	// .not-found__title
 	&__title {
-		font-size: 20px;
+		font-size: 56px;
 		color: var(--grey-blue-light);
-		margin-bottom: 30px;
+		margin-bottom: 20px;
 		font-weight: bold;
+		text-align: center;
 	}
 
 	// .not-found__desc
 	&__desc {
 		font-size: 16px;
 		color: var(--grey-grey-light);
-		margin-bottom: 30px;
+		margin-bottom: 60px;
+		text-align: center;
 	}
 
 	// .not-found__btn

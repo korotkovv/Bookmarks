@@ -1,0 +1,120 @@
+.info {
+	// .info__list
+	display: block;
+	flex-grow: 1;
+
+	&__list {
+		display: block;
+	}
+
+	// .info__item
+	&__item {
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+		background: var(--dark);
+		border-radius: var(--border-radius);
+		position: relative;
+		transition: all 0.3s;
+		border: 1px solid var(--black);
+		margin-bottom: 20px;
+		padding: 30px;
+		flex-grow: 1;
+		flex-direction: column;
+
+		&:hover {
+			border: 1px solid var(--border-item-color);
+		}
+
+		&:hover .info__setting {
+			opacity: 1;
+			visibility: visible;
+			transition-delay: 0s;
+		}
+	}
+
+	&__setting {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		background: var(--black);
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 0.3s, visibility 0s linear 0.3s;
+		cursor: pointer;
+		z-index: 3;
+
+		i {
+			font-size: 20px;
+		}
+	}
+
+	&__title {
+		font-size: 16px;
+		font-weight: 600;
+		margin-bottom: 15px;
+		color: var(--white);
+	}
+	&__text {
+	}
+	// .info__empty
+	&__empty {
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+		background: var(--dark);
+		border-radius: var(--border-radius);
+		position: relative;
+		transition: all 0.3s;
+		border: 1px solid var(--black);
+		margin-bottom: 20px;
+		padding: 30px;
+		flex-grow: 1;
+		font-size: 16px;
+		font-weight: 600;
+		flex-direction: column;
+	}
+}
+.addInfo {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	border: 1px solid #242730;
+	border-radius: var(--border-radius);
+	position: relative;
+	transition: all 0.3s;
+	cursor: pointer;
+
+	&:hover {
+		border: 1px solid #3b3f4d;
+	}
+
+	&__img {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 70px;
+		width: 70px;
+		border-radius: 10px 0 0 10px;
+	}
+
+	&__body {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		padding: 15px 20px;
+		flex-grow: 1;
+	}
+
+	&__title {
+		flex: 1 250px;
+		max-width: 250px;
+		font-size: 14px;
+	}
+}

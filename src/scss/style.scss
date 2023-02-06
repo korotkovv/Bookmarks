@@ -13,6 +13,7 @@
 	--red-delete: #fc6161;
 	--red-delete-hover: #e73a3a;
 	--border-color: #1d1e22;
+	--border-item-color: #3b3f4d;
 	--black: #1f212a;
 	--dark: #242730;
 	--white: #ffffff;
@@ -71,4 +72,5 @@ code {
 @import 'notFound';
 @import 'modal';
 @import 'footer';
+@import 'info';
 @import 'responsive';

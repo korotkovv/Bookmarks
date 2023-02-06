@@ -21,7 +21,7 @@ const links = {
 	/**
 	 * Main category
 	 */
-	getCategory: (id) => api.get(`/api/categoties/${id}?&populate=categoty`),
+	getCategory: (id) => api.get(`/api/categoties/${id}?populate=categoty`),
 	postMainCategory: (title, slug, icon, sort) =>
 		api.post(`/api/categoties`, {
 			data: {
@@ -96,6 +96,12 @@ const links = {
 			},
 		}),
 	delLink: (id) => api.delete(`/api/links/${id}`),
+
+	// корзина, ссылки без категорий
+	getTrash: () =>
+		api.get(
+			`/api/links?populate=categoty&filters[categoty][title][$null]=true`
+		),
 };
 
 export default links;

@@ -43,7 +43,7 @@ const routes = [
 	{
 		name: 'Trash',
 		path: '/trash',
-		component: () => import('../components/Category/ViewCategory.vue'),
+		component: () => import('../views/Trash.vue'),
 		meta: {
 			title: 'Корзина',
 			layout: 'main',
@@ -74,7 +74,8 @@ const routes = [
 		},
 	},
 	{
-		path: '/:notFound(.*)',
+		//path: '/:notFound(.*)',
+		path: '/notFound',
 		component: NotFound,
 		meta: {
 			title: 'Ошибка 404',

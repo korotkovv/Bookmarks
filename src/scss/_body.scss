@@ -196,7 +196,7 @@
 	border: 1px solid var(--black);
 
 	&:hover {
-		border: 1px solid #3b3f4d;
+		border: 1px solid var(--border-item-color);
 	}
 
 	&:hover &__setting {
@@ -307,7 +307,7 @@
 	cursor: pointer;
 
 	&:hover {
-		border: 1px solid #3b3f4d;
+		border: 1px solid var(--border-item-color);
 	}
 
 	// .link__url
@@ -363,7 +363,7 @@
 	margin-bottom: 10px;
 
 	&:hover {
-		border: 1px solid #3b3f4d;
+		border: 1px solid var(--border-item-color);
 	}
 
 	&:hover &__setting {
@@ -490,7 +490,7 @@
 	cursor: pointer;
 
 	&:hover {
-		border: 1px solid #3b3f4d;
+		border: 1px solid var(--border-item-color);
 	}
 
 	// .link__url

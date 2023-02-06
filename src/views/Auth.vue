@@ -46,6 +46,10 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+
+const route = useRoute();
+const router = useRouter();
 
 const isError = ref(false);
 const errorText = ref('');
@@ -59,6 +63,7 @@ const onAuth = () => {
 	errorText.value = false;
 	if (auth.login && auth.password) {
 		console.log('Авторизация');
+		router.push('/');
 	} else {
 		isError.value = true;
 		errorText.value = 'Заполните данные для авторизации';

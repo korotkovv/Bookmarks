@@ -2,9 +2,7 @@
 	<main class="main">
 		<sub-category></sub-category>
 		<div class="main__header">
-			<div class="main__title">
-				{{ menuStore.nameCategory ? menuStore.nameCategory : 'Закладки' }}
-			</div>
+			<div class="main__title">Корзина</div>
 			<div class="main__switcher switcher">
 				<button
 					class="switcher__grid"
@@ -58,46 +56,25 @@ const menuStore = useMenuStore();
 const linksList = ref([]);
 
 /**
- * Получаем список ссылок категории
- * @param {number} id - ID Категории
+ * Получаем список ссылок без категории
  */
-const getLinks = async (id) => {
+const getLinksTrash = async () => {
 	linksList.value = await links
-		.getLinks(id)
+		.getTrash()
 		.then((response) => {
-			//	console.log(response.data.data.attributes.links.data);
-			return response.data.data.attributes.links.data;
+			console.log('trash', response.data.data);
+			return response.data.data;
 		})
 		.catch((error) => console.log(error));
 };
 
-/**
- * Обновление категории
- */
 const refreshLinksList = () => {
 	getLinks(menuStore.idCategory);
 };
 
 onMounted(() => {
-	menuStore.setSlug(route.params.slug);
+	getLinksTrash();
 });
-
-watch(
-	() => route.params.slug,
-	(newV, oldV) => {
-		menuStore.setSlug(route.params.slug);
-		getLinks(menuStore.idCategory);
-	}
-);
-
-watch(
-	() => menuStore.idCategory,
-	(newV, oldV) => {
-		if (menuStore.idCategory) {
-			getLinks(menuStore.idCategory);
-		}
-	}
-);
 </script>
 
 <style lang="scss" scoped></style>

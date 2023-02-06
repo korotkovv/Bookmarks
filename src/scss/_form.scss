@@ -327,6 +327,16 @@ textarea {
 		width: 100%;
 		//margin-bottom: 14px;
 	}
+	&__input {
+		&_max {
+			flex-grow: 1;
+		}
+		&_icon {
+			flex-grow: 1;
+			background: #21242d;
+			cursor: default;
+		}
+	}
 
 	&__group_max {
 		position: relative;

@@ -93,14 +93,28 @@
 							<div class="form__group_max">
 								<label for="icon">Иконка <span>*</span></label>
 							</div>
-							<div class="form__group_max">
+							<div class="form__group">
 								<input
-									v-model.trim="addSubCategory.icon"
+									v-model="v$.icon.$model"
 									id="icon"
 									type="text"
+									class="form__input form__input_max form__input_icon"
 									placeholder="Иконка"
-									required
+									readonly
 								/>
+								<icon-add
+									:icons="addSubCategory.icon"
+									@update:icons="addSubCategory.icon = $event"
+								></icon-add>
+								<template v-if="v$.icon.$dirty">
+									<div
+										v-for="error of v$.icon.$silentErrors"
+										:key="error.$message"
+										class="form__error"
+									>
+										{{ error.$message }}
+									</div>
+								</template>
 							</div>
 						</div>
 					</div>
@@ -129,6 +143,7 @@ import { onMounted, reactive, ref, watch, computed } from 'vue';
 import { useMenuStore } from '@/stores/menu';
 import { useSettingStore } from '@/stores/settings';
 import links from '@/service/endpoints/links';
+import IconAdd from '@/components/Icons/IconAdd.vue';
 import useVuelidate from '@vuelidate/core';
 import {
 	minLength,
@@ -161,7 +176,7 @@ const addSubCategory = reactive({
 	category: null,
 	title: null,
 	slug: null,
-	icon: 'las la-otter',
+	icon: '',
 	sort: 1,
 });
 
@@ -188,6 +203,13 @@ const rules = computed(() => ({
 		minValue: helpers.withMessage(
 			`Значение не должно быть отрицательным`,
 			minValue(0)
+		),
+	},
+	icon: {
+		required: helpers.withMessage(`Поле не заполнено`, required),
+		minLength: helpers.withMessage(
+			`Минимальная длина: 4 символа`,
+			minLength(4)
 		),
 	},
 }));

@@ -1,0 +1,47 @@
+@media (max-width: 1500px) {
+	.page-auth {
+		&__img {
+			flex: 1 1 50%;
+			max-width: 50%;
+		}
+		&__auth {
+			flex: 1 1 50%;
+			max-width: 50%;
+		}
+
+		&__image {
+			width: auto;
+			max-width: 80%;
+			margin: 50px;
+		}
+	}
+}
+
+@media (max-width: 1200px) {
+	.form-auth {
+		max-width: 350px;
+		width: 350px;
+		padding: 50px 30px;
+	}
+}
+
+@media (max-width: 700px) {
+	.page-auth {
+		height: auto;
+		padding-top: 30px;
+		&__img {
+			display: none;
+			flex: 1 1 50%;
+			max-width: 50%;
+		}
+		&__auth {
+			flex: 1 1 100%;
+			max-width: 100%;
+		}
+	}
+	.form-auth {
+		margin: 0 5px;
+		max-width: 300px;
+		width: 300px;
+	}
+}

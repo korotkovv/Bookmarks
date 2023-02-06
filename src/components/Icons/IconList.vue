@@ -47,16 +47,21 @@
 import { ref } from 'vue';
 import iconArr from '@/components/Icons/iconArr';
 
-const emit = defineEmits(['close', 'success']);
+const emit = defineEmits(['update:icon', 'close', 'success']);
 const props = defineProps({
 	isOpen: {
 		type: Boolean,
 		required: true,
 		default: false,
 	},
+	icon: {
+		type: String,
+		required: true,
+		default: false,
+	},
 });
 
-const currentIcon = ref(null);
+const currentIcon = ref('');
 const currentIconIdx = ref(null);
 
 /**
@@ -70,7 +75,8 @@ const dialogClose = () => {
  * Добавление иконки
  */
 const dialogAddSuccess = () => {
-	//
+	emit('success');
+	emit('update:icon', currentIcon.value);
 };
 
 const setIcon = (icon, idx) => {

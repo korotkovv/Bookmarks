@@ -143,14 +143,28 @@
 								<div class="form__group_max">
 									<label for="linkIcon">Иконка <span>*</span></label>
 								</div>
-								<div class="form__group_max">
+								<div class="form__group">
 									<input
-										v-model.trim="editLink.icon"
+										v-model="vI$.icon.$model"
 										id="linkIcon"
 										type="text"
+										class="form__input form__input_max form__input_icon"
 										placeholder="Иконка"
-										required
+										readonly
 									/>
+									<icon-add
+										:icons="editLink.icon"
+										@update:icons="editLink.icon = $event"
+									></icon-add>
+									<template v-if="vI$.icon.$dirty">
+										<div
+											v-for="error of vI$.icon.$silentErrors"
+											:key="error.$message"
+											class="form__error"
+										>
+											{{ error.$message }}
+										</div>
+									</template>
 								</div>
 							</template>
 						</div>
@@ -189,6 +203,7 @@ import { onMounted, reactive, ref, watch, computed } from 'vue';
 import { useMenuStore } from '@/stores/menu';
 import { useSettingStore } from '@/stores/settings';
 import links from '@/service/endpoints/links';
+import IconAdd from '@/components/Icons/IconAdd.vue';
 import useVuelidate from '@vuelidate/core';
 import {
 	minLength,
@@ -224,7 +239,7 @@ const editLink = reactive({
 	id: null,
 	title: null,
 	link: null,
-	icon: null,
+	icon: '',
 	sort: 1,
 	color: 'standard',
 	desc: null,
@@ -259,7 +274,18 @@ const rules = computed(() => ({
 	},
 }));
 
+const rulesIcon = computed(() => ({
+	icon: {
+		required: helpers.withMessage(`Поле не заполнено`, required),
+		minLength: helpers.withMessage(
+			`Минимальная длина: 4 символа`,
+			minLength(4)
+		),
+	},
+}));
+
 const v$ = useVuelidate(rules, editLink);
+const vI$ = useVuelidate(rulesIcon, editLink);
 
 /**
  * Получаем данные конкретной ссылки
@@ -347,6 +373,11 @@ const dialogEditSuccess = () => {
 	v$.value.$touch();
 	//	console.log(v$.value.$error);
 	if (v$.value.$error) return;
+
+	if (icon.value) {
+		vI$.value.$touch();
+		if (vI$.value.$error) return;
+	}
 	if (
 		!v$.value.$error &&
 		editLink.id &&
@@ -356,7 +387,7 @@ const dialogEditSuccess = () => {
 		editLink.category &&
 		editLink.sort
 	) {
-		icon ? null : (editLink.icon = null);
+		icon.value ? null : (editLink.icon = '');
 		editLinkSend(
 			editLink.id,
 			editLink.title,

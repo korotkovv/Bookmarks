@@ -143,13 +143,27 @@
 								</div>
 								<div class="form__group">
 									<input
-										v-model.trim="addLink.icon"
+										v-model="vI$.icon.$model"
 										id="linkIcon"
 										type="text"
+										class="form__input form__input_max form__input_icon"
 										placeholder="Иконка"
-										required
+										readonly
 									/>
-									<icon-add></icon-add>
+
+									<icon-add
+										:icons="addLink.icon"
+										@update:icons="addLink.icon = $event"
+									></icon-add>
+									<template v-if="vI$.icon.$dirty">
+										<div
+											v-for="error of vI$.icon.$silentErrors"
+											:key="error.$message"
+											class="form__error"
+										>
+											{{ error.$message }}
+										</div>
+									</template>
 								</div>
 							</template>
 						</div>
@@ -211,7 +225,7 @@ const form = ref(false);
 const addLink = reactive({
 	title: null,
 	link: null,
-	icon: 'las la-apple-alt',
+	icon: '',
 	sort: 1,
 	color: 'standard',
 	desc: null,
@@ -246,7 +260,18 @@ const rules = computed(() => ({
 	},
 }));
 
+const rulesIcon = computed(() => ({
+	icon: {
+		required: helpers.withMessage(`Поле не заполнено`, required),
+		minLength: helpers.withMessage(
+			`Минимальная длина: 4 символа`,
+			minLength(4)
+		),
+	},
+}));
+
 const v$ = useVuelidate(rules, addLink);
+const vI$ = useVuelidate(rulesIcon, addLink);
 
 /**
  * Добавление новой ссылки
@@ -299,6 +324,11 @@ const dialogAddSuccess = () => {
 	//	console.log(v$.value.$error);
 	if (v$.value.$error) return;
 
+	if (icon.value) {
+		vI$.value.$touch();
+		if (vI$.value.$error) return;
+	}
+
 	if (
 		!v$.value.$error &&
 		addLink.title &&
@@ -307,7 +337,7 @@ const dialogAddSuccess = () => {
 		addLink.category &&
 		addLink.sort
 	) {
-		icon ? null : (addLinkSend.icon = null);
+		icon.value ? null : (addLinkSend.icon = '');
 		addLinkSend(
 			addLink.title,
 			addLink.link,

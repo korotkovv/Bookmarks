@@ -79,6 +79,7 @@ const refreshLinksList = () => {
 
 onMounted(() => {
 	menuStore.setSlug(route.params.slug);
+	getLinks(menuStore.idCategory);
 });
 
 watch(

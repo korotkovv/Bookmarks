@@ -16,7 +16,7 @@ export const useMenuStore = defineStore('menu', () => {
 			.getCategoryAll()
 			.then((response) => {
 				//	setSlugArr(response.data.data);
-				console.log(response.data.data);
+				// console.log(response.data.data);
 				setSlugArr(response.data.data);
 				return response.data.data;
 			})

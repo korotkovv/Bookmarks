@@ -96,7 +96,7 @@
 			</button>
 			<div class="header__user user">
 				<div class="user__avatar">
-					<img src="@/assets/user_foto.png" alt="" />
+					<img src="@/assets/user_foto.png" alt="user" />
 				</div>
 				<div class="user__name">Коротков Виталий</div>
 				<div class="user__menu">

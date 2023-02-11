@@ -4,7 +4,8 @@ import { ref } from 'vue';
 
 export const useMenuStore = defineStore('menu', () => {
 	const menu = ref([]);
-	const subMenu = ref(null);
+	const slugArr = ref([]);
+
 	const slug = ref(null);
 	const idCategory = ref(null);
 	const currentMainCategory = ref(null);
@@ -14,19 +15,22 @@ export const useMenuStore = defineStore('menu', () => {
 		menu.value = await links
 			.getCategoryAll()
 			.then((response) => {
+				//	setSlugArr(response.data.data);
+				console.log(response.data.data);
+				setSlugArr(response.data.data);
 				return response.data.data;
 			})
 			.catch((error) => console.log(error));
 	};
 
-	const getSubCategoryMenu = (slug) => {
-		if (menu.value.length > 0) {
-			const res = menu.value.filter((item) => {
-				item.attributes.slug === slug;
-			});
-
-			subMenu.value = res || [];
-		}
+	const setSlugArr = (menu) => {
+		const arr = [];
+		menu.map((item) => {
+			if (item?.attributes?.slug) {
+				arr.push(item.attributes.slug);
+			}
+		});
+		slugArr.value = arr;
 	};
 
 	const setSlug = (slugValue) => {
@@ -61,18 +65,22 @@ export const useMenuStore = defineStore('menu', () => {
 		}
 	};
 
+	const slugChecked = (slug) => {
+		return slugArr.value.findIndex((item) => item === slug);
+	};
+
 	return {
 		menu,
-		subMenu,
+		slugArr,
 		slug,
 		idCategory,
 		currentMainCategory,
 		nameCategory,
 		getCategoryMenu,
-		getSubCategoryMenu,
 		setSlug,
 		setIdCategory,
 		setCurrentMainCategory,
 		setNameCategory,
+		slugChecked,
 	};
 });

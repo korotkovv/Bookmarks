@@ -3,7 +3,7 @@
 		<div class="link__setting" @click.prevent="openDialogLinkEdit">
 			<i class="las la-sliders-h"></i>
 		</div>
-		<a :href="linkItem.url" class="link__url" target="_blank">
+		<a :href="linkItem.url" class="link__url">
 			<div class="link__img" :class="colorTheme">
 				<i v-if="linkItem.icon" :class="linkItem.icon"></i>
 				<span v-else class="list__tag">{{ linkItem.title }}</span>

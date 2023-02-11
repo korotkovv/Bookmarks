@@ -71,6 +71,7 @@
 												v-for="el in item.attributes.categoties.data"
 												:key="el.id"
 												:value="el.id"
+												class="app-options-subcategory"
 											>
 												-{{ el.attributes.title }}
 											</option>

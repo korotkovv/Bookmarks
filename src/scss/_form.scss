@@ -428,7 +428,12 @@ select {
 	}
 
 	option {
-		color: var(--grey-blue-light);
+		color: var(--grey-light);
+		background-color: var(--black);
+	}
+
+	option.app-options-subcategory {
+		color: var(--grey-grey-light);
 		background-color: var(--black);
 	}
 

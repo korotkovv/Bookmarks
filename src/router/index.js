@@ -8,7 +8,7 @@ const routes = [
 		name: 'Home',
 		path: '/',
 		component: Home,
-		redirect: '/favorite',
+		redirect: '/category/favorite',
 		meta: {
 			title: 'Главная',
 			layout: 'main',
@@ -17,7 +17,7 @@ const routes = [
 		},
 		children: [
 			{
-				path: ':slug',
+				path: '/category/:slug',
 				component: () => import('../components/Category/ViewCategory.vue'),
 				props: true,
 				meta: {
@@ -39,6 +39,11 @@ const routes = [
 				},
 			}, */
 		],
+	},
+	{
+		name: 'Category',
+		path: '/category',
+		redirect: '/category/favorite',
 	},
 	{
 		name: 'Trash',
@@ -74,8 +79,8 @@ const routes = [
 		},
 	},
 	{
-		//path: '/:notFound(.*)',
-		path: '/notFound',
+		path: '/:notFound(.*)',
+		//path: '/notFound',
 		component: NotFound,
 		meta: {
 			title: 'Ошибка 404',

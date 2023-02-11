@@ -3,7 +3,7 @@
 		<sub-category></sub-category>
 		<div class="main__header">
 			<div class="main__title">
-				{{ menuStore.nameCategory ? menuStore.nameCategory : 'Закладки' }}
+				{{ menuStore.nameCategory ? menuStore.nameCategory : 'Нет данных' }}
 			</div>
 			<div class="main__switcher switcher">
 				<button
@@ -63,9 +63,8 @@ const linksList = ref([]);
  */
 const getLinks = async (id) => {
 	linksList.value = await links
-		.getLinks(id)
+		.getLinks(id ? id : 1)
 		.then((response) => {
-			//	console.log(response.data.data.attributes.links.data);
 			return response.data.data.attributes.links.data;
 		})
 		.catch((error) => console.log(error));
@@ -85,8 +84,12 @@ onMounted(() => {
 watch(
 	() => route.params.slug,
 	(newV, oldV) => {
-		menuStore.setSlug(route.params.slug);
-		getLinks(menuStore.idCategory);
+		if (menuStore.slugChecked(route.params.slug) > -1) {
+			menuStore.setSlug(route.params.slug);
+			getLinks(menuStore.idCategory);
+		} else {
+			router.push('/404');
+		}
 	}
 );
 

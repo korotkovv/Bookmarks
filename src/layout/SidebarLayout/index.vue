@@ -7,7 +7,10 @@
 					:key="item.id"
 					class="category__item"
 				>
-					<router-link :to="'/' + item.attributes.slug" class="category__link">
+					<router-link
+						:to="'/category/' + item.attributes.slug"
+						class="category__link"
+					>
 						<i v-if="item.attributes.icon" :class="item.attributes.icon"></i>
 						<i v-else class="lar la-star"></i>
 						<span>{{ item.attributes.title }}</span>

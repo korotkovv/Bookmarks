@@ -98,15 +98,13 @@
 				<div class="user__avatar">
 					<img src="@/assets/user_foto.png" alt="user" />
 				</div>
-				<div class="user__name">Коротков Виталий</div>
+				<div class="user__name">{{ userStore.userData.username }}</div>
 				<div class="user__menu">
 					<ul class="user__list">
-						<li class="user__item">
-							<router-link to="/profile">Профиль</router-link>
+						<li class="user__item" @click.prevent="router.push('/profile')">
+							Профиль
 						</li>
-						<li class="user__item">
-							<router-link to="/auth">Выйти</router-link>
-						</li>
+						<li class="user__item" @click.prevent="userStore.logout">Выйти</li>
 					</ul>
 				</div>
 			</div>
@@ -116,8 +114,12 @@
 
 <script setup>
 import { useSettingStore } from '@/stores/settings';
+import { useUserStore } from '@/stores/user';
+import { useRouter } from 'vue-router';
 
 const settingStore = useSettingStore();
+const userStore = useUserStore();
+const router = useRouter();
 </script>
 
 <style lang="scss" scoped></style>

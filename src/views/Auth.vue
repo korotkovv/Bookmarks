@@ -9,13 +9,13 @@
 			<div class="auth">
 				<form class="form-auth" @submit.prevent="onAuth">
 					<div class="form__group_max">
-						<label for="login">Имя пользователя</label>
+						<label for="identifier">Имя пользователя</label>
 					</div>
 					<div class="form__group_max">
 						<input
-							v-model="auth.login"
+							v-model="auth.identifier"
 							type="text"
-							id="login"
+							id="identifier"
 							placeholder="Логин"
 						/>
 					</div>
@@ -46,24 +46,40 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useUserStore } from '@/stores/user';
+import { useRouter } from 'vue-router';
+import user from '@/service/endpoints/user';
 
-const route = useRoute();
+const userStore = useUserStore();
 const router = useRouter();
 
 const isError = ref(false);
 const errorText = ref('');
 const auth = reactive({
-	login: null,
+	identifier: null,
 	password: null,
 });
 
-const onAuth = () => {
+const onAuth = async () => {
 	isError.value = false;
 	errorText.value = false;
-	if (auth.login && auth.password) {
-		console.log('Авторизация');
-		router.push('/');
+	console.log(auth);
+	if (auth.identifier && auth.identifier) {
+		await user
+			.postAuth(auth)
+			.then((response) => {
+				console.log(response);
+				userStore.setUserData(
+					response.data.jwt,
+					response.data.user.username,
+					response.data.user.email
+				);
+				router.push('/');
+			})
+			.catch((error) => {
+				isError.value = true;
+				console.log(error);
+			});
 	} else {
 		isError.value = true;
 		errorText.value = 'Заполните данные для авторизации';

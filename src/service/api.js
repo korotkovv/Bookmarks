@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useUserStore } from '@/stores/user';
 
 const API_URL_DEV = 'http://localhost:1337';
 //export const API_URL = process.env.VITE_HTTP_BACKEND_HOST || API_URL_DEV;
@@ -10,15 +11,16 @@ const api = axios.create({
 	headers: { 'Content-Type': 'application/json' },
 });
 
-/* api.interceptors.request.use(
+api.interceptors.request.use(
 	(config) => {
-		const authToken = localStorage.getItem('token');
-		if (authToken) {
-			config.headers.Authorization = `bearer ${authToken}`;
+		const token = localStorage.getItem('token');
+		if (token) {
+			config.headers.Authorization = `Bearer ${token}`;
 		}
+
 		return config;
 	},
 	(error) => Promise.reject(error)
-); */
+);
 
 export default api;

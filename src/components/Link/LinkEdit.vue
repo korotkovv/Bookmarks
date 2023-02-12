@@ -187,7 +187,7 @@
 					<div class="modal__delete">
 						<button
 							class="btn_delete modal__btn_delete"
-							@click.prevent="removeLink(editLink.id, editLink.title)"
+							@click.prevent="removeDialogOpen(editLink.id, editLink.title)"
 						>
 							<i class="las la-trash-alt"></i>
 							Удалить
@@ -196,6 +196,13 @@
 				</div>
 			</form>
 		</div>
+		<the-remove-dialog
+			v-if="removeDialog.status"
+			:is-open="removeDialog.status"
+			@success="removeDialogYes"
+			@close="removeDialogNo"
+		>
+		</the-remove-dialog>
 	</div>
 </template>
 
@@ -205,6 +212,7 @@ import { useMenuStore } from '@/stores/menu';
 import { useSettingStore } from '@/stores/settings';
 import links from '@/service/endpoints/links';
 import IconAdd from '@/components/Icons/IconAdd.vue';
+import TheRemoveDialog from '@/components/TheRemoveDialog.vue';
 import useVuelidate from '@vuelidate/core';
 import {
 	minLength,
@@ -247,6 +255,12 @@ const editLink = reactive({
 	category: null,
 });
 const icon = ref(true);
+
+const removeDialog = reactive({
+	status: false,
+	id: null,
+	title: null,
+});
 
 // Валидация
 const requiredNameLength = ref(4);
@@ -445,6 +459,36 @@ const removeLink = async (id, title) => {
 			settingStore.addToast('error', error.response.data.error?.message);
 			return console.log(error);
 		});
+};
+
+/**
+ * Открытие окна подтверждения удаления
+ * @param {number} id - Id
+ * @param {string} title  - заголовок
+ */
+const removeDialogOpen = (id, title) => {
+	removeDialog.status = true;
+	removeDialog.id = id;
+	removeDialog.title = title;
+};
+
+/**
+ * Подтверждение действия
+ */
+const removeDialogYes = () => {
+	removeLink(removeDialog.id, removeDialog.title);
+	removeDialog.status = false;
+	removeDialog.id = null;
+	removeDialog.title = null;
+};
+
+/**
+ * Отмена действия
+ */
+const removeDialogNo = () => {
+	removeDialog.status = false;
+	removeDialog.id = null;
+	removeDialog.title = null;
 };
 
 onMounted(() => {

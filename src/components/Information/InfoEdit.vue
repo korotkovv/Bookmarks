@@ -92,7 +92,7 @@
 					<div class="modal__delete">
 						<button
 							class="btn_delete modal__btn_delete"
-							@click.prevent="removeLink(editInfo.id, editInfo.title)"
+							@click.prevent="removeDialogOpen(editInfo.id, editInfo.title)"
 						>
 							<i class="las la-trash-alt"></i>
 							Удалить
@@ -101,6 +101,13 @@
 				</div>
 			</form>
 		</div>
+		<the-remove-dialog
+			v-if="removeDialog.status"
+			:is-open="removeDialog.status"
+			@success="removeDialogYes"
+			@close="removeDialogNo"
+		>
+		</the-remove-dialog>
 	</div>
 </template>
 
@@ -108,7 +115,7 @@
 import { onMounted, reactive, ref, computed } from 'vue';
 import { useSettingStore } from '@/stores/settings';
 import infos from '@/service/endpoints/infos';
-
+import TheRemoveDialog from '@/components/TheRemoveDialog.vue';
 import useVuelidate from '@vuelidate/core';
 import {
 	minLength,
@@ -138,14 +145,15 @@ const form = ref(false);
 const editInfo = reactive({
 	id: null,
 	title: null,
-	link: null,
-	icon: '',
+	text: null,
 	sort: 1,
-	color: 'standard',
-	desc: null,
-	category: null,
 });
-const icon = ref(true);
+
+const removeDialog = reactive({
+	status: false,
+	id: null,
+	title: null,
+});
 
 // Валидация
 const requiredNameLength = ref(2);
@@ -267,7 +275,7 @@ const resetFields = () => {
  * @param {number} id - ID записи
  * @param {string} title - ID записи
  */
-const removeLink = async (id, title) => {
+const removeInfo = async (id, title) => {
 	await infos
 		.delInfo(id)
 		.then((response) => {
@@ -282,6 +290,36 @@ const removeLink = async (id, title) => {
 			settingStore.addToast('error', error.response.data.error?.message);
 			return console.log(error);
 		});
+};
+
+/**
+ * Открытие окна подтверждения удаления
+ * @param {number} id - Id
+ * @param {string} title  - заголовок
+ */
+const removeDialogOpen = (id, title) => {
+	removeDialog.status = true;
+	removeDialog.id = id;
+	removeDialog.title = title;
+};
+
+/**
+ * Подтверждение действия
+ */
+const removeDialogYes = () => {
+	removeInfo(removeDialog.id, removeDialog.title);
+	removeDialog.status = false;
+	removeDialog.id = null;
+	removeDialog.title = null;
+};
+
+/**
+ * Отмена действия
+ */
+const removeDialogNo = () => {
+	removeDialog.status = false;
+	removeDialog.id = null;
+	removeDialog.title = null;
 };
 
 onMounted(() => {

@@ -42,6 +42,7 @@
 						<div class="addInfo__title">Добавить запись</div>
 					</div>
 				</div>
+				<button @click="removeDialogOpen">Удалить</button>
 			</div>
 			<the-preloader v-else size="standard"></the-preloader>
 
@@ -124,15 +125,25 @@ const openDialogEdit = (id) => {
 	console.log(id);
 };
 
+/**
+ * Открытие окна добавления
+ */
 const openDialogAdd = () => {
 	dialogAdd.status = true;
 };
 
+/**
+ * Закрытие окон
+ */
 const dialogClose = () => {
 	dialogAdd.status = false;
 	dialogEdit.status = false;
 	dialogEdit.id = null;
 };
+
+/**
+ * Закрытие окон и обновление списка
+ */
 const dialogYes = () => {
 	dialogAdd.status = false;
 	dialogEdit.status = false;

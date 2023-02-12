@@ -140,7 +140,7 @@
 						<button
 							class="btn_delete modal__btn_delete"
 							@click.prevent="
-								removeSubCategory(idSubCategory, editSubCategory.title)
+								removeDialogOpen(idSubCategory, editSubCategory.title)
 							"
 						>
 							<i class="las la-trash-alt"></i>
@@ -150,6 +150,13 @@
 				</div>
 			</form>
 		</div>
+		<the-remove-dialog
+			v-if="removeDialog.status"
+			:is-open="removeDialog.status"
+			@success="removeDialogYes"
+			@close="removeDialogNo"
+		>
+		</the-remove-dialog>
 	</div>
 </template>
 
@@ -159,7 +166,7 @@ import { useMenuStore } from '@/stores/menu';
 import { useSettingStore } from '@/stores/settings';
 import links from '@/service/endpoints/links';
 import IconAdd from '@/components/Icons/IconAdd.vue';
-
+import TheRemoveDialog from '@/components/TheRemoveDialog.vue';
 import useVuelidate from '@vuelidate/core';
 import {
 	minLength,
@@ -199,6 +206,12 @@ const editSubCategory = reactive({
 	slug: null,
 	icon: '',
 	sort: 1,
+});
+
+const removeDialog = reactive({
+	status: false,
+	id: null,
+	title: null,
 });
 
 // Валидация
@@ -366,6 +379,36 @@ const resetFields = () => {
  */
 const getCategoryId = (id) => {
 	editSubCategory.category = id;
+};
+
+/**
+ * Открытие окна подтверждения удаления
+ * @param {number} id - Id
+ * @param {string} title  - заголовок
+ */
+const removeDialogOpen = (id, title) => {
+	removeDialog.status = true;
+	removeDialog.id = id;
+	removeDialog.title = title;
+};
+
+/**
+ * Подтверждение действия
+ */
+const removeDialogYes = () => {
+	removeSubCategory(removeDialog.id, removeDialog.title);
+	removeDialog.status = false;
+	removeDialog.id = null;
+	removeDialog.title = null;
+};
+
+/**
+ * Отмена действия
+ */
+const removeDialogNo = () => {
+	removeDialog.status = false;
+	removeDialog.id = null;
+	removeDialog.title = null;
 };
 
 onMounted(() => {

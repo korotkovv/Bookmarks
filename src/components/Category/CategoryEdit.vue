@@ -123,7 +123,7 @@
 					<div class="modal__delete">
 						<button
 							class="btn_delete modal__btn_delete"
-							@click.prevent="removeCategory(idCategory, editCategory.title)"
+							@click.prevent="removeDialogOpen(idCategory, editCategory.title)"
 						>
 							<i class="las la-trash-alt"></i>
 							Удалить
@@ -132,14 +132,23 @@
 				</div>
 			</form>
 		</div>
+		<the-remove-dialog
+			v-if="removeDialog.status"
+			:is-open="removeDialog.status"
+			@success="removeDialogYes"
+			@close="removeDialogNo"
+		>
+		</the-remove-dialog>
 	</div>
 </template>
 
 <script setup>
 import { onMounted, reactive, ref, watch, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useSettingStore } from '@/stores/settings';
 import links from '@/service/endpoints/links';
 import IconAdd from '@/components/Icons/IconAdd.vue';
+import TheRemoveDialog from '@/components/TheRemoveDialog.vue';
 import useVuelidate from '@vuelidate/core';
 import {
 	minLength,
@@ -150,6 +159,7 @@ import {
 } from '@vuelidate/validators';
 
 const settingStore = useSettingStore();
+const router = useRouter();
 
 const emit = defineEmits(['close', 'success']);
 
@@ -173,6 +183,12 @@ const editCategory = reactive({
 	slug: null,
 	icon: '',
 	sort: 1,
+});
+
+const removeDialog = reactive({
+	status: false,
+	id: null,
+	title: null,
 });
 
 // Валидация
@@ -275,6 +291,7 @@ const removeCategory = async (id, title) => {
 			settingStore.addToast('error', `Категория '${title}' удалена`);
 			emit('success');
 			resetFields();
+			router.push('/');
 		})
 		.catch((error) => {
 			settingStore.addToast('error', error.response.data.error?.message);
@@ -326,6 +343,36 @@ const resetFields = () => {
 	editCategory.slug = null;
 	editCategory.icon = null;
 	editCategory.sort = 1;
+};
+
+/**
+ * Открытие окна подтверждения удаления
+ * @param {number} id - Id
+ * @param {string} title  - заголовок
+ */
+const removeDialogOpen = (id, title) => {
+	removeDialog.status = true;
+	removeDialog.id = id;
+	removeDialog.title = title;
+};
+
+/**
+ * Подтверждение действия
+ */
+const removeDialogYes = () => {
+	removeCategory(removeDialog.id, removeDialog.title);
+	removeDialog.status = false;
+	removeDialog.id = null;
+	removeDialog.title = null;
+};
+
+/**
+ * Отмена действия
+ */
+const removeDialogNo = () => {
+	removeDialog.status = false;
+	removeDialog.id = null;
+	removeDialog.title = null;
 };
 
 onMounted(() => {

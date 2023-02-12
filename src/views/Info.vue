@@ -6,22 +6,17 @@
 			</div>
 		</div>
 		<div class="main__body">
-			<div class="info">
-				<div class="info__list">
-					<div class="info__item">
-						<div class="info__title">Карта Тинькофф</div>
-						<div class="info__text">5536913946800675</div>
-						<div class="info__setting"><i class="las la-sliders-h"></i></div>
-					</div>
-					<div class="info__item">
-						<div class="info__title">Карта Сбер</div>
-						<div class="info__text">5536913946800675</div>
-						<div class="info__setting" @click.prevent="openDialogEdit">
+			<div v-if="!isLoading" class="info">
+				<div v-if="infosList?.length > 0" class="info__list">
+					<div v-for="item of infosList" :key="item.id" class="info__item">
+						<div class="info__title">{{ item.attributes.title }}</div>
+						<div class="info__text">{{ item.attributes.text }}</div>
+						<div class="info__setting" @click.prevent="openDialogEdit(item.id)">
 							<i class="las la-sliders-h"></i>
 						</div>
 					</div>
 				</div>
-				<div class="info__empty">Нет записей</div>
+				<div v-else class="info__empty">Нет записей</div>
 				<div class="info__add addInfo">
 					<div class="addInfo__img">
 						<svg
@@ -43,14 +38,28 @@
 						</svg>
 					</div>
 
-					<div class="addInfo__body">
+					<div class="addInfo__body" @click="openDialogAdd">
 						<div class="addInfo__title">Добавить запись</div>
 					</div>
 				</div>
 			</div>
+			<the-preloader v-else size="standard"></the-preloader>
 
 			<the-widgets v-if="settingStore.isWatchWidgets"></the-widgets>
 		</div>
+		<info-add
+			v-if="dialogAdd.status"
+			:is-open="dialogAdd.status"
+			@success="dialogYes"
+			@close="dialogClose"
+		></info-add>
+		<info-edit
+			v-if="dialogEdit.status"
+			:id-info="dialogEdit.id"
+			:is-open="dialogEdit.status"
+			@success="dialogYes"
+			@close="dialogClose"
+		></info-edit>
 	</main>
 </template>
 
@@ -61,23 +70,75 @@ export default {
 </script>
 
 <script setup>
+import { reactive, ref } from 'vue';
 import TheWidgets from '@/components/Widgets/TheWidgets.vue';
 import { useSettingStore } from '@/stores/settings';
-
-import {
-	onBeforeMount,
-	onBeforeUpdate,
-	onMounted,
-	onUpdated,
-	provide,
-	reactive,
-	ref,
-	watch,
-} from 'vue';
+import infos from '@/service/endpoints/infos';
+import ThePreloader from '@/components/ThePreloader.vue';
+import InfoAdd from '@/components/Information/InfoAdd.vue';
+import InfoEdit from '@/components/Information/InfoEdit.vue';
 
 const settingStore = useSettingStore();
 
-const openDialogEdit = () => {};
+const isLoading = ref(false);
+const infosList = ref([]);
+
+const dialogAdd = reactive({
+	status: false,
+});
+
+const dialogEdit = reactive({
+	status: false,
+	id: null,
+});
+
+/**
+ * Получаем список всех записей
+ *
+ */
+const getInfos = async () => {
+	isLoading.value = true;
+	infosList.value = await infos
+		.getInfos()
+		.then((response) => {
+			console.log(response.data.data);
+			return response.data.data;
+		})
+		.catch((error) => {
+			console.log(error);
+		})
+		.finally(() => {
+			isLoading.value = false;
+		});
+};
+
+getInfos();
+
+/**
+ * Открытие окна редактирования
+ * @param {number} id - ID Записи
+ */
+const openDialogEdit = (id) => {
+	dialogEdit.id = id;
+	dialogEdit.status = true;
+	console.log(id);
+};
+
+const openDialogAdd = () => {
+	dialogAdd.status = true;
+};
+
+const dialogClose = () => {
+	dialogAdd.status = false;
+	dialogEdit.status = false;
+	dialogEdit.id = null;
+};
+const dialogYes = () => {
+	dialogAdd.status = false;
+	dialogEdit.status = false;
+	dialogEdit.id = null;
+	getInfos();
+};
 </script>
 
 <style scoped></style>

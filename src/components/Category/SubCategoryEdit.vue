@@ -1,5 +1,5 @@
 <template>
-	<div v-if="isOpen" class="modal modal__addlink active">
+	<div v-if="isOpen" class="modal active">
 		<div class="modal__dialog">
 			<div class="modal__header">
 				<div class="modal__title">
@@ -202,19 +202,19 @@ const editSubCategory = reactive({
 });
 
 // Валидация
-const requiredNameLength = ref(4);
+const requiredNameLength = ref(2);
 const rules = computed(() => ({
 	title: {
 		required: helpers.withMessage(`Поле не заполнено`, required),
 		minLength: helpers.withMessage(
-			`Минимальная длина: 4 символа`,
+			`Минимальная длина: 2 символа`,
 			minLength(requiredNameLength.value)
 		),
 	},
 	slug: {
 		required: helpers.withMessage(`Поле не заполнено`, required),
 		minLength: helpers.withMessage(
-			`Минимальная длина: 4 символа`,
+			`Минимальная длина: 2 символа`,
 			minLength(requiredNameLength.value)
 		),
 	},
@@ -229,8 +229,8 @@ const rules = computed(() => ({
 	icon: {
 		required: helpers.withMessage(`Поле не заполнено`, required),
 		minLength: helpers.withMessage(
-			`Минимальная длина: 4 символа`,
-			minLength(4)
+			`Минимальная длина: 2 символа`,
+			minLength(2)
 		),
 	},
 }));

@@ -1,5 +1,5 @@
 <template>
-	<div v-if="isOpen" class="modal modal__addlink active">
+	<div v-if="isOpen" class="modal active">
 		<div class="modal__dialog">
 			<div class="modal__header">
 				<div class="modal__title">Выбрать иконку</div>

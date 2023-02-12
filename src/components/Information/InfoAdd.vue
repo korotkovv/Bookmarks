@@ -2,7 +2,7 @@
 	<div v-if="isOpen" class="modal active">
 		<div class="modal__dialog">
 			<div class="modal__header">
-				<div class="modal__title">Добавить подкатегорию {{ idCategory }}</div>
+				<div class="modal__title">Добавить запись</div>
 				<div class="modal__close" @click="dialogClose">&times;</div>
 			</div>
 			<form @submit.prevent="dialogAddSuccess">
@@ -29,41 +29,26 @@
 									</div>
 								</template>
 							</div>
+
 							<div class="form__group_max">
-								<label for="slug">Slug<span>*</span></label>
+								<label for="text">Текст <span>*</span></label>
 							</div>
-							<div class="form__group_max mb-6">
-								<input
-									v-model="v$.slug.$model"
-									id="slug"
+							<div class="form__group_max">
+								<textarea
+									v-model="v$.text.$model"
+									id="text"
 									type="text"
-									placeholder="Slug"
+									placeholder="Текст"
 								/>
-								<template v-if="v$.slug.$dirty">
+								<template v-if="v$.text.$dirty">
 									<div
-										v-for="error of v$.slug.$silentErrors"
+										v-for="error of v$.text.$silentErrors"
 										:key="error.$message"
 										class="form__error"
 									>
 										{{ error.$message }}
 									</div>
 								</template>
-							</div>
-							<div class="form__group_max">
-								<label for="category">Категория</label>
-							</div>
-							<div class="form__group_max mb-6">
-								<select
-									v-model="addSubCategory.category"
-									id="category"
-									placeholder="Категория"
-								>
-									<template v-for="item in menuStore.menu" :key="item.id">
-										<option :value="item.id">
-											{{ item.attributes.title }}
-										</option>
-									</template>
-								</select>
 							</div>
 						</div>
 						<div class="form__col">
@@ -77,38 +62,10 @@
 									type="number"
 									min="0"
 									placeholder="Сортировка"
-									required
 								/>
 								<template v-if="v$.sort.$dirty">
 									<div
 										v-for="error of v$.sort.$silentErrors"
-										:key="error.$message"
-										class="form__error"
-									>
-										{{ error.$message }}
-									</div>
-								</template>
-							</div>
-
-							<div class="form__group_max">
-								<label for="icon">Иконка <span>*</span></label>
-							</div>
-							<div class="form__group">
-								<input
-									v-model="v$.icon.$model"
-									id="icon"
-									type="text"
-									class="form__input form__input_max form__input_icon"
-									placeholder="Иконка"
-									readonly
-								/>
-								<icon-add
-									:icons="addSubCategory.icon"
-									@update:icons="addSubCategory.icon = $event"
-								></icon-add>
-								<template v-if="v$.icon.$dirty">
-									<div
-										v-for="error of v$.icon.$silentErrors"
 										:key="error.$message"
 										class="form__error"
 									>
@@ -139,12 +96,11 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref, watch, computed } from 'vue';
-import { useMenuStore } from '@/stores/menu';
+import { reactive, ref, computed } from 'vue';
 import { useSettingStore } from '@/stores/settings';
-import links from '@/service/endpoints/links';
-import IconAdd from '@/components/Icons/IconAdd.vue';
+import infos from '@/service/endpoints/infos';
 import useVuelidate from '@vuelidate/core';
+
 import {
 	minLength,
 	required,
@@ -154,15 +110,10 @@ import {
 } from '@vuelidate/validators';
 
 const settingStore = useSettingStore();
-const menuStore = useMenuStore();
 
 const emit = defineEmits(['close', 'success']);
 
 const props = defineProps({
-	idCategory: {
-		type: Number,
-		required: true,
-	},
 	isOpen: {
 		type: Boolean,
 		required: true,
@@ -171,14 +122,12 @@ const props = defineProps({
 });
 
 const form = ref(false);
-const addSubCategory = reactive({
-	isMain: false,
-	category: null,
+const addInfo = reactive({
 	title: null,
-	slug: null,
-	icon: '',
+	text: null,
 	sort: 1,
 });
+const icon = ref(true);
 
 // Валидация
 const requiredNameLength = ref(2);
@@ -190,7 +139,7 @@ const rules = computed(() => ({
 			minLength(requiredNameLength.value)
 		),
 	},
-	slug: {
+	text: {
 		required: helpers.withMessage(`Поле не заполнено`, required),
 		minLength: helpers.withMessage(
 			`Минимальная длина: 2 символа`,
@@ -205,35 +154,25 @@ const rules = computed(() => ({
 			minValue(0)
 		),
 	},
-	icon: {
-		required: helpers.withMessage(`Поле не заполнено`, required),
-		minLength: helpers.withMessage(
-			`Минимальная длина: 2 символа`,
-			minLength(2)
-		),
-	},
 }));
 
-const v$ = useVuelidate(rules, addSubCategory);
+const v$ = useVuelidate(rules, addInfo);
 
 /**
- * Добавление новой подкатегории
- * @param {number} idCategory - ID категории
- * @param {string} title - Заголовок подкатегории
- * @param {string} title - Заголовок подкатегории
- * @param {string} slug - slug подкатегории
- * @param {string} icon - Иконка подкатегории
- * @param {number} sort - Сортировка подкатегории
+ * Добавление новой записи
+ * @param {string} title - Заголовок ссылки
+ * @param {string} text - Url ссылки
+ * @param {number} sort - Сортировка ссылки
  */
-const addSubCategorySend = async (idCategory, title, slug, icon, sort) => {
-	await links
-		.postSubCategory(idCategory, title, slug, icon, sort)
+const addInfoSend = async (title, text, sort) => {
+	await infos
+		.postInfo(title, text, sort)
 		.then((response) => {
 			console.log(response.data);
 			return response.data;
 		})
 		.then(() => {
-			settingStore.addToast('success', `Добавлена подкатегория '${title}'`);
+			settingStore.addToast('success', `Добавлена запись '${title}'`);
 			emit('success');
 			resetFields();
 		})
@@ -255,26 +194,13 @@ const dialogClose = () => {
  */
 const dialogAddSuccess = () => {
 	v$.value.$touch();
-	//	console.log(v$.value.$error);
+
 	if (v$.value.$error) return;
 
-	if (
-		!v$.value.$error &&
-		addSubCategory.category &&
-		addSubCategory.title &&
-		addSubCategory.slug &&
-		addSubCategory.icon &&
-		addSubCategory.sort
-	) {
-		addSubCategorySend(
-			addSubCategory.category,
-			addSubCategory.title,
-			addSubCategory.slug.toLowerCase(),
-			addSubCategory.icon,
-			addSubCategory.sort
-		);
+	if (!v$.value.$error && addInfo.title && addInfo.text && addInfo.sort) {
+		addInfoSend(addInfo.title, addInfo.text, addInfo.sort);
 	} else {
-		console.log('Что то не заполнено');
+		console.log('Что-то не заполнено');
 		console.log(v$.value.$error);
 	}
 };
@@ -283,31 +209,10 @@ const dialogAddSuccess = () => {
  * Сброс полей формы в значение по умолчанию
  */
 const resetFields = () => {
-	addSubCategory.category = null;
-	addSubCategory.title = null;
-	addSubCategory.slug = null;
-	addSubCategory.icon = null;
-	addSubCategory.sort = 1;
+	addInfo.title = null;
+	addInfo.text = null;
+	addInfo.sort = 1;
 };
-
-/**
- * Начальное значение категории для select
- * @param {number} id - ID категории
- */
-const getCategoryId = (id) => {
-	addSubCategory.category = id;
-};
-
-onMounted(() => {
-	getCategoryId(props.idCategory);
-});
-
-watch(
-	() => props.idCategory,
-	(newV, oldV) => {
-		getCategoryId(props.idCategory);
-	}
-);
 </script>
 
 <style lang="scss" scoped></style>

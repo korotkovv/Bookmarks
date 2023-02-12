@@ -2,12 +2,10 @@
 	<div v-if="isOpen" class="modal active">
 		<div class="modal__dialog">
 			<div class="modal__header">
-				<div class="modal__title">
-					Редактировать категории id: {{ idCategory }}
-				</div>
-				<div class="modal__close" @click="dialogClose">&times;</div>
+				<div class="modal__title">Редактировать записи</div>
+				<div class="modal__close" @click="dialogEditClose">&times;</div>
 			</div>
-			<form @submit.prevent="dialogAddSuccess">
+			<form @submit.prevent="dialogEditSuccess">
 				<div class="modal__body">
 					<div class="form__row">
 						<div class="form__col">
@@ -31,19 +29,20 @@
 									</div>
 								</template>
 							</div>
+
 							<div class="form__group_max">
-								<label for="slug">Slug<span>*</span></label>
+								<label for="text">Текст <span>*</span></label>
 							</div>
-							<div class="form__group_max mb-6">
-								<input
-									v-model="v$.slug.$model"
-									id="slug"
+							<div class="form__group_max">
+								<textarea
+									v-model="v$.text.$model"
+									id="text"
 									type="text"
-									placeholder="Slug"
+									placeholder="Описание"
 								/>
-								<template v-if="v$.slug.$dirty">
+								<template v-if="v$.text.$dirty">
 									<div
-										v-for="error of v$.slug.$silentErrors"
+										v-for="error of v$.text.$silentErrors"
 										:key="error.$message"
 										class="form__error"
 									>
@@ -63,40 +62,10 @@
 									type="number"
 									min="0"
 									placeholder="Сортировка"
-									required
 								/>
 								<template v-if="v$.sort.$dirty">
 									<div
 										v-for="error of v$.sort.$silentErrors"
-										:key="error.$message"
-										class="form__error"
-									>
-										{{ error.$message }}
-									</div>
-								</template>
-							</div>
-
-							<div class="form__group_max">
-								<label for="icon">Иконка <span>*</span></label>
-							</div>
-
-							<div class="form__group">
-								<input
-									v-model="v$.icon.$model"
-									id="icon"
-									type="text"
-									class="form__input form__input_max form__input_icon"
-									placeholder="Иконка"
-									readonly
-								/>
-
-								<icon-add
-									:icons="editCategory.icon"
-									@update:icons="editCategory.icon = $event"
-								></icon-add>
-								<template v-if="v$.icon.$dirty">
-									<div
-										v-for="error of v$.icon.$silentErrors"
 										:key="error.$message"
 										class="form__error"
 									>
@@ -110,12 +79,12 @@
 				<div class="modal__footer">
 					<div class="modal__action">
 						<button class="btn modal__btn_save" type="submit">
-							<i class="las la-save"></i> Сохранить
+							<i class="las la-save"></i>
+							Сохранить
 						</button>
-
 						<button
 							class="btn_outline modal__btn_close"
-							@click.prevent="dialogClose"
+							@click.prevent="dialogEditClose"
 						>
 							Закрыть
 						</button>
@@ -123,7 +92,7 @@
 					<div class="modal__delete">
 						<button
 							class="btn_delete modal__btn_delete"
-							@click.prevent="removeCategory(idCategory, editCategory.title)"
+							@click.prevent="removeLink(editInfo.id, editInfo.title)"
 						>
 							<i class="las la-trash-alt"></i>
 							Удалить
@@ -136,10 +105,10 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref, watch, computed } from 'vue';
+import { onMounted, reactive, ref, computed } from 'vue';
 import { useSettingStore } from '@/stores/settings';
-import links from '@/service/endpoints/links';
-import IconAdd from '@/components/Icons/IconAdd.vue';
+import infos from '@/service/endpoints/infos';
+
 import useVuelidate from '@vuelidate/core';
 import {
 	minLength,
@@ -154,26 +123,29 @@ const settingStore = useSettingStore();
 const emit = defineEmits(['close', 'success']);
 
 const props = defineProps({
+	idInfo: {
+		type: Number,
+		required: true,
+	},
 	isOpen: {
 		type: Boolean,
 		required: true,
 		default: false,
 	},
-	idCategory: {
-		type: Number,
-		required: true,
-	},
 });
 
 const form = ref(false);
-const editCategory = reactive({
+const editInfo = reactive({
 	id: null,
-	isMain: true,
 	title: null,
-	slug: null,
+	link: null,
 	icon: '',
 	sort: 1,
+	color: 'standard',
+	desc: null,
+	category: null,
 });
+const icon = ref(true);
 
 // Валидация
 const requiredNameLength = ref(2);
@@ -185,7 +157,7 @@ const rules = computed(() => ({
 			minLength(requiredNameLength.value)
 		),
 	},
-	slug: {
+	text: {
 		required: helpers.withMessage(`Поле не заполнено`, required),
 		minLength: helpers.withMessage(
 			`Минимальная длина: 2 символа`,
@@ -200,31 +172,24 @@ const rules = computed(() => ({
 			minValue(0)
 		),
 	},
-	icon: {
-		required: helpers.withMessage(`Поле не заполнено`, required),
-		minLength: helpers.withMessage(
-			`Минимальная длина: 2 символа`,
-			minLength(2)
-		),
-	},
 }));
 
-const v$ = useVuelidate(rules, editCategory);
+const v$ = useVuelidate(rules, editInfo);
 
 /**
- * Получаем данные главной категории
- * @param {number} id - ID категории
+ * Получаем данные конкретной ссылки
+ * @param {number} id - ID ссылки
  */
-const getCategory = async (id) => {
-	await links
-		.getCategory(id)
+const getInfo = async (id) => {
+	await infos
+		.getInfo(id)
 		.then((response) => {
 			console.log(response.data?.data.attributes);
 			if (response.data?.data.attributes) {
-				editCategory.title = response.data?.data.attributes.title;
-				editCategory.slug = response.data?.data.attributes.slug;
-				editCategory.icon = response.data?.data.attributes.icon;
-				editCategory.sort = response.data?.data.attributes.sort;
+				editInfo.id = id;
+				editInfo.title = response.data?.data.attributes.title;
+				editInfo.text = response.data?.data.attributes.text;
+				editInfo.sort = response.data?.data.attributes.sort;
 			}
 			return response;
 		})
@@ -235,49 +200,27 @@ const getCategory = async (id) => {
 };
 
 /**
- * Изменение категории
- * @param {number} id - ID категории
- * @param {string} title - Заголовок категории
- * @param {string} slug - slug категории
- * @param {string} icon - Иконка категории
- * @param {number} sort - Сортировка категории
+ * Изменение ссылки
+ * @param {number} id - ID ссылки
+ * @param {string} title - Заголовок ссылки
+ * @param {string} text - Url ссылки
+ * @param {number} sort - Сортировка ссылки
+
  */
-const editCategorySend = async (id, title, slug, icon, sort) => {
-	await links
-		.putMainCategory(id, title, slug, icon, sort)
+const editInfoSend = async (id, title, text, sort) => {
+	await infos
+		.putInfo(id, title, text, sort)
 		.then((response) => {
 			console.log(response.data);
 			return response.data;
 		})
 		.then(() => {
-			settingStore.addToast('success', `Изменена главная категория '${title}'`);
+			settingStore.addToast('success', `Запись '${title}' изменена`);
 			emit('success');
 			resetFields();
 		})
 		.catch((error) => {
-			settingStore.addToast('error', error.response.data.error?.message);
-			return console.log(error);
-		});
-};
-
-/**
- * Удаление категории
- * @param {number} id - ID категории
- * @param {string} title - Название категории
- */
-const removeCategory = async (id, title) => {
-	await links
-		.delCategory(id)
-		.then((response) => {
-			console.log(response.data);
-		})
-		.then(() => {
-			settingStore.addToast('error', `Категория '${title}' удалена`);
-			emit('success');
-			resetFields();
-		})
-		.catch((error) => {
-			settingStore.addToast('error', error.response.data.error?.message);
+			settingStore.addToast('error', error.response.data?.error?.message);
 			return console.log(error);
 		});
 };
@@ -285,33 +228,25 @@ const removeCategory = async (id, title) => {
 /**
  * Закрытие окна формы
  */
-const dialogClose = () => {
+const dialogEditClose = () => {
 	emit('close');
 };
 
 /**
- * Сохранение ссылки
+ * Сохранение изменений
  */
-const dialogAddSuccess = () => {
+const dialogEditSuccess = () => {
 	v$.value.$touch();
-	//	console.log(v$.value.$error);
 	if (v$.value.$error) return;
 
 	if (
 		!v$.value.$error &&
-		props.idCategory &&
-		editCategory.title &&
-		editCategory.slug &&
-		editCategory.icon &&
-		editCategory.sort
+		editInfo.id &&
+		editInfo.title &&
+		editInfo.text &&
+		editInfo.sort
 	) {
-		editCategorySend(
-			props.idCategory,
-			editCategory.title,
-			editCategory.slug.toLowerCase(),
-			editCategory.icon,
-			editCategory.sort
-		);
+		editInfoSend(editInfo.id, editInfo.title, editInfo.text, editInfo.sort);
 	} else {
 		console.log('Что то не заполнено');
 		console.log(v$.value.$error);
@@ -322,22 +257,36 @@ const dialogAddSuccess = () => {
  * Сброс полей формы в значение по умолчанию
  */
 const resetFields = () => {
-	editCategory.title = null;
-	editCategory.slug = null;
-	editCategory.icon = null;
-	editCategory.sort = 1;
+	editInfo.title = null;
+	editInfo.text = null;
+	editInfo.sort = 1;
+};
+
+/**
+ * Удаление записи
+ * @param {number} id - ID записи
+ * @param {string} title - ID записи
+ */
+const removeLink = async (id, title) => {
+	await infos
+		.delInfo(id)
+		.then((response) => {
+			console.log(response.data);
+		})
+		.then(() => {
+			settingStore.addToast('error', `Запись '${title}' удалена`);
+			emit('success');
+			resetFields();
+		})
+		.catch((error) => {
+			settingStore.addToast('error', error.response.data.error?.message);
+			return console.log(error);
+		});
 };
 
 onMounted(() => {
-	getCategory(props.idCategory);
+	getInfo(props.idInfo);
 });
-
-watch(
-	() => props.idCategory,
-	(newV, oldV) => {
-		getCategory(props.idCategory);
-	}
-);
 </script>
 
 <style lang="scss" scoped></style>

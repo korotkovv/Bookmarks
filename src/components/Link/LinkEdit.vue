@@ -384,7 +384,7 @@ const dialogEditSuccess = () => {
 		editLink.id &&
 		editLink.title &&
 		editLink.link &&
-		editLink.title &&
+		editLink.color &&
 		editLink.category &&
 		editLink.sort
 	) {

@@ -5,7 +5,9 @@
 				<div class="modal__title">Подтвердите удаление</div>
 				<div class="modal__close" @click="dialogClose">&times;</div>
 			</div>
-			<div class="modal__body">Вы действительно хотите удалить?</div>
+			<div class="modal__body">
+				Вы действительно хотите удалить этот элемент?
+			</div>
 			<div class="modal__footer">
 				<div class="modal__action">
 					<button class="btn modal__del" @click.prevent="dialogSuccess">

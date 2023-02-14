@@ -42,9 +42,10 @@
 						<div class="addInfo__title">Добавить запись</div>
 					</div>
 				</div>
-				<button @click="removeDialogOpen">Удалить</button>
 			</div>
-			<the-preloader v-else size="standard"></the-preloader>
+			<div v-else class="info-loading">
+				<the-preloader size="standard"></the-preloader>
+			</div>
 
 			<the-widgets v-if="settingStore.isWatchWidgets"></the-widgets>
 		</div>

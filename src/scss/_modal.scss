@@ -185,6 +185,9 @@
 			background: var(--red-delete-hover);
 		}
 	}
+	.modal__dialog .modal__header {
+		padding: 0 0;
+	}
 }
 
 @keyframes showMenu {

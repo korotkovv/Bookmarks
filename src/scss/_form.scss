@@ -8,9 +8,9 @@ input[type='button'] {
 	align-items: center;
 	justify-content: center;
 	position: relative;
-	height: 40px;
-	line-height: 40px;
-	padding: 0 15px;
+	height: 48px;
+	line-height: 48px;
+	padding: 0 20px;
 	border: none;
 	border-radius: var(--border-radius);
 	font-size: 14px;
@@ -319,6 +319,13 @@ textarea {
 
 //form
 .form {
+	&_profile {
+		flex-grow: 1;
+		align-items: stretch;
+		padding: 25px 20px 15px 20px;
+		background: var(--dark);
+		border-radius: var(--border-radius);
+	}
 	&__group {
 		position: relative;
 		display: flex;
@@ -385,6 +392,27 @@ textarea {
 		justify-content: flex-start;
 		flex-wrap: wrap;
 		align-items: stretch;
+		&_bg {
+			background: var(--dark);
+			border: 2px dashed var(--black);
+			margin-bottom: 15px;
+			padding: 25px 20px 10px 20px;
+			border-radius: var(--border-radius);
+		}
+		&_btn {
+			justify-content: end;
+			background: var(--dark);
+			border: 2px dashed var(--black);
+			margin-bottom: 15px;
+			padding: 25px 20px 25px 20px;
+			border-radius: var(--border-radius);
+		}
+		&_info {
+			justify-content: end;
+			background: var(--dark);
+			padding: 10px 20px 25px 10px;
+			color: var(--alert-success);
+		}
 	}
 	&__col {
 		flex: 1 1 47%;

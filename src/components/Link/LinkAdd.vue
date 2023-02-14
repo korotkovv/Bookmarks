@@ -132,11 +132,11 @@
 								<input
 									v-model.trim="icon"
 									type="checkbox"
-									id="widgetWeatherCheckbox"
+									id="iconCheckbox"
 									name="checkbox-group"
 									checked
 								/>
-								<label for="widgetWeatherCheckbox">Показывать иконку</label>
+								<label for="iconCheckbox">Показывать иконку</label>
 							</div>
 							<template v-if="icon">
 								<div class="form__group_max">
@@ -196,13 +196,13 @@ import { useSettingStore } from '@/stores/settings';
 import links from '@/service/endpoints/links';
 import IconAdd from '@/components/Icons/IconAdd.vue';
 import useVuelidate from '@vuelidate/core';
-
 import {
 	minLength,
 	required,
 	helpers,
 	numeric,
 	minValue,
+	url,
 } from '@vuelidate/validators';
 
 const settingStore = useSettingStore();
@@ -246,6 +246,7 @@ const rules = computed(() => ({
 	},
 	link: {
 		required: helpers.withMessage(`Поле не заполнено`, required),
+		url: helpers.withMessage(`Поле должно быть ссылкой`, url),
 		minLength: helpers.withMessage(
 			`Минимальная длина: 4 символа`,
 			minLength(requiredNameLength.value)

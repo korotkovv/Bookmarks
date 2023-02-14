@@ -75,8 +75,8 @@
 				<i
 					:class="
 						settingStore.isWatchWidgets
-							? 'las la-cloud-sun'
-							: 'las la-cloud-sun'
+							? 'las la-calendar-times'
+							: 'las la-calendar-plus'
 					"
 				></i>
 			</button>
@@ -98,7 +98,14 @@
 				<div class="user__avatar">
 					<img src="@/assets/user_foto.png" alt="user" />
 				</div>
-				<div class="user__name">{{ userStore.userData.username }}</div>
+				<div class="user__name">
+					{{
+						userStore.userData.lastName
+							? userStore.userData.lastName
+							: userStore.userData.username
+					}}
+					{{ userStore.userData.firstName ? userStore.userData.firstName : '' }}
+				</div>
 				<div class="user__menu">
 					<ul class="user__list">
 						<li class="user__item" @click.prevent="router.push('/profile')">

@@ -68,6 +68,17 @@ const routes = [
 		},
 	},
 	{
+		name: 'Profile',
+		path: '/profile',
+		component: () => import('../views/Profile.vue'),
+		meta: {
+			title: 'Профиль пользователя',
+			layout: 'main',
+			auth: true,
+			isAdmin: true,
+		},
+	},
+	{
 		name: 'Auth',
 		path: '/auth',
 		component: Auth,

@@ -72,7 +72,14 @@ const onAuth = async () => {
 				userStore.setUserData(
 					response.data.jwt,
 					response.data.user.username,
-					response.data.user.email
+					response.data.user.email,
+					response.data.user.lastName,
+					response.data.user.firstName,
+					response.data.user.wDLActive,
+					response.data.user.wDLStart,
+					response.data.user.wDLEnd,
+					response.data.user.wWeatherActive,
+					response.data.user.wWeatherOption
 				);
 				router.push('/');
 			})

@@ -1,5 +1,13 @@
 const iconArr = [
+	'las la-envelope',
+	'las la-envelope-open',
+	'las la-envelope-open-text',
+	'las la-mail-bulk',
+	'las la-at',
 	'las la-plus',
+	'las la-minus',
+	'las la-inbox',
+	'las la-shipping-fast',
 	'las la-radiation',
 	'las la-coffee',
 	'las la-save',

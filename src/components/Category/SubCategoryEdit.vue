@@ -260,7 +260,7 @@ const getSubCategory = async (id) => {
 	await links
 		.getCategory(id)
 		.then((response) => {
-			console.log(response.data?.data.attributes);
+			//console.log(response.data?.data.attributes);
 			if (response.data?.data.attributes) {
 				editSubCategory.title = response.data?.data.attributes.title;
 				editSubCategory.slug = response.data?.data.attributes.slug;
@@ -288,7 +288,7 @@ const editSubCategorySend = async (idCategory, id, title, slug, icon, sort) => {
 	await links
 		.putSubCategory(idCategory, id, title, slug, icon, sort)
 		.then((response) => {
-			console.log(response.data);
+			//console.log(response.data);
 			return response.data;
 		})
 		.then(() => {
@@ -311,9 +311,7 @@ const removeSubCategory = async (id, title) => {
 	await links
 		.delCategory(id)
 		.then((response) => {
-			console.log(response.data);
-		})
-		.then(() => {
+			//	console.log(response.data);
 			settingStore.addToast('error', `Подкатегория '${title}' удалена`);
 			emit('success');
 			resetFields();

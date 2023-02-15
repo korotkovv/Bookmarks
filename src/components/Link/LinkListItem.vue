@@ -1,5 +1,5 @@
 <template>
-	<div v-if="linkItem" class="lists__item list">
+	<div v-if="linkItem" class="lists__item list" :title="linkItem.url">
 		<div class="list__setting" @click.prevent="openDialogLinkEdit">
 			<i class="las la-sliders-h"></i>
 		</div>

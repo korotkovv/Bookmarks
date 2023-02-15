@@ -206,16 +206,11 @@ const addCategorySend = async (title, slug, icon, sort) => {
 	await links
 		.postMainCategory(title, slug, icon, sort)
 		.then((response) => {
-			console.log(response.data);
-			return response.data;
-		})
-		.then(() => {
-			settingStore.addToast(
-				'success',
-				`Добавлена главная категория '${title}'`
-			);
+			//	console.log(response.data);
+			settingStore.addToast('success', `Добавлена категория '${title}'`);
 			emit('success');
 			resetFields();
+			return response.data;
 		})
 		.catch((error) => {
 			settingStore.addToast('error', error.response.data.error?.message);

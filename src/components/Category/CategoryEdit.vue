@@ -235,7 +235,7 @@ const getCategory = async (id) => {
 	await links
 		.getCategory(id)
 		.then((response) => {
-			console.log(response.data?.data.attributes);
+			//console.log(response.data?.data.attributes);
 			if (response.data?.data.attributes) {
 				editCategory.title = response.data?.data.attributes.title;
 				editCategory.slug = response.data?.data.attributes.slug;
@@ -262,13 +262,12 @@ const editCategorySend = async (id, title, slug, icon, sort) => {
 	await links
 		.putMainCategory(id, title, slug, icon, sort)
 		.then((response) => {
-			console.log(response.data);
-			return response.data;
-		})
-		.then(() => {
-			settingStore.addToast('success', `Изменена главная категория '${title}'`);
+			//console.log(response.data);
+
+			settingStore.addToast('success', `Категория '${title}' изменена`);
 			emit('success');
 			resetFields();
+			router.push('/');
 		})
 		.catch((error) => {
 			settingStore.addToast('error', error.response.data.error?.message);
@@ -285,9 +284,7 @@ const removeCategory = async (id, title) => {
 	await links
 		.delCategory(id)
 		.then((response) => {
-			console.log(response.data);
-		})
-		.then(() => {
+			//	console.log(response.data);
 			settingStore.addToast('error', `Категория '${title}' удалена`);
 			emit('success');
 			resetFields();

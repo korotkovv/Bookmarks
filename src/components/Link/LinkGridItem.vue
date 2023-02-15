@@ -1,5 +1,5 @@
 <template>
-	<div v-if="linkItem" class="links__item link">
+	<div v-if="linkItem" class="links__item link" :title="linkItem.url">
 		<div class="link__setting" @click.prevent="openDialogLinkEdit">
 			<i class="las la-sliders-h"></i>
 		</div>
@@ -51,7 +51,6 @@ const isOpenEditLink = ref(false);
 const dialogLinkEdit = reactive({
 	status: false,
 });
-const dialogLink = ref(false);
 
 const colorTheme = computed(() => {
 	switch (props.linkItem.color) {

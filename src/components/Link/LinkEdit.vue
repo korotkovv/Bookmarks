@@ -312,7 +312,7 @@ const getLink = async (id) => {
 	await links
 		.getLink(id)
 		.then((response) => {
-			console.log(response.data?.data.attributes);
+			//console.log(response.data?.data.attributes);
 			if (response.data?.data.attributes) {
 				editLink.id = id;
 				editLink.title = response.data?.data.attributes.title;
@@ -362,7 +362,7 @@ const editLinkSend = async (
 	await links
 		.putLink(id, title, link, icon, sort, color, desc, categotyId)
 		.then((response) => {
-			console.log(response.data);
+			//console.log(response.data);
 			return response.data;
 		})
 		.then(() => {
@@ -450,7 +450,7 @@ const removeLink = async (id, title) => {
 	await links
 		.delLink(id)
 		.then((response) => {
-			console.log(response.data);
+			//console.log(response.data);
 		})
 		.then(() => {
 			settingStore.addToast('error', `Ссылка '${title}' удалена`);

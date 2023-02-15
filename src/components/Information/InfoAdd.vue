@@ -168,7 +168,7 @@ const addInfoSend = async (title, text, sort) => {
 	await infos
 		.postInfo(title, text, sort)
 		.then((response) => {
-			console.log(response.data);
+			//console.log(response.data);
 			return response.data;
 		})
 		.then(() => {

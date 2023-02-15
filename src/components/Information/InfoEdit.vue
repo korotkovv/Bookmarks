@@ -192,7 +192,7 @@ const getInfo = async (id) => {
 	await infos
 		.getInfo(id)
 		.then((response) => {
-			console.log(response.data?.data.attributes);
+			//	console.log(response.data?.data.attributes);
 			if (response.data?.data.attributes) {
 				editInfo.id = id;
 				editInfo.title = response.data?.data.attributes.title;
@@ -219,7 +219,7 @@ const editInfoSend = async (id, title, text, sort) => {
 	await infos
 		.putInfo(id, title, text, sort)
 		.then((response) => {
-			console.log(response.data);
+			//	console.log(response.data);
 			return response.data;
 		})
 		.then(() => {
@@ -279,9 +279,6 @@ const removeInfo = async (id, title) => {
 	await infos
 		.delInfo(id)
 		.then((response) => {
-			console.log(response.data);
-		})
-		.then(() => {
 			settingStore.addToast('error', `Запись '${title}' удалена`);
 			emit('success');
 			resetFields();

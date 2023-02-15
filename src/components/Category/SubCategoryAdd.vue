@@ -229,7 +229,7 @@ const addSubCategorySend = async (idCategory, title, slug, icon, sort) => {
 	await links
 		.postSubCategory(idCategory, title, slug, icon, sort)
 		.then((response) => {
-			console.log(response.data);
+			//console.log(response.data);
 			return response.data;
 		})
 		.then(() => {

@@ -50,15 +50,14 @@ const getCoordinates = () => {
 		if (arr.length > 1) {
 			coordinates.latitude = arr[0];
 			coordinates.longitude = arr[1];
-			console.log(coordinates);
+			//console.log(coordinates);
 		}
 	}
 };
 getCoordinates();
 
 const setWeathercode = () => {
-	console.log(weather);
-	switch (95) {
+	switch (weather.weathercode) {
 		// 0
 		case 0:
 			weatherImg.value = new URL('@/assets/weather/d.svg', import.meta.url);
@@ -240,8 +239,7 @@ const getWeather = async () => {
 			`https://api.open-meteo.com/v1/forecast?latitude=${coordinates.latitude}&longitude=${coordinates.longitude}&current_weather=true&windspeed_unit=ms`
 		)
 		.then((response) => {
-			console.log(response.data.current_weather);
-
+			//console.log(response.data.current_weather);
 			if (response.data.current_weather) {
 				weather.temperature = Math.round(
 					response.data.current_weather.temperature
@@ -250,7 +248,6 @@ const getWeather = async () => {
 				weather.winddirection = response.data.current_weather.winddirection;
 				weather.windspeed = response.data.current_weather.windspeed;
 			}
-
 			return response.data?.current_weather;
 		})
 		.catch((error) => {

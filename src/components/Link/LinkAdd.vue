@@ -297,7 +297,7 @@ const addLinkSend = async (
 	await links
 		.postLink(title, link, icon, sort, color, desc, categotyId)
 		.then((response) => {
-			console.log(response.data);
+			//console.log(response.data);
 			return response.data;
 		})
 		.then(() => {

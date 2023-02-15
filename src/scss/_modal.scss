@@ -114,6 +114,7 @@
 	&__body {
 		margin-top: 20px;
 		margin-bottom: 25px;
+		padding-bottom: 20px;
 		position: relative;
 		max-height: 70vh;
 		padding-right: 5px;
@@ -121,20 +122,20 @@
 		overflow-y: auto;
 
 		// кастомный скролл
-		scrollbar-color: #1f212a #2e323b;
+		scrollbar-color: #3b404d #262935;
 		scrollbar-width: thin;
 		&::-webkit-scrollbar {
 			width: 7px;
 		}
 		&::-webkit-scrollbar-track {
-			background-color: #2e323b;
+			background-color: #262935;
 			border-radius: 100px;
 		}
 		&::-webkit-scrollbar-thumb {
 			border-radius: 100px;
-			border: 5px solid #1f212a;
+			border: 5px solid #3b404d;
 			background-clip: content-box;
-			background-color: #1f212a;
+			background-color: #3b404d;
 		}
 	}
 	&__remove &__body {

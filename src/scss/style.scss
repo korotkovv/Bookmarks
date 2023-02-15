@@ -4,6 +4,24 @@
 @import 'line-awesome/line-awesome';
 @import 'grid';
 
+* {
+	// кастомный скролл
+	scrollbar-color: #3b404d #262935;
+	scrollbar-width: thin;
+	&::-webkit-scrollbar {
+		width: 7px;
+	}
+	&::-webkit-scrollbar-track {
+		background-color: #262935;
+		border-radius: 100px;
+	}
+	&::-webkit-scrollbar-thumb {
+		border-radius: 100px;
+		border: 5px solid #3b404d;
+		background-clip: content-box;
+		background-color: #3b404d;
+	}
+}
 :root {
 	--primary: #5e77f9;
 	--primary-hover: #4b68f7;

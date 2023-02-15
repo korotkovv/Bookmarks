@@ -40,24 +40,6 @@ const daysLeft = ref(null);
 const daysHavePassed = ref(null);
 const percentageOfCompletion = ref(null);
 
-/* const daysLeft = computed(() => {
-	if (userStore.userData.widgetDL.end) {
-		return dateDiff(
-			parseDate(today),
-			parseDate(userStore.userData.widgetDL.end)
-		);
-	}
-	return '-';
-});
-
-const daysHavePassed = computed(() => {
-	return 100;
-});
-
-const percentageOfCompletion = computed(() => {
-	return '10%';
-}); */
-
 const startDate = computed(() => {
 	return userStore.userData.widgetDL.start
 		? userStore.userData.widgetDL.start.split('-').reverse().join('.')

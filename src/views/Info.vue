@@ -19,23 +19,7 @@
 				<div v-else class="info__empty">Нет записей</div>
 				<div class="info__add addInfo">
 					<div class="addInfo__img">
-						<svg
-							width="25"
-							height="26"
-							viewBox="0 0 25 26"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<rect y="12" width="25" height="2" fill="#E7E7F1"></rect>
-							<rect
-								x="11.5"
-								y="25.5"
-								width="25"
-								height="2"
-								transform="rotate(-90 11.5 25.5)"
-								fill="#E7E7F1"
-							></rect>
-						</svg>
+						<img src="@/assets/plus-small.svg" alt="plus" />
 					</div>
 
 					<div class="addInfo__body" @click="openDialogAdd">
@@ -113,7 +97,6 @@ const getInfos = async () => {
 			isLoading.value = false;
 		});
 };
-
 getInfos();
 
 /**

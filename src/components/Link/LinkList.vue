@@ -13,23 +13,7 @@
 		<div class="lists__item addlist" @click="openDialogLinkAdd">
 			<div href="#?" class="addlist__url">
 				<div class="addlist__img">
-					<svg
-						width="25"
-						height="26"
-						viewBox="0 0 25 26"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<rect y="12" width="25" height="2" fill="#E7E7F1" />
-						<rect
-							x="11.5"
-							y="25.5"
-							width="25"
-							height="2"
-							transform="rotate(-90 11.5 25.5)"
-							fill="#E7E7F1"
-						/>
-					</svg>
+					<img src="@/assets/plus-small.svg" alt="plus" />
 				</div>
 				<div class="addlist__body">
 					<div class="addlist__title">Добавить</div>
@@ -48,7 +32,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { reactive } from 'vue';
 import { useMenuStore } from '@/stores/menu';
 import LinkListItem from './LinkListItem.vue';
 import LinkAdd from './LinkAdd.vue';
@@ -62,26 +46,35 @@ const props = defineProps({
 		default: [],
 	},
 });
-const isOpenAddLink = ref(true);
+
 const dialogLinkAdd = reactive({
 	status: false,
 });
-const dialogLink = ref(false);
 
+/**
+ * Открытие окна добавления ссылки
+ */
 const openDialogLinkAdd = () => {
 	dialogLinkAdd.status = true;
 };
 
+/**
+ * Закрытие окна добавления ссылки, при нажатии Отмена
+ */
 const dialogClose = () => {
 	dialogLinkAdd.status = false;
-	//	dialogLinkAdd.idCategory = 2;
 };
+/**
+ * Закрытие окна добавления ссылки, при нажатии Добавить
+ */
 const dialogYes = () => {
 	dialogLinkAdd.status = false;
-	//dialogLinkAdd.idCategory = 2;
 	emit('refresh');
 };
 
+/**
+ * Обновление ссылок
+ */
 const refreshLinks = () => {
 	emit('refresh');
 };

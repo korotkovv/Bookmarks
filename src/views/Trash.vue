@@ -37,8 +37,7 @@
 </template>
 
 <script setup>
-import { onMounted, watch, ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { onMounted, ref } from 'vue';
 import { useSettingStore } from '@/stores/settings';
 import { useMenuStore } from '@/stores/menu';
 
@@ -48,8 +47,6 @@ import LinkGrid from '@/components/Link/LinkGrid.vue';
 import LinkList from '@/components/Link/LinkList.vue';
 import links from '@/service/endpoints/links';
 
-const router = useRouter();
-const route = useRoute();
 const settingStore = useSettingStore();
 const menuStore = useMenuStore();
 

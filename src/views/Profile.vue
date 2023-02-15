@@ -128,8 +128,11 @@
 								v-model="userInfo.wWeatherOption"
 								id="dateStart"
 								type="text"
-								placeholder="Настройка"
+								placeholder="57.69|39.80"
 							/>
+							<span class="small-text"
+								>укажите долготу и ширину в формате "57.69|39.80"</span
+							>
 						</div>
 					</div>
 				</div>
@@ -156,7 +159,7 @@
 </template>
 
 <script setup>
-import { onMounted, computed, reactive, watch, ref } from 'vue';
+import { onMounted, computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useSettingStore } from '@/stores/settings';
 import { useUserStore } from '@/stores/user';
@@ -268,11 +271,13 @@ const editUserSubmit = async () => {
 				console.log(response);
 				if (response.status === 200) {
 					isUpdate.value = true;
+					settingStore.addToast('success', `Изменения сохранены!'`);
 					userStore.tokenChecked();
 				}
 				return response.data;
 			})
 			.catch((error) => {
+				settingStore.addToast('error', error.response.data.error?.message);
 				console.log(error);
 			});
 	}

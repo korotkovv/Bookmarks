@@ -27,17 +27,6 @@ const routes = [
 					isAdmin: true,
 				},
 			},
-			/* 	{
-				path: '/favorite',
-					alias: '/',
-				component: () => import('../components/Category/ViewCategory.vue'),
-				props: true,
-				meta: {
-					layout: 'main',
-					auth: true,
-					isAdmin: true,
-				},
-			}, */
 		],
 	},
 	{
@@ -91,7 +80,6 @@ const routes = [
 	},
 	{
 		path: '/:notFound(.*)',
-		//path: '/notFound',
 		component: NotFound,
 		meta: {
 			title: 'Ошибка 404',
@@ -120,7 +108,6 @@ router.beforeEach((to, from, next) => {
 	} else {
 		document.title = `Bookmarks`;
 	}
-	//	console.log('slug: ', to.params.slug);
 	next();
 });
 

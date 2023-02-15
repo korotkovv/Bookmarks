@@ -60,6 +60,11 @@ code {
 	margin-bottom: 50px;
 }
 
+.small-text {
+	color: var(--grey-grey-light);
+	font-size: 12px;
+}
+
 @import 'app';
 @import 'header';
 @import 'sidebar';

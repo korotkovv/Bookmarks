@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useSettingStore } from '@/stores/settings';
 
 const settingStore = useSettingStore();
@@ -51,7 +51,7 @@ onMounted(() => {
 		function () {
 			settingStore.removeToast();
 		}.bind(this),
-		5500
+		4000
 	);
 });
 </script>

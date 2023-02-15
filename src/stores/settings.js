@@ -9,6 +9,9 @@ export const useSettingStore = defineStore('setting', () => {
 			? JSON.parse(localStorage.getItem('widgets'))
 			: true
 	);
+	const appTheme = ref(
+		localStorage.getItem('appTheme') ? localStorage.getItem('appTheme') : 'dark'
+	);
 	const switcher = ref(
 		localStorage.getItem('switcher') ? localStorage.getItem('switcher') : 'grid'
 	);
@@ -41,6 +44,25 @@ export const useSettingStore = defineStore('setting', () => {
 		if (switcher.value === 'list') {
 			switcher.value = 'grid';
 			localStorage.setItem('switcher', 'grid');
+		}
+	};
+
+	/**
+	 * Переключить тему
+	 */
+	const appThemeHandle = () => {
+		if (appTheme.value === 'dark') {
+			appTheme.value = 'black';
+			localStorage.setItem('appTheme', 'black');
+		} else if (appTheme.value === 'black') {
+			appTheme.value = 'light';
+			localStorage.setItem('appTheme', 'light');
+		} else if (appTheme.value === 'light') {
+			appTheme.value = 'dark';
+			localStorage.setItem('appTheme', 'dark');
+		} else {
+			appTheme.value = 'dark';
+			localStorage.setItem('appTheme', 'dark');
 		}
 	};
 
@@ -81,12 +103,14 @@ export const useSettingStore = defineStore('setting', () => {
 	return {
 		name,
 		isEdit,
+		appTheme,
 		switcher,
 		isWatchWidgets,
 		isOpenSettings,
 		toasterList,
 		handleEdit,
 		handleWidgets,
+		appThemeHandle,
 		switcherGridHandle,
 		switcherListHandle,
 		closeToast,

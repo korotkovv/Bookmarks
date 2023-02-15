@@ -34,6 +34,21 @@
 		</div>
 		<div class="header__account">
 			<button
+				class="header__themes btn__icon"
+				title="Сменить тему оформления"
+				@click.prevent="settingStore.appThemeHandle"
+			>
+				<i
+					:class="
+						settingStore.appTheme === 'dark'
+							? 'las la-moon'
+							: settingStore.appTheme === 'black'
+							? 'las la-sun'
+							: 'las la-cloud-sun'
+					"
+				></i>
+			</button>
+			<button
 				v-if="
 					userStore.userData.widgetWeather.active ||
 					userStore.userData.widgetDL.active

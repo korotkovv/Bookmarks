@@ -1,6 +1,6 @@
 <template>
-	<main-layout v-if="layout === 'main'"></main-layout>
-	<auth-layout v-else-if="layout === 'auth'"></auth-layout>
+	<auth-layout v-if="layout === 'auth'"></auth-layout>
+	<main-layout v-else-if="layout === 'main'"></main-layout>
 </template>
 
 <script setup>
@@ -20,6 +20,9 @@ userStore.tokenChecked();
 
 layout.value = route.meta.layout || 'auth';
 
+/**
+ * Устанавливаем тему
+ */
 const setTheme = () => {
 	let htmlElement = document.documentElement;
 

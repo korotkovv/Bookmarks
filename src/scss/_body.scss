@@ -46,6 +46,7 @@
 	padding: 11px 18px;
 	background: var(--dark);
 	border-radius: var(--border-radius);
+	border: 1px solid var(--border-color-sidebar);
 	// .subcategory__list
 	&__list {
 		display: flex;
@@ -60,6 +61,7 @@
 		justify-content: flex-start;
 		align-items: center;
 		font-size: 15px;
+		font-weight: 500;
 		margin-right: 15px;
 		color: var(--grey-blue-light);
 		transition: var(--transition);
@@ -69,7 +71,7 @@
 			justify-content: flex-start;
 			align-items: center;
 			color: var(--grey-blue-light);
-			padding: 10px 12px;
+			padding: 12px 12px;
 			border-radius: var(--border-radius);
 			background: var(--dark);
 			transition: var(--transition);
@@ -81,7 +83,7 @@
 			}
 
 			&:hover {
-				padding: 10px 12px;
+				padding: 12px 12px;
 				border-radius: var(--border-radius);
 				color: var(--primary);
 				background: var(--black);
@@ -93,7 +95,7 @@
 		}
 		&.active {
 			span {
-				padding: 10px 12px;
+				padding: 12px 12px;
 				border-radius: var(--border-radius);
 				color: var(--primary);
 				background: var(--black);
@@ -155,7 +157,7 @@
 			transition: var(--transition);
 		}
 		&.active {
-			color: var(--grey-blue-light);
+			color: var(--text-bottom);
 			background: var(--primary);
 		}
 	}
@@ -175,7 +177,7 @@
 			transition: var(--transition);
 		}
 		&.active {
-			color: var(--grey-light);
+			color: var(--text-bottom);
 			background: var(--primary);
 		}
 	}
@@ -300,14 +302,14 @@
 	}
 }
 .addlink {
-	border: 1px solid #242730;
+	border: 1px solid var(--border-item-color);
 	border-radius: var(--border-radius);
 	position: relative;
 	transition: all 0.3s;
 	cursor: pointer;
 
 	&:hover {
-		border: 1px solid var(--border-item-color);
+		border: 1px solid var(--border-item-color-hover);
 	}
 
 	// .link__url
@@ -483,14 +485,14 @@
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	border: 1px solid #242730;
+	border: 1px solid var(--border-item-color);
 	border-radius: var(--border-radius);
 	position: relative;
 	transition: all 0.3s;
 	cursor: pointer;
 
 	&:hover {
-		border: 1px solid var(--border-item-color);
+		border: 1px solid var(--border-item-color-hover);
 	}
 
 	// .link__url

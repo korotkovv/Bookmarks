@@ -13,7 +13,12 @@
 		<div class="links__item addlink" @click="openDialogLinkAdd">
 			<div class="addlink__url">
 				<div class="addlink__img">
-					<img src="@/assets/plus.svg" alt="plus" />
+					<img
+						v-if="settingStore.appTheme === 'light'"
+						src="@/assets/plus-black.svg"
+						alt="plus"
+					/>
+					<img v-else src="@/assets/plus.svg" alt="plus" />
 				</div>
 				<div class="addlink__body">
 					<div class="addlink__title">Добавить</div>
@@ -33,11 +38,13 @@
 
 <script setup>
 import { reactive } from 'vue';
+import { useSettingStore } from '@/stores/settings';
 import { useMenuStore } from '@/stores/menu';
 import LinkGridItem from './LinkGridItem.vue';
 import LinkAdd from './LinkAdd.vue';
 
 const menuStore = useMenuStore();
+const settingStore = useSettingStore();
 const emit = defineEmits(['refresh']);
 const props = defineProps({
 	linksList: {

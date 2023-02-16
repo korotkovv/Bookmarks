@@ -19,7 +19,12 @@
 				<div v-else class="info__empty">Нет записей</div>
 				<div class="info__add addInfo">
 					<div class="addInfo__img">
-						<img src="@/assets/plus-small.svg" alt="plus" />
+						<img
+							v-if="settingStore.appTheme === 'light'"
+							src="@/assets/plus-small-black.svg"
+							alt="plus"
+						/>
+						<img v-else src="@/assets/plus-small.svg" alt="plus" />
 					</div>
 
 					<div class="addInfo__body" @click="openDialogAdd">

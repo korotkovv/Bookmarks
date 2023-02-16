@@ -2,7 +2,12 @@
 	<header class="header">
 		<div class="header__left">
 			<router-link to="/" class="header__logo">
-				<img src="@/assets/logo.svg" alt="plus" />
+				<img
+					v-if="settingStore.appTheme === 'light'"
+					src="@/assets/logo-black.svg"
+					alt="plus"
+				/>
+				<img v-else src="@/assets/logo.svg" alt="plus" />
 			</router-link>
 			<div class="header__search">
 				<form

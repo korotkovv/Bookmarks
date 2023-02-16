@@ -13,10 +13,10 @@ input[type='button'] {
 	padding: 0 20px;
 	border: none;
 	border-radius: var(--border-radius);
-	font-size: 14px;
-	font-weight: normal;
+	font-size: 15px;
+	font-weight: 500;
 	background: var(--primary);
-	color: var(--grey-light);
+	color: var(--text-bottom);
 	transition: var(--transition);
 	cursor: pointer;
 
@@ -31,15 +31,15 @@ input[type='button'] {
 	}
 	&.btn_outline {
 		background: none;
-		color: var(--grey-blue-light);
+		color: var(--text-bottom-primary);
 		border: 2px solid var(--primary);
 		&:hover {
-			color: var(--grey-blue-light);
+			color: var(--text-bottom);
 			border: 2px solid var(--primary-hover);
 			background: var(--primary-hover);
 		}
 		&:active {
-			color: var(--grey-blue-light);
+			color: var(--text-bottom);
 			border: 2px solid var(--primary-hover);
 			background: var(--primary-hover);
 		}
@@ -59,7 +59,7 @@ input[type='button'] {
 			opacity: 1;
 		}
 		&:active {
-			color: var(--white);
+			color: var(--text-bottom-primary);
 			//		border: 2px solid var(--red-delete);
 			background: var(--red-delete);
 		}
@@ -80,7 +80,7 @@ input[type='button'] {
 			opacity: 1;
 		}
 		&:active {
-			color: var(--white);
+			color: var(--text-bottom-primary);
 			background: none;
 		}
 		&:disabled {

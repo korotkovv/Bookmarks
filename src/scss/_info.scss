@@ -59,7 +59,7 @@
 		font-size: 16px;
 		font-weight: 600;
 		margin-bottom: 15px;
-		color: var(--white);
+		color: var(--headline);
 	}
 	&__text {
 	}
@@ -85,14 +85,14 @@
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	border: 1px solid #242730;
+	border: 1px solid var(--border-item-color);
 	border-radius: var(--border-radius);
 	position: relative;
 	transition: all 0.3s;
 	cursor: pointer;
 
 	&:hover {
-		border: 1px solid #3b3f4d;
+		border: 1px solid var(--border-item-color-hover);
 	}
 
 	&__img {

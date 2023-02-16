@@ -1,5 +1,5 @@
 <template>
-	<aside class="sidebar">
+	<aside v-if="settingStore.isOpenMenu" class="sidebar">
 		<div class="sidebar__category category">
 			<ul v-if="menuStore.menu.length > 0" class="category__list">
 				<li

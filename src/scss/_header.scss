@@ -36,6 +36,15 @@
 		justify-content: space-between;
 	}
 
+	&__menu {
+		display: none;
+		padding: 0 5px;
+		margin-right: 20px;
+		&_visible {
+			display: inline-flex;
+		}
+	}
+
 	// .header__setting
 	&__setting {
 		color: var(--grey-light);
@@ -70,10 +79,6 @@
 		border-top-color: var(--primary);
 	}
 
-	&:hover &__menu {
-		display: block;
-	}
-
 	&::after {
 		content: '';
 		position: absolute;
@@ -88,8 +93,29 @@
 		transition: var(--transition);
 	}
 
+	&.user_open {
+		&::after {
+			right: 8px;
+			top: 12px;
+			border-top-color: var(--primary);
+			transform: rotate(180deg) !important;
+		}
+	}
+
 	// .user__avatar
 	&__avatar {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 40px;
+		height: 40px;
+		min-width: 40px;
+		min-height: 40px;
+		max-width: 40px;
+		max-height: 40px;
+		border-radius: 50%;
+		color: var(--text-bottom-primary);
+		background: var(--primary);
 		margin-right: 10px;
 	}
 
@@ -101,9 +127,9 @@
 
 	// .user__menu
 	&__menu {
-		display: none;
+		display: block;
 		position: absolute;
-		top: 38px;
+		top: 50px;
 		right: 0;
 		padding: 10px 0px;
 		color: var(--grey-light);
@@ -111,6 +137,9 @@
 		border-radius: var(--border-radius);
 		border: 1px solid var(--black);
 		transition: var(--transition);
+		z-index: 98;
+		box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.1);
+
 		&:hover {
 			display: block;
 		}

@@ -17,6 +17,36 @@ export const useSettingStore = defineStore('setting', () => {
 	);
 	const isOpenSettings = ref(false);
 	const toasterList = ref([]);
+	const isOpenMenu = ref(true);
+	const isOpenUserMenu = ref(false);
+
+	/**
+	 * Открытие/ закрытие меню пользователя
+	 */
+	const toggleUserMenu = () => {
+		isOpenUserMenu.value = !isOpenUserMenu.value;
+	};
+
+	/**
+	 * Открытие/ закрытие меню
+	 */
+	const toggleMenu = () => {
+		isOpenMenu.value = !isOpenMenu.value;
+	};
+
+	/**
+	 * Открытие/ закрытие меню пользователя
+	 */
+	const closeUserMenu = () => {
+		isOpenUserMenu.value = false;
+	};
+
+	/**
+	 * Открытие/ закрытие меню
+	 */
+	const closeMenu = () => {
+		isOpenMenu.value = false;
+	};
 
 	/**
 	 * Переключение режима редактирования категорий
@@ -108,6 +138,8 @@ export const useSettingStore = defineStore('setting', () => {
 		isWatchWidgets,
 		isOpenSettings,
 		toasterList,
+		isOpenMenu,
+		isOpenUserMenu,
 		handleEdit,
 		handleWidgets,
 		appThemeHandle,
@@ -116,5 +148,9 @@ export const useSettingStore = defineStore('setting', () => {
 		closeToast,
 		addToast,
 		removeToast,
+		toggleUserMenu,
+		toggleMenu,
+		closeUserMenu,
+		closeMenu,
 	};
 });

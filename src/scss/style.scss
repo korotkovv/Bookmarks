@@ -10,6 +10,7 @@
 	scrollbar-width: thin;
 	&::-webkit-scrollbar {
 		width: 7px;
+		height: 7px;
 	}
 	&::-webkit-scrollbar-track {
 		background-color: var(--scroll-second);
@@ -20,6 +21,7 @@
 		border: 5px solid var(--scroll-first);
 		background-clip: content-box;
 		background-color: var(--scroll-first);
+		height: 5px;
 	}
 }
 
@@ -177,6 +179,7 @@ code {
 	padding: 25px;
 
 	&__body {
+		position: relative;
 		display: flex;
 		justify-content: flex-start;
 		align-items: flex-start;

@@ -74,8 +74,8 @@
 
 	--text: #222222;
 	--headline: #222222;
-	--text-bottom: #ffffff;
-	--text-bottom-primary: #222222;
+	--text-bottom: #222222;
+	--text-bottom-primary: #ffffff;
 	--alert-success: #05b187;
 	--alert-warning: #fec90f;
 	--alert-error: #fc4b6c;
@@ -211,4 +211,5 @@ code {
 @import 'modal';
 @import 'footer';
 @import 'info';
+@import 'pagination';
 @import 'responsive';

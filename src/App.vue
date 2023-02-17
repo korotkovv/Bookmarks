@@ -1,6 +1,16 @@
 <template>
 	<auth-layout v-if="layout === 'auth'"></auth-layout>
-	<main-layout v-else-if="layout === 'main'"></main-layout>
+	<template v-else-if="layout === 'main' && userStore.isAuth">
+		<main-layout></main-layout>
+	</template>
+	<template v-else>
+		<div class="app-loading">
+			<div class="info-loading">
+				<the-preloader size="standard"></the-preloader>
+				<div class="app-loading__title">Загрузка приложения...</div>
+			</div>
+		</div>
+	</template>
 </template>
 
 <script setup>
@@ -10,6 +20,7 @@ import { useUserStore } from '@/stores/user';
 import { useSettingStore } from '@/stores/settings';
 import MainLayout from '@/layout/MainLayout.vue';
 import AuthLayout from '@/layout/AuthLayout.vue';
+import ThePreloader from '@/components/ThePreloader.vue';
 import '@/scss/style.scss';
 
 const userStore = useUserStore();

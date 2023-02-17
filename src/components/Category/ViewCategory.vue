@@ -23,23 +23,49 @@
 			</div>
 		</div>
 		<div class="main__body">
-			<link-grid
-				v-if="settingStore.switcher === 'grid'"
-				:linksList="linksList"
-				@refresh="refreshLinksList"
-			></link-grid>
-			<link-list
-				v-else="settingStore.switcher === 'list'"
-				:linksList="linksList"
-				@refresh="refreshLinksList"
-			></link-list>
+			<div class="main__wrap">
+				<link-grid
+					v-if="settingStore.switcher === 'grid'"
+					:linksList="linksList"
+					@refresh="refreshLinksList"
+				></link-grid>
+				<link-list
+					v-else="settingStore.switcher === 'list'"
+					:linksList="linksList"
+					@refresh="refreshLinksList"
+				></link-list>
+
+				<div v-if="pagination.pageCount > 1" class="pagination">
+					<ul>
+						<li v-if="pagination.page > 1" @click.prevent="prevPaginationPage">
+							<span><i class="las la-angle-double-left"></i></span>
+						</li>
+						<li
+							v-for="(item, idx) of pagination.pageCount"
+							:key="idx"
+							@click.prevent="setPaginationPage(idx + 1)"
+						>
+							<span :class="pagination.page === idx + 1 ? 'active' : ''">{{
+								idx + 1
+							}}</span>
+						</li>
+						<li
+							v-if="pagination.pageCount > pagination.page"
+							@click.prevent="nextPaginationPage"
+						>
+							<span><i class="las la-angle-double-right"></i></span>
+						</li>
+					</ul>
+				</div>
+			</div>
+
 			<the-widgets v-if="settingStore.isWatchWidgets"></the-widgets>
 		</div>
 	</main>
 </template>
 
 <script setup>
-import { onMounted, watch, ref } from 'vue';
+import { onMounted, watch, ref, reactive, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useSettingStore } from '@/stores/settings';
 import { useMenuStore } from '@/stores/menu';
@@ -57,15 +83,33 @@ const menuStore = useMenuStore();
 
 const linksList = ref([]);
 
+const pagination = reactive({
+	page: 1,
+	pageSize: 50,
+	pageCount: 1,
+	total: 1,
+});
+
 /**
  * Получаем список ссылок категории
  * @param {number} id - ID Категории
+ * @param {number} page - ID текущая страница
+ * @param {number} pageSize - ID Количество на странице
+
  */
-const getLinks = async (id) => {
+const getLinks = async (id, page, pageSize) => {
 	linksList.value = await links
-		.getLinks(id ? id : 1)
+		.getLinks(id ? id : 1, page, pageSize)
 		.then((response) => {
-			return response.data.data.attributes.links.data;
+			//	console.log(response.data.meta);
+			if (response.status === 200) {
+				pagination.page = response.data.meta.pagination.page;
+				pagination.pageSize = response.data.meta.pagination.pageSize;
+				pagination.pageCount = response.data.meta.pagination.pageCount;
+				pagination.total = response.data.meta.pagination.total;
+			}
+			console.log(pagination);
+			return response.data.data;
 		})
 		.catch((error) => console.log(error));
 };
@@ -74,12 +118,40 @@ const getLinks = async (id) => {
  * Обновление категории
  */
 const refreshLinksList = () => {
-	getLinks(menuStore.idCategory);
+	getLinks(menuStore.idCategory, pagination.page, pagination.pageSize);
+};
+
+/**
+ * Отправка запроса при изменении пагинации
+ */
+const setPaginationPage = (idx) => {
+	if (pagination.page !== idx) {
+		getLinks(menuStore.idCategory, idx, pagination.pageSize);
+	}
+};
+
+/**
+ * Загрузить предыдущую страницу
+ */
+const prevPaginationPage = () => {
+	if (pagination.page > 1) {
+		getLinks(menuStore.idCategory, pagination.page - 1, pagination.pageSize);
+	}
+};
+
+/**
+ * Загрузить предыдущую страницу
+ */
+const nextPaginationPage = () => {
+	if (pagination.pageCount > pagination.page) {
+		getLinks(menuStore.idCategory, pagination.page + 1, pagination.pageSize);
+	}
 };
 
 onMounted(() => {
 	menuStore.setSlug(route.params.slug);
-	getLinks(menuStore.idCategory);
+
+	getLinks(menuStore.idCategory, 1, pagination.pageSize);
 });
 
 watch(
@@ -87,7 +159,7 @@ watch(
 	(newV, oldV) => {
 		if (menuStore.slugChecked(route.params.slug) > -1) {
 			menuStore.setSlug(route.params.slug);
-			getLinks(menuStore.idCategory);
+			getLinks(menuStore.idCategory, 1, pagination.pageSize);
 		} else {
 			router.push('/404');
 		}
@@ -98,7 +170,7 @@ watch(
 	() => menuStore.idCategory,
 	(newV, oldV) => {
 		if (menuStore.idCategory) {
-			getLinks(menuStore.idCategory);
+			getLinks(menuStore.idCategory, 1, pagination.pageSize);
 		}
 	}
 );

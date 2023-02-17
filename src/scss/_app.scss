@@ -1,3 +1,13 @@
+.app-loading {
+	&__title {
+		font-size: 18px;
+		font-weight: 500;
+		color: var(--grey-grey-light);
+		text-align: center;
+		margin-top: 50px;
+	}
+}
+
 .app-edit-category {
 	position: absolute;
 	top: 17px;

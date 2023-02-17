@@ -8,11 +8,6 @@
 	&__category {
 		margin-bottom: 40px;
 	}
-
-	// .sidebar__info
-
-	&__info {
-	}
 }
 
 .category {
@@ -20,10 +15,6 @@
 	border-radius: var(--border-radius);
 	padding: 10px 0 10px 0;
 	border: 1px solid var(--border-color-sidebar);
-
-	// .category__list
-	&__list {
-	}
 
 	// .category__item
 	&__item {
@@ -120,11 +111,5 @@
 				color: var(--primary);
 			}
 		}
-	}
-
-	// .category__link
-	&__link {
-	}
-	.router-link-active {
 	}
 }

@@ -12,10 +12,21 @@ const links = {
 		api.get('/api/categoties?sort[0]=sort%3Aasc&filters[isMain][$eq]=true'),
 	getSubCategory: (idMain) =>
 		api.get(`/api/categoties/${idMain}?sort[0]=sort%3Aasc&populate=categoties`),
-	getLinks: (idCategory) =>
-		//	api.get(`/api/categoties/${idCategory}?populate=links&sort[0]=sort%3Aasc`),
+	/* getLinks: (idCategory, page, pageSize) =>
 		api.get(
-			`/api/categoties/${idCategory}?populate[links][sort][0]=sort%3Aasc`
+			`/api/categoties/${idCategory}?pagination%5Bpage%5D=${
+				page ? page : 1
+			}&pagination%5BpageSize%5D=${
+				pageSize ? pageSize : 100
+			}&populate[links][sort][0]=sort%3Aasc`
+		), */
+	getLinks: (idCategory, page, pageSize) =>
+		api.get(
+			`/api/links?sort[0]=sort%3Aasc&populate=categoty&pagination%5Bpage%5D=${
+				page ? page : 1
+			}&pagination%5BpageSize%5D=${
+				pageSize ? pageSize : 100
+			}&filters[categoty][id]=${idCategory}`
 		),
 
 	/**

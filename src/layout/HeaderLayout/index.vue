@@ -104,13 +104,14 @@
 			>
 				<div class="user__avatar">
 					{{
-						userStore.userData.lastName
-							? userStore.userData.lastName[0]
-							: userStore.userData.username[0]
+						userStore.userData?.lastName
+							? userStore.userData?.lastName[0]
+							: userStore.userData?.username[0]
 					}}{{
-						userStore.userData.firstName ? userStore.userData.firstName[0] : ''
+						userStore.userData?.firstName
+							? userStore.userData?.firstName[0]
+							: ''
 					}}
-					<!-- <img src="@/assets/user_foto.png" alt="user" /> -->
 				</div>
 				<div class="user__name">
 					{{

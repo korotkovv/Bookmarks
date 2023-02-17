@@ -16,7 +16,7 @@ input[type='button'] {
 	font-size: 15px;
 	font-weight: 500;
 	background: var(--primary);
-	color: var(--text-bottom);
+	color: var(--text-bottom-primary);
 	transition: var(--transition);
 	cursor: pointer;
 
@@ -31,7 +31,7 @@ input[type='button'] {
 	}
 	&.btn_outline {
 		background: none;
-		color: var(--text-bottom-primary);
+		color: var(--text-bottom);
 		border: 2px solid var(--primary);
 		&:hover {
 			color: var(--text-bottom);
@@ -145,12 +145,7 @@ input {
 	}
 }
 
-input[type='date'] {
-	&::-webkit-calendar-picker-indicator {
-	}
-}
-
-// radiobutton
+// radio button
 
 input[type='radio'] {
 	&:checked,

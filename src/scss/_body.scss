@@ -2,6 +2,10 @@
 	position: relative;
 	flex-grow: 1;
 	overflow-x: hidden;
+
+	&__wrap {
+		flex-grow: 1;
+	}
 	// .main__subcategory
 	&__subcategory {
 		margin-bottom: 30px;
@@ -17,14 +21,10 @@
 
 	// .main__title
 	&__title {
-		color: var(--grey-blue-light);
+		color: var(--headline);
 		font-size: 28px;
 		font-weight: 700;
 		margin-right: 20px;
-	}
-
-	// .main__switcher
-	&__switcher {
 	}
 
 	// .main__body
@@ -194,9 +194,6 @@
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
 	grid-gap: 40px 30px;
-	// .links__item
-	&__item {
-	}
 }
 .link {
 	background: var(--dark);
@@ -356,11 +353,8 @@
 
 .lists {
 	display: block;
-
-	// .lists__item
-	&__item {
-	}
 }
+
 .list {
 	display: flex;
 	justify-content: flex-start;

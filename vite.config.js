@@ -1,13 +1,23 @@
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
-//import glob from 'glob';
+import glob from 'glob';
 
 // https://vitejs.dev/config/
 
 export default ({ mode }) => {
 	process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 	return defineConfig({
+		base: '/',
+		root: path.join(__dirname, './src'),
+		publicDir: path.join(__dirname, './public'),
+		build: {
+			emptyOutDir: true,
+			outDir: path.join(__dirname, process.env.VITE_DIST_DIR),
+			rollupOptions: {
+				input: glob.sync(path.resolve(__dirname, './src', '*.html')),
+			},
+		},
 		plugins: [vue()],
 		resolve: {
 			alias: {

@@ -62,7 +62,7 @@ const getLinksTrash = async (userId) => {
 	linksList.value = await links
 		.getTrash(userId)
 		.then((response) => {
-			console.log('trash', response.data.data);
+			//console.log('trash', response.data.data);
 			return response.data.data;
 		})
 		.catch((error) => console.log(error));

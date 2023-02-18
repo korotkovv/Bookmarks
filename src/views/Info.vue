@@ -94,7 +94,7 @@ const getInfos = async (id) => {
 	infosList.value = await infos
 		.getInfos(id)
 		.then((response) => {
-			console.log(response.data.data);
+			//	console.log(response.data.data);
 			return response.data.data;
 		})
 		.catch((error) => {
@@ -113,7 +113,7 @@ getInfos(userStore.userData.id);
 const openDialogEdit = (id) => {
 	dialogEdit.id = id;
 	dialogEdit.status = true;
-	console.log(id);
+	//	console.log(id);
 };
 
 /**

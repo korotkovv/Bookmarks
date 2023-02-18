@@ -339,7 +339,7 @@ const dialogAddSuccess = () => {
 		);
 	} else {
 		console.log('Что то не заполнено');
-		console.log(v$.value.$error);
+		//console.log(v$.value.$error);
 	}
 };
 

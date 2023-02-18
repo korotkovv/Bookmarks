@@ -65,12 +65,12 @@ const auth = reactive({
 const onAuth = async () => {
 	isError.value = false;
 	errorText.value = false;
-	console.log(auth);
+	//console.log(auth);
 	if (auth.identifier && auth.identifier) {
 		await user
 			.postAuth(auth)
 			.then((response) => {
-				console.log(response);
+				// console.log(response);
 				userStore.setUserData(
 					response.data.jwt,
 					response.data.user.id,

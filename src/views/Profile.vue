@@ -265,7 +265,7 @@ const editUserSubmit = async () => {
 	v$.value.$touch();
 	//	console.log(v$.value.$error);
 	if (v$.value.$error) return;
-	console.log(userInfo);
+	//console.log(userInfo);
 
 	isUpdate.value = false;
 	if (!v$.value.$error) {
@@ -284,7 +284,7 @@ const editUserSubmit = async () => {
 				userInfo.searchEngine
 			)
 			.then((response) => {
-				console.log(response);
+				//console.log(response);
 				if (response.status === 200) {
 					isUpdate.value = true;
 					settingStore.addToast('success', `Изменения сохранены!'`);

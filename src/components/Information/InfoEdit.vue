@@ -113,6 +113,7 @@
 
 <script setup>
 import { onMounted, reactive, ref, computed } from 'vue';
+import { useUserStore } from '@/stores/user';
 import { useSettingStore } from '@/stores/settings';
 import infos from '@/service/endpoints/infos';
 import TheRemoveDialog from '@/components/TheRemoveDialog.vue';
@@ -125,6 +126,7 @@ import {
 	minValue,
 } from '@vuelidate/validators';
 
+const userStore = useUserStore();
 const settingStore = useSettingStore();
 
 const emit = defineEmits(['close', 'success']);
@@ -213,11 +215,12 @@ const getInfo = async (id) => {
  * @param {string} title - Заголовок ссылки
  * @param {string} text - Url ссылки
  * @param {number} sort - Сортировка ссылки
+ * @param {number} userId - ID пользователя
 
  */
-const editInfoSend = async (id, title, text, sort) => {
+const editInfoSend = async (id, title, text, sort, userId) => {
 	await infos
-		.putInfo(id, title, text, sort)
+		.putInfo(id, title, text, sort, userId)
 		.then((response) => {
 			//	console.log(response.data);
 			return response.data;
@@ -254,7 +257,13 @@ const dialogEditSuccess = () => {
 		editInfo.text &&
 		editInfo.sort
 	) {
-		editInfoSend(editInfo.id, editInfo.title, editInfo.text, editInfo.sort);
+		editInfoSend(
+			editInfo.id,
+			editInfo.title,
+			editInfo.text,
+			editInfo.sort,
+			userStore.userData.id
+		);
 	} else {
 		console.log('Что то не заполнено');
 		console.log(v$.value.$error);

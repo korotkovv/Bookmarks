@@ -65,8 +65,9 @@
 </template>
 
 <script setup>
-import { onMounted, watch, ref, reactive, computed } from 'vue';
+import { onMounted, watch, ref, reactive } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { useUserStore } from '@/stores/user';
 import { useSettingStore } from '@/stores/settings';
 import { useMenuStore } from '@/stores/menu';
 
@@ -78,6 +79,7 @@ import links from '@/service/endpoints/links';
 
 const router = useRouter();
 const route = useRoute();
+const userStore = useUserStore();
 const settingStore = useSettingStore();
 const menuStore = useMenuStore();
 
@@ -95,20 +97,19 @@ const pagination = reactive({
  * @param {number} id - ID Категории
  * @param {number} page - ID текущая страница
  * @param {number} pageSize - ID Количество на странице
-
+ * @param {number} userId - ID пользователя
  */
-const getLinks = async (id, page, pageSize) => {
+const getLinks = async (id, page, pageSize, userId) => {
 	linksList.value = await links
-		.getLinks(id ? id : 1, page, pageSize)
+		.getLinks(id ? id : 1, page, pageSize, userId)
 		.then((response) => {
-			//	console.log(response.data.meta);
+			//	console.log(response.data);
 			if (response.status === 200) {
 				pagination.page = response.data.meta.pagination.page;
 				pagination.pageSize = response.data.meta.pagination.pageSize;
 				pagination.pageCount = response.data.meta.pagination.pageCount;
 				pagination.total = response.data.meta.pagination.total;
 			}
-			console.log(pagination);
 			return response.data.data;
 		})
 		.catch((error) => console.log(error));
@@ -118,7 +119,12 @@ const getLinks = async (id, page, pageSize) => {
  * Обновление категории
  */
 const refreshLinksList = () => {
-	getLinks(menuStore.idCategory, pagination.page, pagination.pageSize);
+	getLinks(
+		menuStore.idCategory,
+		pagination.page,
+		pagination.pageSize,
+		userStore.userData.id
+	);
 };
 
 /**
@@ -126,7 +132,12 @@ const refreshLinksList = () => {
  */
 const setPaginationPage = (idx) => {
 	if (pagination.page !== idx) {
-		getLinks(menuStore.idCategory, idx, pagination.pageSize);
+		getLinks(
+			menuStore.idCategory,
+			idx,
+			pagination.pageSize,
+			userStore.userData.id
+		);
 	}
 };
 
@@ -135,7 +146,12 @@ const setPaginationPage = (idx) => {
  */
 const prevPaginationPage = () => {
 	if (pagination.page > 1) {
-		getLinks(menuStore.idCategory, pagination.page - 1, pagination.pageSize);
+		getLinks(
+			menuStore.idCategory,
+			pagination.page - 1,
+			pagination.pageSize,
+			userStore.userData.id
+		);
 	}
 };
 
@@ -144,14 +160,19 @@ const prevPaginationPage = () => {
  */
 const nextPaginationPage = () => {
 	if (pagination.pageCount > pagination.page) {
-		getLinks(menuStore.idCategory, pagination.page + 1, pagination.pageSize);
+		getLinks(
+			menuStore.idCategory,
+			pagination.page + 1,
+			pagination.pageSize,
+			userStore.userData.id
+		);
 	}
 };
 
 onMounted(() => {
 	menuStore.setSlug(route.params.slug);
 
-	getLinks(menuStore.idCategory, 1, pagination.pageSize);
+	getLinks(menuStore.idCategory, 1, pagination.pageSize, userStore.userData.id);
 });
 
 watch(
@@ -159,7 +180,7 @@ watch(
 	(newV, oldV) => {
 		if (menuStore.slugChecked(route.params.slug) > -1) {
 			menuStore.setSlug(route.params.slug);
-			getLinks(menuStore.idCategory, 1, pagination.pageSize);
+			//	getLinks(menuStore.idCategory, 1, pagination.pageSize, userStore.userData.id);
 		} else {
 			router.push('/404');
 		}
@@ -170,7 +191,12 @@ watch(
 	() => menuStore.idCategory,
 	(newV, oldV) => {
 		if (menuStore.idCategory) {
-			getLinks(menuStore.idCategory, 1, pagination.pageSize);
+			getLinks(
+				menuStore.idCategory,
+				1,
+				pagination.pageSize,
+				userStore.userData.id
+			);
 		}
 	}
 );

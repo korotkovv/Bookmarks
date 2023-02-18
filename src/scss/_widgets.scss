@@ -7,8 +7,14 @@
 	}
 
 	// .widgets__weather
-
-	&__weather {
+	&__empty {
+		padding: 20px 16px 20px 16px;
+		background: var(--dark);
+		border-radius: var(--border-radius);
+		width: 230px;
+		&:first-child {
+			margin-bottom: 40px;
+		}
 	}
 }
 .deadline {

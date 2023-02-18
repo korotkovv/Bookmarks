@@ -94,16 +94,16 @@
 									:icons="editCategory.icon"
 									@update:icons="editCategory.icon = $event"
 								></icon-add>
-								<template v-if="v$.icon.$dirty">
-									<div
-										v-for="error of v$.icon.$silentErrors"
-										:key="error.$message"
-										class="form__error"
-									>
-										{{ error.$message }}
-									</div>
-								</template>
 							</div>
+							<template v-if="v$.icon.$dirty">
+								<div
+									v-for="error of v$.icon.$silentErrors"
+									:key="error.$message"
+									class="form__error"
+								>
+									{{ error.$message }}
+								</div>
+							</template>
 						</div>
 					</div>
 				</div>
@@ -145,6 +145,7 @@
 <script setup>
 import { onMounted, reactive, ref, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user';
 import { useSettingStore } from '@/stores/settings';
 import links from '@/service/endpoints/links';
 import IconAdd from '@/components/Icons/IconAdd.vue';
@@ -158,6 +159,7 @@ import {
 	minValue,
 } from '@vuelidate/validators';
 
+const userStore = useUserStore();
 const settingStore = useSettingStore();
 const router = useRouter();
 
@@ -245,7 +247,14 @@ const getCategory = async (id) => {
 			return response;
 		})
 		.catch((error) => {
-			settingStore.addToast('error', error.response.data?.error?.message);
+			if (error.response.data.error?.details?.errors[0]?.path[0] === 'slug') {
+				settingStore.addToast(
+					'error',
+					`Поле slug с таким значением уже существует, slug должно быть уникальным значением`
+				);
+			} else {
+				settingStore.addToast('error', error.response.data.error?.message);
+			}
 			return console.log(error);
 		});
 };
@@ -257,10 +266,11 @@ const getCategory = async (id) => {
  * @param {string} slug - slug категории
  * @param {string} icon - Иконка категории
  * @param {number} sort - Сортировка категории
+ * @param {number} userId - ID пользователя
  */
-const editCategorySend = async (id, title, slug, icon, sort) => {
+const editCategorySend = async (id, title, slug, icon, sort, userId) => {
 	await links
-		.putMainCategory(id, title, slug, icon, sort)
+		.putMainCategory(id, title, slug, icon, sort, userId)
 		.then((response) => {
 			//console.log(response.data);
 
@@ -324,7 +334,8 @@ const dialogAddSuccess = () => {
 			editCategory.title,
 			editCategory.slug.toLowerCase(),
 			editCategory.icon,
-			editCategory.sort
+			editCategory.sort,
+			userStore.userData.id
 		);
 	} else {
 		console.log('Что то не заполнено');

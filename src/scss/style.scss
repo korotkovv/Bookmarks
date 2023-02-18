@@ -170,6 +170,15 @@ h6 {
 	color: var(--headline);
 }
 
+a {
+	color: var(--primary);
+	transition: var(--transition);
+	text-decoration: none;
+	&:hover {
+		color: var(--primary-hover);
+	}
+}
+
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 		monospace;

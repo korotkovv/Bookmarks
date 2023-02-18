@@ -62,13 +62,15 @@ export default {
 
 <script setup>
 import { reactive, ref } from 'vue';
-import TheWidgets from '@/components/Widgets/TheWidgets.vue';
+import { useUserStore } from '@/stores/user';
 import { useSettingStore } from '@/stores/settings';
 import infos from '@/service/endpoints/infos';
+import TheWidgets from '@/components/Widgets/TheWidgets.vue';
 import ThePreloader from '@/components/ThePreloader.vue';
 import InfoAdd from '@/components/Information/InfoAdd.vue';
 import InfoEdit from '@/components/Information/InfoEdit.vue';
 
+const userStore = useUserStore();
 const settingStore = useSettingStore();
 
 const isLoading = ref(false);
@@ -87,10 +89,10 @@ const dialogEdit = reactive({
  * Получаем список всех записей
  *
  */
-const getInfos = async () => {
+const getInfos = async (id) => {
 	isLoading.value = true;
 	infosList.value = await infos
-		.getInfos()
+		.getInfos(id)
 		.then((response) => {
 			console.log(response.data.data);
 			return response.data.data;
@@ -102,7 +104,7 @@ const getInfos = async () => {
 			isLoading.value = false;
 		});
 };
-getInfos();
+getInfos(userStore.userData.id);
 
 /**
  * Открытие окна редактирования
@@ -137,7 +139,7 @@ const dialogYes = () => {
 	dialogAdd.status = false;
 	dialogEdit.status = false;
 	dialogEdit.id = null;
-	getInfos();
+	getInfos(userStore.userData.id);
 };
 </script>
 

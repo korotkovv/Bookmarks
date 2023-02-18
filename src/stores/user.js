@@ -6,6 +6,7 @@ import user from '@/service/endpoints/user';
 export const useUserStore = defineStore('user', () => {
 	const isAuth = ref(false);
 	const userData = reactive({
+		id: null,
 		username: null,
 		lastName: null,
 		firstName: null,
@@ -27,6 +28,7 @@ export const useUserStore = defineStore('user', () => {
 	/**
 	 * Установка данных пользователя
 	 * @param {string} token - токен пользователя
+	 * @param {number} id - ID пользователя
 	 * @param {string} username - username пользователя
 	 * @param {string} email - e-mail пользователя
 	 * @param {string} lastName - фамилия пользователя
@@ -39,6 +41,7 @@ export const useUserStore = defineStore('user', () => {
 	 */
 	const setUserData = (
 		token,
+		id,
 		username,
 		email,
 		lastName,
@@ -51,6 +54,7 @@ export const useUserStore = defineStore('user', () => {
 	) => {
 		//	console.log('Авторизация');
 		localStorage.setItem('token', token);
+		userData.id = id;
 		userData.token = token;
 		userData.username = username;
 		userData.lastName = lastName;
@@ -70,6 +74,7 @@ export const useUserStore = defineStore('user', () => {
 	 */
 	const logout = () => {
 		isAuth.value = false;
+		userData.id = null;
 		userData.username = null;
 		userData.lastName = null;
 		userData.firstName = null;
@@ -94,9 +99,10 @@ export const useUserStore = defineStore('user', () => {
 			await user
 				.getAuth()
 				.then((response) => {
-					//	console.log(response);
+					console.log(response);
 					setUserData(
 						tokenStorage,
+						response.data.id,
 						response.data.username,
 						response.data.email,
 						response.data.lastName,

@@ -208,6 +208,7 @@
 
 <script setup>
 import { onMounted, reactive, ref, watch, computed } from 'vue';
+import { useUserStore } from '@/stores/user';
 import { useMenuStore } from '@/stores/menu';
 import { useSettingStore } from '@/stores/settings';
 import links from '@/service/endpoints/links';
@@ -223,6 +224,7 @@ import {
 	url,
 } from '@vuelidate/validators';
 
+const userStore = useUserStore();
 const settingStore = useSettingStore();
 const menuStore = useMenuStore();
 
@@ -348,6 +350,7 @@ const getLink = async (id) => {
  * @param {string} color - Цветовая схема ссылки
  * @param {string} desc - Описание ссылки
  * @param {number} categotyId - ID категории
+ * @param {number} userId - ID пользователя
  */
 const editLinkSend = async (
 	id,
@@ -357,10 +360,11 @@ const editLinkSend = async (
 	sort,
 	color,
 	desc,
-	categotyId
+	categotyId,
+	userId
 ) => {
 	await links
-		.putLink(id, title, link, icon, sort, color, desc, categotyId)
+		.putLink(id, title, link, icon, sort, color, desc, categotyId, userId)
 		.then((response) => {
 			//console.log(response.data);
 			return response.data;
@@ -413,7 +417,8 @@ const dialogEditSuccess = () => {
 			editLink.sort,
 			editLink.color,
 			editLink.desc,
-			editLink.category
+			editLink.category,
+			userStore.userData.id
 		);
 	} else {
 		console.log('Что то не заполнено');

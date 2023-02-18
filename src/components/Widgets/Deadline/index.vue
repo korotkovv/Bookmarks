@@ -27,6 +27,12 @@
 			<div class="deadline__end">{{ endDate }}</div>
 		</div>
 	</div>
+	<div v-else class="widgets__empty">
+		<span class="small-text"
+			><router-link to="/profile">настройте</router-link> виджет Deadline или
+			отключите его</span
+		>
+	</div>
 </template>
 
 <script setup>

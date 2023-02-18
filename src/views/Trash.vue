@@ -38,6 +38,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
+import { useUserStore } from '@/stores/user';
 import { useSettingStore } from '@/stores/settings';
 import { useMenuStore } from '@/stores/menu';
 
@@ -47,6 +48,7 @@ import LinkGrid from '@/components/Link/LinkGrid.vue';
 import LinkList from '@/components/Link/LinkList.vue';
 import links from '@/service/endpoints/links';
 
+const userStore = useUserStore();
 const settingStore = useSettingStore();
 const menuStore = useMenuStore();
 
@@ -54,10 +56,11 @@ const linksList = ref([]);
 
 /**
  * Получаем список ссылок без категории
+ * @param {number} userId - ID пользователя
  */
-const getLinksTrash = async () => {
+const getLinksTrash = async (userId) => {
 	linksList.value = await links
-		.getTrash()
+		.getTrash(userId)
 		.then((response) => {
 			console.log('trash', response.data.data);
 			return response.data.data;
@@ -70,7 +73,7 @@ const refreshLinksList = () => {
 };
 
 onMounted(() => {
-	getLinksTrash();
+	getLinksTrash(userStore.userData.id);
 });
 </script>
 

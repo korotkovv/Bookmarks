@@ -6,8 +6,12 @@
 		"
 		class="main__widgets widgets"
 	>
-		<widget-deadline></widget-deadline>
-		<widget-weather></widget-weather>
+		<widget-deadline
+			v-if="userStore.userData.widgetDL.active"
+		></widget-deadline>
+		<widget-weather
+			v-if="userStore.userData.widgetWeather.active"
+		></widget-weather>
 	</div>
 </template>
 

@@ -22,6 +22,12 @@
 			</div>
 		</div>
 	</div>
+	<div v-else class="widgets__empty">
+		<span class="small-text"
+			><router-link to="/profile">настройте</router-link> виджет Погода или
+			отключите его</span
+		>
+	</div>
 </template>
 
 <script setup>

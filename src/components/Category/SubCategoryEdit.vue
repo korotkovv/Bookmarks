@@ -110,16 +110,16 @@
 									:icons="editSubCategory.icon"
 									@update:icons="editSubCategory.icon = $event"
 								></icon-add>
-								<template v-if="v$.icon.$dirty">
-									<div
-										v-for="error of v$.icon.$silentErrors"
-										:key="error.$message"
-										class="form__error"
-									>
-										{{ error.$message }}
-									</div>
-								</template>
 							</div>
+							<template v-if="v$.icon.$dirty">
+								<div
+									v-for="error of v$.icon.$silentErrors"
+									:key="error.$message"
+									class="form__error"
+								>
+									{{ error.$message }}
+								</div>
+							</template>
 						</div>
 					</div>
 				</div>
@@ -162,6 +162,7 @@
 
 <script setup>
 import { onMounted, reactive, ref, watch, computed } from 'vue';
+import { useUserStore } from '@/stores/user';
 import { useMenuStore } from '@/stores/menu';
 import { useSettingStore } from '@/stores/settings';
 import links from '@/service/endpoints/links';
@@ -176,6 +177,7 @@ import {
 	minValue,
 } from '@vuelidate/validators';
 
+const userStore = useUserStore();
 const settingStore = useSettingStore();
 const menuStore = useMenuStore();
 
@@ -248,17 +250,16 @@ const rules = computed(() => ({
 	},
 }));
 
-const rulesIcon = computed(() => ({}));
-
 const v$ = useVuelidate(rules, editSubCategory);
 
 /**
  * Получаем данные главной категории
  * @param {number} id - ID категории
+ * @param {number} userId - ID пользователя
  */
-const getSubCategory = async (id) => {
+const getSubCategory = async (id, userId) => {
 	await links
-		.getCategory(id)
+		.getCategory(id, userId)
 		.then((response) => {
 			//console.log(response.data?.data.attributes);
 			if (response.data?.data.attributes) {
@@ -270,7 +271,14 @@ const getSubCategory = async (id) => {
 			return response;
 		})
 		.catch((error) => {
-			settingStore.addToast('error', error.response.data?.error?.message);
+			if (error.response.data.error?.details?.errors[0]?.path[0] === 'slug') {
+				settingStore.addToast(
+					'error',
+					`Поле slug с таким значением уже существует, slug должно быть уникальным значением`
+				);
+			} else {
+				settingStore.addToast('error', error.response.data.error?.message);
+			}
 			return console.log(error);
 		});
 };
@@ -283,10 +291,19 @@ const getSubCategory = async (id) => {
  * @param {string} slug - slug подкатегории
  * @param {string} icon - Иконка подкатегории
  * @param {number} sort - Сортировка подкатегории
+ * @param {number} userId - ID пользователя
  */
-const editSubCategorySend = async (idCategory, id, title, slug, icon, sort) => {
+const editSubCategorySend = async (
+	idCategory,
+	id,
+	title,
+	slug,
+	icon,
+	sort,
+	userId
+) => {
 	await links
-		.putSubCategory(idCategory, id, title, slug, icon, sort)
+		.putSubCategory(idCategory, id, title, slug, icon, sort, userId)
 		.then((response) => {
 			//console.log(response.data);
 			return response.data;
@@ -352,7 +369,8 @@ const dialogAddSuccess = () => {
 			editSubCategory.title,
 			editSubCategory.slug.toLowerCase(),
 			editSubCategory.icon,
-			editSubCategory.sort
+			editSubCategory.sort,
+			userStore.userData.id
 		);
 	} else {
 		console.log('Что-то не заполнено');
@@ -410,14 +428,14 @@ const removeDialogNo = () => {
 };
 
 onMounted(() => {
-	getSubCategory(props.idSubCategory);
+	getSubCategory(props.idSubCategory, userStore.userData.id);
 	getCategoryId(props.idCategory);
 });
 
 watch(
 	() => props.idSubCategory,
 	(newV, oldV) => {
-		getSubCategory(props.idSubCategory);
+		getSubCategory(props.idSubCategory, userStore.userData.id);
 	},
 	() => props.idCategory,
 	(newV, oldV) => {

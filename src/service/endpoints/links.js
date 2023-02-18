@@ -4,25 +4,22 @@ const links = {
 	/**
 	 * categories
 	 */
-	getCategoryAll: () =>
+	getCategoryAll: (userId) =>
 		api.get(
-			'/api/categoties?sort[0]=sort%3Aasc&filters[isMain][$eq]=true&populate[categoties][sort][0]=sort%3Aasc&populate=links'
+			`/api/categoties?sort[0]=sort%3Aasc&filters[user][id]=${userId}&filters[isMain][$eq]=true&populate[categoties][sort][0]=sort%3Aasc&populate=links`
 		),
-	getMainCategory: () =>
-		api.get('/api/categoties?sort[0]=sort%3Aasc&filters[isMain][$eq]=true'),
-	getSubCategory: (idMain) =>
-		api.get(`/api/categoties/${idMain}?sort[0]=sort%3Aasc&populate=categoties`),
-	/* getLinks: (idCategory, page, pageSize) =>
+	getMainCategory: (userId) =>
 		api.get(
-			`/api/categoties/${idCategory}?pagination%5Bpage%5D=${
-				page ? page : 1
-			}&pagination%5BpageSize%5D=${
-				pageSize ? pageSize : 100
-			}&populate[links][sort][0]=sort%3Aasc`
-		), */
-	getLinks: (idCategory, page, pageSize) =>
+			`/api/categoties?sort[0]=sort%3Aasc&filters[user][id]=${userId}&filters[isMain][$eq]=true`
+		),
+	getSubCategory: (idMain, userId) =>
 		api.get(
-			`/api/links?sort[0]=sort%3Aasc&populate=categoty&pagination%5Bpage%5D=${
+			`/api/categoties/${idMain}?filters[user][id]=${userId}&sort[0]=sort%3Aasc&populate=categoties`
+		),
+
+	getLinks: (idCategory, page, pageSize, userId) =>
+		api.get(
+			`/api/links?filters[user][id]=${userId}&sort[0]=sort%3Aasc&populate=categoty&pagination%5Bpage%5D=${
 				page ? page : 1
 			}&pagination%5BpageSize%5D=${
 				pageSize ? pageSize : 100
@@ -33,7 +30,7 @@ const links = {
 	 * Main category
 	 */
 	getCategory: (id) => api.get(`/api/categoties/${id}?populate=categoty`),
-	postMainCategory: (title, slug, icon, sort) =>
+	postMainCategory: (title, slug, icon, sort, userId) =>
 		api.post(`/api/categoties`, {
 			data: {
 				isMain: true,
@@ -41,9 +38,10 @@ const links = {
 				slug: slug,
 				icon: icon,
 				sort: +sort,
+				user: userId,
 			},
 		}),
-	putMainCategory: (id, title, slug, icon, sort) =>
+	putMainCategory: (id, title, slug, icon, sort, userId) =>
 		api.put(`/api/categoties/${id}`, {
 			data: {
 				isMain: true,
@@ -51,9 +49,10 @@ const links = {
 				slug: slug,
 				icon: icon,
 				sort: +sort,
+				user: userId,
 			},
 		}),
-	postSubCategory: (idCategory, title, slug, icon, sort) =>
+	postSubCategory: (idCategory, title, slug, icon, sort, userId) =>
 		api.post(`/api/categoties`, {
 			data: {
 				isMain: false,
@@ -62,9 +61,10 @@ const links = {
 				icon: icon,
 				sort: +sort,
 				categoty: idCategory,
+				user: userId,
 			},
 		}),
-	putSubCategory: (idCategory, id, title, slug, icon, sort) =>
+	putSubCategory: (idCategory, id, title, slug, icon, sort, userId) =>
 		api.put(`/api/categoties/${id}`, {
 			data: {
 				isMain: false,
@@ -73,6 +73,7 @@ const links = {
 				icon: icon,
 				sort: +sort,
 				categoty: idCategory,
+				user: userId,
 			},
 		}),
 
@@ -82,7 +83,7 @@ const links = {
 	 * link
 	 */
 	getLink: (id) => api.get(`/api/links/${id}?&populate=categoty`),
-	postLink: (title, link, icon, sort, color, desc, categotyId) =>
+	postLink: (title, link, icon, sort, color, desc, categotyId, userId) =>
 		api.post(`/api/links`, {
 			data: {
 				title: title,
@@ -92,9 +93,10 @@ const links = {
 				sort: +sort,
 				categoty: +categotyId,
 				color: color,
+				user: userId,
 			},
 		}),
-	putLink: (id, title, link, icon, sort, color, desc, categotyId) =>
+	putLink: (id, title, link, icon, sort, color, desc, categotyId, userId) =>
 		api.put(`/api/links/${id}`, {
 			data: {
 				title: title,
@@ -104,14 +106,15 @@ const links = {
 				sort: +sort,
 				categoty: +categotyId,
 				color: color,
+				user: userId,
 			},
 		}),
 	delLink: (id) => api.delete(`/api/links/${id}`),
 
 	// корзина, ссылки без категорий
-	getTrash: () =>
+	getTrash: (userId) =>
 		api.get(
-			`/api/links?populate=categoty&filters[categoty][title][$null]=true`
+			`/api/links?populate=categoty&filters[categoty][title][$null]=true&filters[user][id]=${userId}`
 		),
 };
 

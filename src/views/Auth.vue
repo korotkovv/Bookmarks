@@ -71,6 +71,7 @@ const onAuth = async () => {
 				console.log(response);
 				userStore.setUserData(
 					response.data.jwt,
+					response.data.user.id,
 					response.data.user.username,
 					response.data.user.email,
 					response.data.user.lastName,

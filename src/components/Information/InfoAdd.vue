@@ -97,6 +97,7 @@
 
 <script setup>
 import { reactive, ref, computed } from 'vue';
+import { useUserStore } from '@/stores/user';
 import { useSettingStore } from '@/stores/settings';
 import infos from '@/service/endpoints/infos';
 import useVuelidate from '@vuelidate/core';
@@ -109,6 +110,7 @@ import {
 	minValue,
 } from '@vuelidate/validators';
 
+const userStore = useUserStore();
 const settingStore = useSettingStore();
 
 const emit = defineEmits(['close', 'success']);
@@ -163,10 +165,11 @@ const v$ = useVuelidate(rules, addInfo);
  * @param {string} title - Заголовок ссылки
  * @param {string} text - Url ссылки
  * @param {number} sort - Сортировка ссылки
+ * @param {number} userId - ID пользователя
  */
-const addInfoSend = async (title, text, sort) => {
+const addInfoSend = async (title, text, sort, userId) => {
 	await infos
-		.postInfo(title, text, sort)
+		.postInfo(title, text, sort, userId)
 		.then((response) => {
 			//console.log(response.data);
 			return response.data;
@@ -198,7 +201,12 @@ const dialogAddSuccess = () => {
 	if (v$.value.$error) return;
 
 	if (!v$.value.$error && addInfo.title && addInfo.text && addInfo.sort) {
-		addInfoSend(addInfo.title, addInfo.text, addInfo.sort);
+		addInfoSend(
+			addInfo.title,
+			addInfo.text,
+			addInfo.sort,
+			userStore.userData.id
+		);
 	} else {
 		console.log('Что-то не заполнено');
 		console.log(v$.value.$error);

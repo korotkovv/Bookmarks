@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia';
 import links from '@/service/endpoints/links';
+import { useUserStore } from '@/stores/user';
 import { ref } from 'vue';
 
 export const useMenuStore = defineStore('menu', () => {
+	const userStore = useUserStore();
 	const menu = ref([]);
 	const slugArr = ref([]);
 
@@ -13,9 +15,8 @@ export const useMenuStore = defineStore('menu', () => {
 
 	const getCategoryMenu = async () => {
 		menu.value = await links
-			.getCategoryAll()
+			.getCategoryAll(userStore.userData.id)
 			.then((response) => {
-				//	setSlugArr(response.data.data);
 				// console.log(response.data.data);
 				setSlugArr(response.data.data);
 				return response.data.data;

@@ -106,16 +106,16 @@
 									:icons="addSubCategory.icon"
 									@update:icons="addSubCategory.icon = $event"
 								></icon-add>
-								<template v-if="v$.icon.$dirty">
-									<div
-										v-for="error of v$.icon.$silentErrors"
-										:key="error.$message"
-										class="form__error"
-									>
-										{{ error.$message }}
-									</div>
-								</template>
 							</div>
+							<template v-if="v$.icon.$dirty">
+								<div
+									v-for="error of v$.icon.$silentErrors"
+									:key="error.$message"
+									class="form__error"
+								>
+									{{ error.$message }}
+								</div>
+							</template>
 						</div>
 					</div>
 				</div>
@@ -140,6 +140,7 @@
 
 <script setup>
 import { onMounted, reactive, ref, watch, computed } from 'vue';
+import { useUserStore } from '@/stores/user';
 import { useMenuStore } from '@/stores/menu';
 import { useSettingStore } from '@/stores/settings';
 import links from '@/service/endpoints/links';
@@ -153,6 +154,7 @@ import {
 	minValue,
 } from '@vuelidate/validators';
 
+const userStore = useUserStore();
 const settingStore = useSettingStore();
 const menuStore = useMenuStore();
 
@@ -224,10 +226,18 @@ const v$ = useVuelidate(rules, addSubCategory);
  * @param {string} slug - slug подкатегории
  * @param {string} icon - Иконка подкатегории
  * @param {number} sort - Сортировка подкатегории
+ * @param {number} userId - ID пользователя
  */
-const addSubCategorySend = async (idCategory, title, slug, icon, sort) => {
+const addSubCategorySend = async (
+	idCategory,
+	title,
+	slug,
+	icon,
+	sort,
+	userId
+) => {
 	await links
-		.postSubCategory(idCategory, title, slug, icon, sort)
+		.postSubCategory(idCategory, title, slug, icon, sort, userId)
 		.then((response) => {
 			//console.log(response.data);
 			return response.data;
@@ -238,7 +248,15 @@ const addSubCategorySend = async (idCategory, title, slug, icon, sort) => {
 			resetFields();
 		})
 		.catch((error) => {
-			settingStore.addToast('error', error.response.data.error?.message);
+			if (error.response.data.error?.details?.errors[0]?.path[0] === 'slug') {
+				settingStore.addToast(
+					'error',
+					`Поле slug с таким значением уже существует, slug должно быть уникальным значением`
+				);
+			} else {
+				settingStore.addToast('error', error.response.data.error?.message);
+			}
+
 			return console.log(error);
 		});
 };
@@ -271,7 +289,8 @@ const dialogAddSuccess = () => {
 			addSubCategory.title,
 			addSubCategory.slug.toLowerCase(),
 			addSubCategory.icon,
-			addSubCategory.sort
+			addSubCategory.sort,
+			userStore.userData.id
 		);
 	} else {
 		console.log('Что то не заполнено');

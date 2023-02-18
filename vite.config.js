@@ -9,8 +9,7 @@ export default ({ mode }) => {
 	process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 	return defineConfig({
 		base: '/',
-		root: path.join(__dirname, './src'),
-		publicDir: path.join(__dirname, './public'),
+
 		build: {
 			emptyOutDir: true,
 			outDir: path.join(__dirname, process.env.VITE_DIST_DIR),

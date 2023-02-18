@@ -1,13 +1,11 @@
 import axios from 'axios';
-import { useUserStore } from '@/stores/user';
 
 const API_URL_DEV = 'http://localhost:1337';
-//export const API_URL = process.env.VITE_HTTP_BACKEND_HOST || API_URL_DEV;
+export const API_URL = import.meta.env.VITE_HTTP_BACKEND_HOST || API_URL_DEV;
 
 // настройки axios
 const api = axios.create({
-	baseURL: API_URL_DEV,
-	//makeUrl,
+	baseURL: API_URL,
 	headers: { 'Content-Type': 'application/json' },
 });
 

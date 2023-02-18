@@ -1,17 +1,26 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
 //import glob from 'glob';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-	plugins: [vue()],
-	resolve: {
-		alias: {
-			'@': path.resolve(__dirname, './src'),
+
+export default ({ mode }) => {
+	process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
+	return defineConfig({
+		plugins: [vue()],
+		resolve: {
+			alias: {
+				'@': path.resolve(__dirname, './src'),
+			},
 		},
-	},
-	server: {
-		port: 5174,
-	},
-});
+		server: {
+			host: process.env.VITE_DEV_SERVER_HOST,
+			port: process.env.VITE_DEV_SERVER_PORT,
+			proxy: {
+				'/documentation#/': process.env.VITE_HTTP_BACKEND_HOST,
+				'/api': process.env.VITE_HTTP_BACKEND_HOST,
+			},
+		},
+	});
+};

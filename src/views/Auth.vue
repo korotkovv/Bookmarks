@@ -82,7 +82,8 @@ const onAuth = async () => {
 					response.data.user.wDLStart,
 					response.data.user.wDLEnd,
 					response.data.user.wWeatherActive,
-					response.data.user.wWeatherOption
+					response.data.user.wWeatherOption,
+					response.data.user.searchEngine
 				);
 				router.push(`/category/${menuStore.slugArr[0]}`);
 			})

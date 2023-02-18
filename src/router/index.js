@@ -35,6 +35,11 @@ const routes = [
 		],
 	},
 	{
+		name: 'undefined',
+		path: '/category/undefined',
+		redirect: '/',
+	},
+	{
 		name: 'Trash',
 		path: '/trash',
 		component: () => import('../views/Trash.vue'),

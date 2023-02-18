@@ -172,21 +172,46 @@ const nextPaginationPage = () => {
 	}
 };
 
-console.log(menuStore.slugArr);
+const redirectToCategory = async () => {
+	if (route.path === '/category' || route.path === '/category/') {
+		router.push(`/category/${menuStore.slugArr[0]}`);
+	}
+};
+
+const redirect = async () => {
+	await redirectToCategory();
+};
+
 onMounted(() => {
 	menuStore.setSlug(route.params.slug);
-
-	console.log(route.params.slug);
+	/* if (route.path === '/category') {
+		router.push(`/category/${menuStore.slugArr[0]}`);
+	} */
+	redirect();
 	getLinks(menuStore.idCategory, 1, pagination.pageSize, userStore.userData.id);
 });
 
 watch(
 	() => route.params.slug,
 	(newV, oldV) => {
+		if (!route.params.slug) {
+			router.push(`/category/${menuStore.slugArr[0]}`);
+		}
 		if (menuStore.slugChecked(route.params.slug) > -1) {
 			menuStore.setSlug(route.params.slug);
-			//	getLinks(menuStore.idCategory, 1, pagination.pageSize, userStore.userData.id);
+			if (!route.params.slug) {
+				router.push(`/category/${menuStore.slugArr[0]}`);
+			}
 		} else {
+			router.push(`/category/${menuStore.slugArr[0]}`);
+		}
+	}
+);
+
+watch(
+	() => route.path,
+	(newV, oldV) => {
+		if (route.path === '/category' || route.path === '/category/') {
 			router.push(`/category/${menuStore.slugArr[0]}`);
 		}
 	}

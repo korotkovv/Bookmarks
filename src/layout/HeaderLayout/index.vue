@@ -13,7 +13,13 @@
 				<form
 					acceptCharset="utf-8"
 					className="search form-yandex"
-					action="//yandex.ru/yandsearch"
+					:action="
+						userStore.userData.searchEngine === 'google'
+							? '//www.google.ru/search'
+							: userStore.userData.searchEngine === 'yandex'
+							? '//yandex.ru/yandsearch'
+							: '//yandex.ru/yandsearch'
+					"
 					method="GET"
 					data-type="yandex"
 					target="_parent"
@@ -21,8 +27,20 @@
 					<div class="search__wrap">
 						<input
 							type="text"
-							name="text"
-							placeholder="Поиск Яндекс"
+							:name="
+								userStore.userData.searchEngine === 'google'
+									? 'q'
+									: userStore.userData.searchEngine === 'yandex'
+									? 'text'
+									: 'text'
+							"
+							:placeholder="
+								userStore.userData.searchEngine === 'google'
+									? 'Поиск Google'
+									: userStore.userData.searchEngine === 'yandex'
+									? 'Поиск Яндекс'
+									: 'Поиск Яндекс'
+							"
 							autoFocus="autofocus"
 							autoComplete="off"
 							id="search-input-yandex"

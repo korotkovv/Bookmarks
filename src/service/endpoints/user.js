@@ -13,7 +13,8 @@ const user = {
 		wDLStart,
 		wDLEnd,
 		wWeatherActive,
-		wWeatherOption
+		wWeatherOption,
+		searchEngine
 	) =>
 		api.put(`/api/user/me`, {
 			data: {
@@ -27,6 +28,7 @@ const user = {
 				wDLEnd: wDLEnd,
 				wWeatherActive: wWeatherActive,
 				wWeatherOption: wWeatherOption,
+				searchEngine: searchEngine,
 			},
 		}),
 };

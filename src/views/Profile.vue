@@ -70,6 +70,19 @@
 								</div>
 							</template>
 						</div>
+						<div class="form__group_max">
+							<label for="searchEngine">Поисковая система <span>*</span></label>
+						</div>
+						<div class="form__group_max mb-6">
+							<select
+								v-model="userInfo.searchEngine"
+								id="searchEngine"
+								placeholder="Поисковая система"
+							>
+								<option value="yandex">Яндекс</option>
+								<option value="google">Google</option>
+							</select>
+						</div>
 					</div>
 				</div>
 				<div class="form__row form__row_bg">
@@ -185,6 +198,7 @@ const userInfo = reactive({
 	wDLEnd: null,
 	wWeatherActive: false,
 	wWeatherOption: null,
+	searchEngine: null,
 });
 
 // Валидация
@@ -234,6 +248,7 @@ const getUser = async () => {
 				userInfo.wDLEnd = response.data.wDLEnd;
 				userInfo.wWeatherActive = response.data.wWeatherActive;
 				userInfo.wWeatherOption = response.data.wWeatherOption;
+				userInfo.searchEngine = response.data.searchEngine;
 			}
 
 			return response.data;
@@ -265,7 +280,8 @@ const editUserSubmit = async () => {
 				userInfo.wDLStart,
 				userInfo.wDLEnd,
 				userInfo.wWeatherActive,
-				userInfo.wWeatherOption
+				userInfo.wWeatherOption,
+				userInfo.searchEngine
 			)
 			.then((response) => {
 				console.log(response);

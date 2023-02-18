@@ -21,6 +21,7 @@ export const useUserStore = defineStore('user', () => {
 			active: false,
 			option: null,
 		},
+		searchEngine: null,
 	});
 
 	const router = useRouter();
@@ -38,6 +39,7 @@ export const useUserStore = defineStore('user', () => {
 	 * @param {string} wDLEnd - виджет deadline дата завершения
 	 * @param {string} wWeatherActive - виджет weather активирован ли
 	 * @param {string} wWeatherOption - виджет weather опции
+	 * @param {string} searchEngine - поисковая система
 	 */
 	const setUserData = (
 		token,
@@ -50,7 +52,8 @@ export const useUserStore = defineStore('user', () => {
 		wDLStart,
 		wDLEnd,
 		wWeatherActive,
-		wWeatherOption
+		wWeatherOption,
+		searchEngine
 	) => {
 		//	console.log('Авторизация');
 		localStorage.setItem('token', token);
@@ -61,12 +64,12 @@ export const useUserStore = defineStore('user', () => {
 		userData.firstName = firstName;
 		userData.email = email;
 		isAuth.value = true;
-
 		userData.widgetDL.active = wDLActive;
 		userData.widgetDL.start = wDLStart;
 		userData.widgetDL.end = wDLEnd;
 		userData.widgetWeather.active = wWeatherActive;
 		userData.widgetWeather.option = wWeatherOption;
+		userData.searchEngine = searchEngine;
 	};
 
 	/**
@@ -85,6 +88,7 @@ export const useUserStore = defineStore('user', () => {
 		userData.widgetDL.end = null;
 		userData.widgetWeather.active = false;
 		userData.widgetWeather.option = null;
+		userData.searchEngine = null;
 		tokenRemove();
 		router.push('/auth');
 	};
@@ -99,7 +103,7 @@ export const useUserStore = defineStore('user', () => {
 			await user
 				.getAuth()
 				.then((response) => {
-					console.log(response);
+					//	console.log(response);
 					setUserData(
 						tokenStorage,
 						response.data.id,
@@ -111,7 +115,8 @@ export const useUserStore = defineStore('user', () => {
 						response.data.wDLStart,
 						response.data.wDLEnd,
 						response.data.wWeatherActive,
-						response.data.wWeatherOption
+						response.data.wWeatherOption,
+						response.data.searchEngine
 					);
 				})
 				.catch((error) => {

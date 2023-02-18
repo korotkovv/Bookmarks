@@ -73,12 +73,15 @@
 		cursor: pointer;
 		&:hover {
 			background: var(--primary-hover);
+			color: var(--text-bottom);
 		}
 		&:active {
 			background: var(--primary-hover);
+			color: var(--text-bottom);
 		}
 		&:disabled {
 			background: var(--grey-grey-light);
+			color: var(--text-bottom);
 		}
 	}
 }

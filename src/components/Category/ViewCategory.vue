@@ -2,10 +2,12 @@
 	<main class="main">
 		<sub-category></sub-category>
 		<div class="main__header">
-			<div class="main__title">
-				{{ menuStore.nameCategory ? menuStore.nameCategory : 'Нет данных' }}
-			</div>
-			<div class="main__switcher switcher">
+			<h1 class="main__title">
+				{{
+					menuStore.nameCategory ? menuStore.nameCategory : 'Выберите категорию'
+				}}
+			</h1>
+			<div v-if="menuStore.nameCategory" class="main__switcher switcher">
 				<button
 					class="switcher__grid"
 					:class="settingStore.switcher === 'grid' ? 'active' : ''"
@@ -23,7 +25,7 @@
 			</div>
 		</div>
 		<div class="main__body">
-			<div class="main__wrap">
+			<div v-if="menuStore.nameCategory" class="main__wrap">
 				<link-grid
 					v-if="settingStore.switcher === 'grid'"
 					:linksList="linksList"
@@ -58,6 +60,7 @@
 					</ul>
 				</div>
 			</div>
+			<div v-else class="main__wrap"><h3>Категория не выбрана!</h3></div>
 
 			<the-widgets v-if="settingStore.isWatchWidgets"></the-widgets>
 		</div>
@@ -101,7 +104,7 @@ const pagination = reactive({
  */
 const getLinks = async (id, page, pageSize, userId) => {
 	linksList.value = await links
-		.getLinks(id ? id : 1, page, pageSize, userId)
+		.getLinks(id, page, pageSize, userId)
 		.then((response) => {
 			//	console.log(response.data);
 			if (response.status === 200) {
@@ -169,9 +172,11 @@ const nextPaginationPage = () => {
 	}
 };
 
+console.log(menuStore.slugArr);
 onMounted(() => {
 	menuStore.setSlug(route.params.slug);
 
+	console.log(route.params.slug);
 	getLinks(menuStore.idCategory, 1, pagination.pageSize, userStore.userData.id);
 });
 
@@ -182,7 +187,7 @@ watch(
 			menuStore.setSlug(route.params.slug);
 			//	getLinks(menuStore.idCategory, 1, pagination.pageSize, userStore.userData.id);
 		} else {
-			router.push('/404');
+			router.push(`/category/${menuStore.slugArr[0]}`);
 		}
 	}
 );

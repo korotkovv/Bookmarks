@@ -8,7 +8,12 @@ const routes = [
 		name: 'Home',
 		path: '/',
 		component: Home,
-		redirect: '/category/favorite',
+		redirect: '/category',
+	},
+	{
+		name: 'Category',
+		path: '/category',
+		component: () => import('../components/Category/ViewCategory.vue'),
 		meta: {
 			title: 'Главная',
 			layout: 'main',
@@ -28,11 +33,6 @@ const routes = [
 				},
 			},
 		],
-	},
-	{
-		name: 'Category',
-		path: '/category',
-		redirect: '/category/favorite',
 	},
 	{
 		name: 'Trash',

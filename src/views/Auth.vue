@@ -48,9 +48,11 @@
 import { ref, reactive } from 'vue';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
+import { useMenuStore } from '@/stores/menu';
 import user from '@/service/endpoints/user';
 
 const userStore = useUserStore();
+const menuStore = useMenuStore();
 const router = useRouter();
 
 const isError = ref(false);
@@ -82,7 +84,7 @@ const onAuth = async () => {
 					response.data.user.wWeatherActive,
 					response.data.user.wWeatherOption
 				);
-				router.push('/');
+				router.push(`/category/${menuStore.slugArr[0]}`);
 			})
 			.catch((error) => {
 				isError.value = true;

@@ -1,7 +1,7 @@
 <template>
 	<header class="header">
 		<div class="header__left">
-			<router-link to="/" class="header__logo">
+			<router-link :to="{ path: '/' }" class="header__logo">
 				<img
 					v-if="settingStore.appTheme === 'light'"
 					src="@/assets/logo-black.svg"

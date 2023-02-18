@@ -38,6 +38,11 @@ input[type='button'] {
 			border: 2px solid var(--primary-hover);
 			background: var(--primary-hover);
 		}
+		&:focus {
+			color: var(--text-bottom);
+			border: 2px solid var(--primary-hover);
+			background: var(--primary-hover);
+		}
 		&:active {
 			color: var(--text-bottom);
 			border: 2px solid var(--primary-hover);
@@ -63,6 +68,11 @@ input[type='button'] {
 			//		border: 2px solid var(--red-delete);
 			background: var(--red-delete);
 		}
+		&:focus {
+			color: var(--text-bottom-primary);
+			//		border: 2px solid var(--red-delete);
+			background: var(--red-delete);
+		}
 		&:disabled {
 			opacity: 0.5;
 		}
@@ -81,11 +91,11 @@ input[type='button'] {
 			opacity: 1;
 		}
 		&:active {
-			color: var(--text-bottom-primary);
+			color: var(--primary-hover);
 			background: none;
 		}
 		&:focus {
-			color: var(--text-bottom-primary);
+			color: var(--primary-hover);
 			background: none;
 		}
 		&:disabled {
@@ -442,6 +452,7 @@ select {
 	color: var(--grey-blue-light);
 	font-family: var(--font-family);
 	font-size: 14px;
+	font-weight: 400;
 	margin: 10px 0;
 	padding: 0 15px;
 	background-color: var(--black);
@@ -460,11 +471,15 @@ select {
 	option {
 		color: var(--grey-light);
 		background-color: var(--black);
+		font-size: 14px;
+		font-weight: 400;
 	}
 
 	option.app-options-subcategory {
 		color: var(--grey-grey-light);
 		background-color: var(--black);
+		font-size: 14px;
+		font-weight: 400;
 	}
 
 	/* Remove IE arrow */

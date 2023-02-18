@@ -248,7 +248,7 @@ const dialogAddSuccess = () => {
 		addCategory.title &&
 		addCategory.slug &&
 		addCategory.icon &&
-		addCategory.sort
+		addCategory.sort > -1
 	) {
 		addCategorySend(
 			addCategory.title,

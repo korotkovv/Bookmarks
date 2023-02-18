@@ -282,7 +282,7 @@ const dialogAddSuccess = () => {
 		addSubCategory.title &&
 		addSubCategory.slug &&
 		addSubCategory.icon &&
-		addSubCategory.sort
+		addSubCategory.sort > -1
 	) {
 		addSubCategorySend(
 			addSubCategory.category,

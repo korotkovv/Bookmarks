@@ -200,7 +200,7 @@ const dialogAddSuccess = () => {
 
 	if (v$.value.$error) return;
 
-	if (!v$.value.$error && addInfo.title && addInfo.text && addInfo.sort) {
+	if (!v$.value.$error && addInfo.title && addInfo.text && addInfo.sort > -1) {
 		addInfoSend(
 			addInfo.title,
 			addInfo.text,

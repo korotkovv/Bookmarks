@@ -341,7 +341,7 @@ const dialogAddSuccess = () => {
 		addLink.link &&
 		addLink.color &&
 		addLink.category &&
-		addLink.sort
+		addLink.sort > -1
 	) {
 		icon.value ? null : (addLinkSend.icon = '');
 		addLinkSend(

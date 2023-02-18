@@ -327,7 +327,7 @@ const dialogAddSuccess = () => {
 		editCategory.title &&
 		editCategory.slug &&
 		editCategory.icon &&
-		editCategory.sort
+		editCategory.sort > -1
 	) {
 		editCategorySend(
 			props.idCategory,

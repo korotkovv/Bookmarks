@@ -361,7 +361,7 @@ const dialogAddSuccess = () => {
 		editSubCategory.title &&
 		editSubCategory.slug &&
 		editSubCategory.icon &&
-		editSubCategory.sort
+		editSubCategory.sort > -1
 	) {
 		editSubCategorySend(
 			editSubCategory.category,

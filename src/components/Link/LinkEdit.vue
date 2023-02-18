@@ -406,7 +406,7 @@ const dialogEditSuccess = () => {
 		editLink.link &&
 		editLink.color &&
 		editLink.category &&
-		editLink.sort
+		editLink.sort > -1
 	) {
 		icon.value ? null : (editLink.icon = '');
 		editLinkSend(

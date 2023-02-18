@@ -255,7 +255,7 @@ const dialogEditSuccess = () => {
 		editInfo.id &&
 		editInfo.title &&
 		editInfo.text &&
-		editInfo.sort
+		editInfo.sort > -1
 	) {
 		editInfoSend(
 			editInfo.id,

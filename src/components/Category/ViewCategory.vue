@@ -172,22 +172,12 @@ const nextPaginationPage = () => {
 	}
 };
 
-const redirectToCategory = async () => {
+onMounted(() => {
+	menuStore.setSlug(route.params.slug);
+
 	if (route.path === '/category' || route.path === '/category/') {
 		router.push(`/category/${menuStore.slugArr[0]}`);
 	}
-};
-
-const redirect = async () => {
-	await redirectToCategory();
-};
-
-onMounted(() => {
-	menuStore.setSlug(route.params.slug);
-	/* if (route.path === '/category') {
-		router.push(`/category/${menuStore.slugArr[0]}`);
-	} */
-	redirect();
 	getLinks(menuStore.idCategory, 1, pagination.pageSize, userStore.userData.id);
 });
 

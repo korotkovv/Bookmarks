@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia';
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
+import { useMenuStore } from '@/stores/menu';
 import user from '@/service/endpoints/user';
 
 export const useUserStore = defineStore('user', () => {
+	const menuStore = useMenuStore();
 	const isAuth = ref(false);
 	const userData = reactive({
 		id: null,
@@ -70,6 +72,7 @@ export const useUserStore = defineStore('user', () => {
 		userData.widgetWeather.active = wWeatherActive;
 		userData.widgetWeather.option = wWeatherOption;
 		userData.searchEngine = searchEngine;
+		menuStore.getCategoryMenu();
 	};
 
 	/**

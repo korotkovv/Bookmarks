@@ -8,7 +8,13 @@ const routes = [
 		name: 'Home',
 		path: '/',
 		component: Home,
-		redirect: '/category',
+		//	redirect: '/category/first',
+		meta: {
+			title: 'Главная',
+			layout: 'main',
+			auth: true,
+			isAdmin: true,
+		},
 	},
 	{
 		name: 'Category',

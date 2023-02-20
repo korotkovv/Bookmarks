@@ -156,16 +156,16 @@
 										:icons="addLink.icon"
 										@update:icons="addLink.icon = $event"
 									></icon-add>
-									<template v-if="vI$.icon.$dirty">
-										<div
-											v-for="error of vI$.icon.$silentErrors"
-											:key="error.$message"
-											class="form__error"
-										>
-											{{ error.$message }}
-										</div>
-									</template>
 								</div>
+								<template v-if="vI$.icon.$dirty">
+									<div
+										v-for="error of vI$.icon.$silentErrors"
+										:key="error.$message"
+										class="form__error"
+									>
+										{{ error.$message }}
+									</div>
+								</template>
 							</template>
 						</div>
 					</div>
@@ -237,20 +237,23 @@ const addLink = reactive({
 const icon = ref(true);
 
 // Валидация
-const requiredNameLength = ref(4);
+const myURL = helpers.regex(
+	/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
+);
+const requiredNameLength = ref(3);
 const rules = computed(() => ({
 	title: {
 		required: helpers.withMessage(`Поле не заполнено`, required),
 		minLength: helpers.withMessage(
-			`Минимальная длина: 4 символа`,
+			`Минимальная длина: 3 символа`,
 			minLength(requiredNameLength.value)
 		),
 	},
 	link: {
 		required: helpers.withMessage(`Поле не заполнено`, required),
-		url: helpers.withMessage(`Поле должно быть ссылкой`, url),
+		url: helpers.withMessage(`Поле должно быть ссылкой`, myURL),
 		minLength: helpers.withMessage(
-			`Минимальная длина: 4 символа`,
+			`Минимальная длина: 3 символа`,
 			minLength(requiredNameLength.value)
 		),
 	},

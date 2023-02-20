@@ -6,7 +6,7 @@
 		<a :href="linkItem.url" class="link__url">
 			<div class="link__img" :class="colorTheme">
 				<i v-if="linkItem.icon" :class="linkItem.icon"></i>
-				<span v-else class="list__tag">{{ linkItem.title }}</span>
+				<span v-else class="link__tag">{{ linkItem.title }}</span>
 			</div>
 			<div class="link__body">
 				<div class="link__title">{{ linkItem.title }}</div>

@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useUserStore } from '@/stores/user';
 
 const userStore = useUserStore();
@@ -111,7 +111,9 @@ const dataCalculation = () => {
 			userStore.userData.widgetDL.start,
 			userStore.userData.widgetDL.end
 		);
-		percentageOfCompletion.value = Math.round((daysLeft.value * 100) / allDay);
+		percentageOfCompletion.value = Math.round(
+			(daysHavePassed.value * 100) / allDay
+		);
 	} else {
 		percentageOfCompletion.value = '-';
 	}
@@ -121,6 +123,20 @@ onMounted(() => {
 	today.value = getToDay();
 	dataCalculation();
 });
+
+watch(
+	() => userStore.userData.widgetDL.start,
+	() => {
+		dataCalculation();
+	}
+);
+
+watch(
+	() => userStore.userData.widgetDL.end,
+	() => {
+		dataCalculation();
+	}
+);
 
 //
 </script>

@@ -7,7 +7,7 @@
 				</div>
 				<div class="modal__close" @click="dialogEditClose">&times;</div>
 			</div>
-			<form @submit.prevent="dialogEditSuccess">
+			<form @submit.prevent="dialogEditSuccess" class="modal__form">
 				<div class="modal__body">
 					<div class="form__row">
 						<div class="form__col">

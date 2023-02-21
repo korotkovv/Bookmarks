@@ -96,6 +96,34 @@
 	.form__col:last-child {
 		margin-left: 0;
 	}
+	.modal {
+		z-index: 999999;
+		&__dialog {
+			z-index: 999999;
+			padding: 15px 0 15px 0;
+		}
+		&__footer {
+			//	border-radius: var(--border-radius);
+			justify-content: center;
+			position: relative;
+			bottom: auto;
+			left: auto;
+			border-top: none;
+		}
+		&__header {
+			padding: 5px 20px 10px 20px !important;
+		}
+		&__body {
+			overflow-y: auto;
+			max-height: none;
+			margin-bottom: 5px;
+			padding: 5px 20px !important;
+		}
+		&__form {
+			max-height: 90vh;
+			overflow-y: auto;
+		}
+	}
 }
 
 @media (max-width: 700px) {
@@ -136,7 +164,7 @@
 		left: 0;
 		z-index: 99;
 		border-radius: var(--border-radius);
-		background: var(--dark);
+		background: var(--bg-block);
 		height: 100%;
 		box-shadow: 3px 1px 11px 9px rgba(0, 0, 0, 0.15);
 	}

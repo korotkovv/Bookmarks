@@ -12,11 +12,11 @@
 		display: flex;
 		justify-content: flex-start;
 		align-items: flex-start;
-		background: var(--dark);
+		background: var(--bg-block);
 		border-radius: var(--border-radius);
 		position: relative;
 		transition: all 0.3s;
-		border: 1px solid var(--black);
+		border: 1px solid var(--bg-main);
 		margin-bottom: 20px;
 		padding: 30px;
 		flex-grow: 1;
@@ -43,7 +43,7 @@
 		width: 32px;
 		height: 32px;
 		border-radius: 50%;
-		background: var(--black);
+		background: var(--bg-main);
 		opacity: 0;
 		visibility: hidden;
 		transition: opacity 0.3s, visibility 0s linear 0.3s;
@@ -68,11 +68,11 @@
 		display: flex;
 		justify-content: flex-start;
 		align-items: flex-start;
-		background: var(--dark);
+		background: var(--bg-block);
 		border-radius: var(--border-radius);
 		position: relative;
 		transition: all 0.3s;
-		border: 1px solid var(--black);
+		border: 1px solid var(--bg-main);
 		margin-bottom: 20px;
 		padding: 30px;
 		flex-grow: 1;

@@ -5,7 +5,7 @@
 				<div class="modal__title">Добавить запись</div>
 				<div class="modal__close" @click="dialogClose">&times;</div>
 			</div>
-			<form @submit.prevent="dialogAddSuccess">
+			<form @submit.prevent="dialogAddSuccess" class="modal__form">
 				<div class="modal__body">
 					<div class="form__row">
 						<div class="form__col">

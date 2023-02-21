@@ -1,12 +1,12 @@
 .info-block {
-	background: var(--dark);
+	background: var(--bg-block);
 	border-radius: var(--border-radius);
 	padding: 26px 30px 23px 30px;
 	border: 1px solid var(--border-color-sidebar);
 
 	// .info__title
 	&__title {
-		color: #464d61;
+		color: var(--grey-grey-light);
 		text-transform: uppercase;
 		font-size: 16px;
 		margin-bottom: 15px;
@@ -19,14 +19,15 @@
 	// .info__item
 	&__item {
 		padding: 14px 0;
-		font-size: 16px;
-		color: var(--grey-blue-light);
+		font-size: 15px;
+		font-weight: 500;
+		color: var(--text-sidebar);
 		transition: var(--transition);
 		a {
 			display: flex;
 			justify-content: flex-start;
 			align-items: center;
-			color: var(--grey-blue-light);
+			color: var(--text-sidebar);
 			transition: var(--transition);
 			i {
 				font-size: 24px;

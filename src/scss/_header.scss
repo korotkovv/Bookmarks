@@ -4,7 +4,7 @@
 	justify-content: space-between;
 	padding: 5px 25px;
 	border-radius: var(--border-radius);
-	background: var(--dark);
+	background: var(--bg-block);
 	border: 1px solid var(--border-color-sidebar);
 	margin-bottom: 20px;
 
@@ -49,7 +49,7 @@
 	&__setting {
 		color: var(--grey-light);
 		font-size: 32px;
-		background: var(--dark);
+		background: var(--bg-block);
 		margin-right: 45px;
 		transition: var(--transition);
 		i {
@@ -128,9 +128,9 @@
 		right: 0;
 		padding: 10px 0px;
 		color: var(--grey-light);
-		background: var(--dark);
+		background: var(--bg-block);
 		border-radius: var(--border-radius);
-		border: 1px solid var(--black);
+		border: 1px solid var(--bg-main);
 		transition: var(--transition);
 		z-index: 98;
 		box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.1);
@@ -153,7 +153,7 @@
 
 		&:hover {
 			color: var(--primary);
-			background: var(--black);
+			background: var(--bg-main);
 		}
 	}
 }
@@ -168,7 +168,7 @@
 			height: 60px;
 			padding-left: 52px;
 			color: var(--grey-light);
-			background: var(--dark);
+			background: var(--bg-block);
 			font-size: 16px;
 			width: 500px;
 
@@ -186,7 +186,7 @@
 			left: 0px;
 			width: 40px;
 			height: 60px;
-			background: var(--dark);
+			background: var(--bg-block);
 			border: none;
 			transition: var(--transition);
 			cursor: pointer;

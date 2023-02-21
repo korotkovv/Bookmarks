@@ -4,8 +4,8 @@
 	align-items: center;
 	margin-top: 50px;
 	padding: 10px 20px;
-	background: var(--dark);
-	border: 2px dashed var(--black);
+	background: var(--bg-block);
+	border: 2px dashed var(--bg-main);
 	border-radius: var(--border-radius);
 
 	ul {
@@ -64,7 +64,7 @@
 			}
 		}
 		span.active {
-			background: var(--black);
+			background: var(--bg-main);
 			color: var(--primary);
 		}
 	}

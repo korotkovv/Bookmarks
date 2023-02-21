@@ -48,7 +48,7 @@
 .subcategory {
 	max-width: 100%;
 	padding: 11px 18px;
-	background: var(--dark);
+	background: var(--bg-block);
 	border-radius: var(--border-radius);
 	border: 1px solid var(--border-color-sidebar);
 	overflow-x: auto;
@@ -70,17 +70,17 @@
 		font-size: 15px;
 		font-weight: 500;
 		margin-right: 15px;
-		color: var(--grey-blue-light);
+		color: var(--text-sidebar);
 		transition: var(--transition);
 		cursor: pointer;
 		span {
 			display: flex;
 			justify-content: flex-start;
 			align-items: center;
-			color: var(--grey-blue-light);
+			color: var(--text-sidebar);
 			padding: 12px 12px;
 			border-radius: var(--border-radius);
-			background: var(--dark);
+			background: var(--bg-block);
 			white-space: nowrap;
 			transition: var(--transition);
 
@@ -94,7 +94,7 @@
 				padding: 12px 12px;
 				border-radius: var(--border-radius);
 				color: var(--primary);
-				background: var(--black);
+				background: var(--bg-main);
 
 				i {
 					color: var(--primary);
@@ -106,7 +106,7 @@
 				padding: 12px 12px;
 				border-radius: var(--border-radius);
 				color: var(--primary);
-				background: var(--black);
+				background: var(--bg-main);
 
 				i {
 					color: var(--primary);
@@ -154,10 +154,15 @@
 	&__grid {
 		width: 40px;
 		height: 40px;
-		color: #9ba6bc;
+		color: var(--text-bottom);
 		border-radius: var(--border-radius);
-		background: var(--dark);
+		background: var(--bg-block);
 		margin-right: 18px;
+
+		&:hover {
+			color: var(--text-bottom-primary);
+			background: var(--primary);
+		}
 
 		i {
 			font-size: 24px;
@@ -165,7 +170,7 @@
 			transition: var(--transition);
 		}
 		&.active {
-			color: var(--text-bottom);
+			color: var(--text-bottom-primary);
 			background: var(--primary);
 		}
 	}
@@ -175,9 +180,13 @@
 	&__list {
 		width: 40px;
 		height: 40px;
-		color: #9ba6bc;
+		color: var(--text-bottom);
 		border-radius: var(--border-radius);
-		background: var(--dark);
+		background: var(--bg-block);
+		&:hover {
+			color: var(--text-bottom-primary);
+			background: var(--primary);
+		}
 
 		i {
 			font-size: 24px;
@@ -185,7 +194,7 @@
 			transition: var(--transition);
 		}
 		&.active {
-			color: var(--text-bottom);
+			color: var(--text-bottom-primary);
 			background: var(--primary);
 		}
 	}
@@ -196,11 +205,11 @@
 	grid-gap: 40px 30px;
 }
 .link {
-	background: var(--dark);
+	background: var(--bg-block);
 	border-radius: var(--border-radius);
 	position: relative;
 	transition: all 0.3s;
-	border: 1px solid var(--black);
+	border: 1px solid var(--bg-main);
 
 	&:hover {
 		border: 1px solid var(--border-item-color);
@@ -223,7 +232,7 @@
 		width: 32px;
 		height: 32px;
 		border-radius: 50%;
-		background: var(--black);
+		background: var(--bg-main);
 		opacity: 0;
 		visibility: hidden;
 		transition: opacity 0.3s, visibility 0s linear 0.3s;
@@ -369,11 +378,11 @@
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	background: var(--dark);
+	background: var(--bg-block);
 	border-radius: var(--border-radius);
 	position: relative;
 	transition: all 0.3s;
-	border: 1px solid var(--black);
+	border: 1px solid var(--bg-main);
 	margin-bottom: 10px;
 
 	&:hover {
@@ -397,7 +406,7 @@
 		width: 32px;
 		height: 32px;
 		border-radius: 50%;
-		background: var(--black);
+		background: var(--bg-main);
 		opacity: 0;
 		visibility: hidden;
 		transition: opacity 0.3s, visibility 0s linear 0.3s;

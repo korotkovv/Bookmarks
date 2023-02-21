@@ -9,7 +9,7 @@
 	// .widgets__weather
 	&__empty {
 		padding: 20px 16px 20px 16px;
-		background: var(--dark);
+		background: var(--bg-block);
 		border-radius: var(--border-radius);
 		width: 230px;
 		&:first-child {
@@ -19,7 +19,7 @@
 }
 .deadline {
 	padding: 20px 16px 14px 16px;
-	background: var(--dark);
+	background: var(--bg-block);
 	border-radius: var(--border-radius);
 	width: 230px;
 	// .deadline__title
@@ -71,7 +71,7 @@
 }
 .weather {
 	padding: 0 16px 14px 16px;
-	background: var(--dark);
+	background: var(--bg-block);
 	border-radius: var(--border-radius);
 	display: flex;
 	justify-content: flex-start;

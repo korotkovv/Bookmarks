@@ -16,7 +16,7 @@ onMounted(() => {
 
 watch(
 	() => menuStore.slugArr,
-	(newV, oldV) => {
+	() => {
 		if (menuStore.slugArr.length > 0) {
 			router.push(`/category/${menuStore.slugArr[0]}`);
 		}

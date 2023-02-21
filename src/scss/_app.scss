@@ -137,7 +137,7 @@
 		justify-content: left;
 		flex-wrap: wrap;
 		padding: 7px;
-		background: var(--black);
+		background: var(--bg-main);
 		border-radius: var(--border-radius);
 	}
 	&__item {
@@ -145,7 +145,7 @@
 		margin: 3px;
 		font-size: 26px;
 		transition: var(--transition);
-		background: var(--dark);
+		background: var(--bg-block);
 		border-radius: 4px;
 		cursor: pointer;
 		&_active {

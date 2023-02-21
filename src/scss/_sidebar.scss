@@ -11,7 +11,7 @@
 }
 
 .category {
-	background: var(--dark);
+	background: var(--bg-block);
 	border-radius: var(--border-radius);
 	padding: 10px 0 10px 0;
 	border: 1px solid var(--border-color-sidebar);
@@ -21,7 +21,7 @@
 		position: relative;
 		font-size: 16px;
 		font-weight: 500;
-		color: var(--grey-blue-light);
+		color: var(--text-sidebar);
 		transition: var(--transition);
 		padding: 0 0 0 0;
 		cursor: pointer;
@@ -33,13 +33,13 @@
 			justify-content: flex-start;
 			align-items: center;
 			padding: 14px 30px;
-			color: var(--grey-blue-light);
-			border-left: 4px solid var(--dark);
-			background: var(--dark);
+			color: var(--text-sidebar);
+			border-left: 4px solid var(--bg-block);
+			background: var(--bg-block);
 			transition: var(--transition);
 			&.router-link-active {
 				color: var(--primary);
-				background: var(--black);
+				background: var(--bg-main);
 				border-left: 4px solid var(--primary);
 				transition: var(--transition);
 			}
@@ -47,6 +47,7 @@
 				font-size: 24px;
 				margin-right: 10px;
 				transition: var(--transition);
+				//	color: var(--grey-grey-light);
 			}
 			span {
 				flex-grow: 1;
@@ -55,7 +56,7 @@
 
 		&:hover {
 			//		padding-left: 34px;
-			background: var(--black);
+			background: var(--bg-main);
 			//		border-left: 4px solid var(--primary);
 			a {
 				color: var(--primary);
@@ -76,7 +77,7 @@
 
 		&.active {
 			padding-left: 34px;
-			background: var(--black);
+			background: var(--bg-main);
 			border-left: 4px solid var(--primary);
 			a {
 				color: var(--primary);
@@ -106,7 +107,7 @@
 
 		&:hover {
 			color: var(--primary);
-			//		background: var(--black);
+			//		background: var(--bg-main);
 			i {
 				color: var(--primary);
 			}

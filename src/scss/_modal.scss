@@ -40,7 +40,7 @@
 		//тёмный фон
 		//background: rgba(0, 0, 0, 0.7);
 		//box-shadow: 0 0 25px #555;
-		background: var(--dark);
+		background: var(--bg-block);
 		box-shadow: 0 3px 7px rgba(0, 0, 0, 0.05);
 		border: 1px solid var(--border-color);
 		opacity: 0;
@@ -69,7 +69,7 @@
 		//тёмный фон
 		//background: rgba(0, 0, 0, 0.7);
 		//		box-shadow: 0 0 25px #555;
-		background: var(--dark);
+		background: var(--bg-block);
 		box-shadow: 0 3px 7px rgba(0, 0, 0, 0.05);
 		border: 1px solid var(--border-color);
 		border-radius: var(--border-radius);
@@ -163,7 +163,7 @@
 		flex-wrap: wrap;
 		border-top: 1px solid var(--border-item-color);
 		padding: 30px 20px;
-		background: var(--black);
+		background: var(--bg-main);
 
 		button {
 			&:first-child {
@@ -220,7 +220,7 @@
 		flex-wrap: nowrap;
 		min-width: 530px;
 		margin-bottom: 5px;
-		background: var(--black);
+		background: var(--bg-main);
 		padding: 12px 20px;
 		border-radius: var(--border-radius);
 	}
@@ -242,7 +242,7 @@
 		}
 		&.active {
 			color: var(--primary);
-			background: var(--dark);
+			background: var(--bg-block);
 			border-radius: var(--border-radius);
 		}
 		i {

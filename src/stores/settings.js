@@ -71,9 +71,29 @@ export const useSettingStore = defineStore('setting', () => {
 	 * Переключить в режим grid
 	 */
 	const switcherGridHandle = () => {
-		if (switcher.value === 'list') {
+		if (switcher.value === 'list' || switcher.value === 'compact') {
 			switcher.value = 'grid';
 			localStorage.setItem('switcher', 'grid');
+		}
+	};
+
+	/**
+	 * Переключить в режим grid
+	 */
+	const switcherCompactHandle = () => {
+		if (switcher.value === 'list' || switcher.value === 'grid') {
+			switcher.value = 'compact';
+			localStorage.setItem('switcher', 'compact');
+		}
+	};
+
+	/**
+	 * Переключить в режим list
+	 */
+	const switcherListHandle = () => {
+		if (switcher.value === 'grid' || switcher.value === 'compact') {
+			switcher.value = 'list';
+			localStorage.setItem('switcher', 'list');
 		}
 	};
 
@@ -93,16 +113,6 @@ export const useSettingStore = defineStore('setting', () => {
 		} else {
 			appTheme.value = 'dark';
 			localStorage.setItem('appTheme', 'dark');
-		}
-	};
-
-	/**
-	 * Переключить в режим list
-	 */
-	const switcherListHandle = () => {
-		if (switcher.value === 'grid') {
-			switcher.value = 'list';
-			localStorage.setItem('switcher', 'list');
 		}
 	};
 
@@ -144,6 +154,7 @@ export const useSettingStore = defineStore('setting', () => {
 		handleWidgets,
 		appThemeHandle,
 		switcherGridHandle,
+		switcherCompactHandle,
 		switcherListHandle,
 		closeToast,
 		addToast,

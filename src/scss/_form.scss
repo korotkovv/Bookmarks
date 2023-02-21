@@ -136,7 +136,7 @@ input {
 	border: 1px solid var(--bg-main);
 	border-radius: 5px;
 	background: var(--bg-main);
-	color: var(--grey-blue-light);
+	color: var(--text);
 	font-family: var(--font-family);
 	font-size: 14px;
 	margin: 10px 0;
@@ -172,7 +172,7 @@ input[type='radio'] {
 		padding-top: 1px;
 		cursor: pointer;
 		display: inline-block;
-		color: var(--grey-blue-light);
+		color: var(--text);
 		transition: var(--transition);
 		font-size: 15px;
 		&:hover {
@@ -248,7 +248,7 @@ input[type='checkbox'].checkbox {
 		padding-left: 35px;
 		cursor: pointer;
 		display: inline-block;
-		color: var(--grey-blue-light);
+		color: var(--text);
 		transition: var(--transition);
 		font-size: 15px;
 		&:hover {
@@ -450,7 +450,7 @@ select {
 	border: 1px solid var(--bg-main);
 	border-radius: 5px;
 	background: var(--bg-main);
-	color: var(--grey-blue-light);
+	color: var(--text);
 	font-family: var(--font-family);
 	font-size: 14px;
 	font-weight: 400;

@@ -16,6 +16,13 @@
 					<i class="lab la-buromobelexperte"></i>
 				</button>
 				<button
+					class="switcher__grid"
+					:class="settingStore.switcher === 'compact' ? 'active' : ''"
+					@click="settingStore.switcherCompactHandle"
+				>
+					<i class="las la-braille"></i>
+				</button>
+				<button
 					class="switcher__list"
 					:class="settingStore.switcher === 'list' ? 'active' : ''"
 					@click="settingStore.switcherListHandle"
@@ -32,10 +39,15 @@
 					@refresh="refreshLinksList"
 				></link-grid>
 				<link-list
-					v-else="settingStore.switcher === 'list'"
+					v-else-if="settingStore.switcher === 'list'"
 					:linksList="linksList"
 					@refresh="refreshLinksList"
 				></link-list>
+				<link-compact
+					v-else-if="settingStore.switcher === 'compact'"
+					:linksList="linksList"
+					@refresh="refreshLinksList"
+				></link-compact>
 
 				<div v-if="pagination.pageCount > 1" class="pagination">
 					<ul>
@@ -77,6 +89,7 @@ import { useMenuStore } from '@/stores/menu';
 import TheWidgets from '@/components/Widgets/TheWidgets.vue';
 import SubCategory from '@/components/Category/SubCategory.vue';
 import LinkGrid from '@/components/Link/LinkGrid.vue';
+import LinkCompact from '@/components/Link/LinkCompact.vue';
 import LinkList from '@/components/Link/LinkList.vue';
 import links from '@/service/endpoints/links';
 

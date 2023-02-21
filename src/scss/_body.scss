@@ -274,8 +274,8 @@
 		}
 
 		&_orange {
-			color: #0c0c0c;
-			background: #fd7e14;
+			color: #111111;
+			background: #ff8e30;
 		}
 
 		&_indigo {
@@ -288,16 +288,20 @@
 			background: #6f42c1;
 		}
 		&_yellow {
-			color: #0c0c0c;
-			background: #ffcd39;
+			color: #111111;
+			background: #fbcf4e;
 		}
 		&_green {
-			color: #cdd6e9;
+			color: #e5e5e5;
 			background: #036b5d;
 		}
 		&_dark {
-			color: #cdd6e9;
+			color: #e5e5e5;
 			background: var(--link-dark);
+		}
+		&_red {
+			color: #e5e5e5;
+			background: #cf404e;
 		}
 	}
 
@@ -319,7 +323,7 @@
 	// .link__title
 	&__title {
 		font-size: 14px;
-		margin-bottom: 9px;
+		margin-bottom: 4px;
 		font-weight: 500;
 		color: var(--link-headline);
 	}
@@ -509,8 +513,8 @@
 		}
 
 		&_orange {
-			color: #0c0c0c;
-			background: #fd7e14;
+			color: #111111;
+			background: #fbcf4e;
 		}
 
 		&_indigo {
@@ -523,16 +527,20 @@
 			background: #6f42c1;
 		}
 		&_yellow {
-			color: #0c0c0c;
+			color: #111111;
 			background: #ffcd39;
 		}
 		&_green {
-			color: #cdd6e9;
+			color: #e5e5e5;
 			background: #036b5d;
 		}
 		&_dark {
-			color: #cdd6e9;
+			color: #e5e5e5;
 			background: var(--link-dark);
+		}
+		&_red {
+			color: #e5e5e5;
+			background: #cf404e;
 		}
 	}
 	/* 	&__tag {

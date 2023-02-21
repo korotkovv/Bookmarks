@@ -14,6 +14,9 @@
 				<span>{{ weather.windspeed }} <span class="small-text">м/c</span></span>
 			</div>
 			<div class="weather__clouds">{{ weatherTitle }}</div>
+			<a href="https://yandex.ru/pogoda/" target="_blank" class="weather__link"
+				><i class="las la-link"></i> яндекс погода
+			</a>
 		</div>
 		<div class="weather__right">
 			<img class="weather__img" :src="weatherImg" :alt="weatherTitle" />

@@ -128,6 +128,7 @@
 									<option value="green">Зелёный</option>
 									<option value="yellow">Жёлтый</option>
 									<option value="purple">Фиолетовый</option>
+									<option value="red">Красный</option>
 								</select>
 							</div>
 							<div class="form__group_max mb-10">

@@ -69,6 +69,8 @@ const colorTheme = computed(() => {
 			return 'list__img_yellow';
 		case 'purple':
 			return 'list__img_purple';
+		case 'red':
+			return 'list__img_red';
 		default:
 			return 'list__img_dark';
 	}

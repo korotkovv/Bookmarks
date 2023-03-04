@@ -171,7 +171,6 @@ const iconArr = [
 	'lab la-ubuntu',
 	'lab la-stack-overflow',
 	'lab la-vuejs',
-	'lab la-yandex',
 	'lab la-vk',
 	'lab la-youtube',
 	'lab la-vimeo',

@@ -14,6 +14,7 @@ export const useMenuStore = defineStore('menu', () => {
 	const nameCategory = ref(null);
 
 	const getCategoryMenu = async () => {
+		console.log(111111);
 		menu.value = await links
 			.getCategoryAll(userStore.userData.id)
 			.then((response) => {

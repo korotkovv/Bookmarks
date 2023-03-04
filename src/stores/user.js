@@ -65,7 +65,7 @@ export const useUserStore = defineStore('user', () => {
 		userData.lastName = lastName;
 		userData.firstName = firstName;
 		userData.email = email;
-		isAuth.value = true;
+
 		userData.widgetDL.active = wDLActive;
 		userData.widgetDL.start = wDLStart;
 		userData.widgetDL.end = wDLEnd;
@@ -73,6 +73,7 @@ export const useUserStore = defineStore('user', () => {
 		userData.widgetWeather.option = wWeatherOption;
 		userData.searchEngine = searchEngine;
 		menuStore.getCategoryMenu();
+		isAuth.value = true;
 	};
 
 	/**

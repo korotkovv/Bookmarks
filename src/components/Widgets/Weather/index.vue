@@ -3,7 +3,8 @@
 		v-if="
 			userStore.userData.widgetWeather.active &&
 			userStore.userData.widgetWeather.option &&
-			weather
+			weather &&
+			weather.weathercode
 		"
 		class="widgets__weather weather"
 	>

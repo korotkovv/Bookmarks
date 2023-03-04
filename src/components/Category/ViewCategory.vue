@@ -9,6 +9,7 @@
 			</h1>
 			<div v-if="menuStore.nameCategory" class="main__switcher switcher">
 				<button
+					title="Сетка"
 					class="switcher__grid"
 					:class="settingStore.switcher === 'grid' ? 'active' : ''"
 					@click="settingStore.switcherGridHandle"
@@ -16,6 +17,7 @@
 					<i class="lab la-buromobelexperte"></i>
 				</button>
 				<button
+					title="Компактный"
 					class="switcher__grid"
 					:class="settingStore.switcher === 'compact' ? 'active' : ''"
 					@click="settingStore.switcherCompactHandle"
@@ -23,6 +25,7 @@
 					<i class="las la-braille"></i>
 				</button>
 				<button
+					title="Список"
 					class="switcher__list"
 					:class="settingStore.switcher === 'list' ? 'active' : ''"
 					@click="settingStore.switcherListHandle"
@@ -191,7 +194,14 @@ onMounted(() => {
 	if (route.path === '/category' || route.path === '/category/') {
 		router.push(`/category/${menuStore.slugArr[0]}`);
 	}
-	getLinks(menuStore.idCategory, 1, pagination.pageSize, userStore.userData.id);
+	menuStore.idCategory
+		? getLinks(
+				menuStore.idCategory,
+				1,
+				pagination.pageSize,
+				userStore.userData.id
+		  )
+		: null;
 });
 
 watch(

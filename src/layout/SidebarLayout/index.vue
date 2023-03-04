@@ -114,7 +114,7 @@ onBeforeMount(() => {
 	isLoading.value = true;
 });
 onMounted(() => {
-	menuStore.getCategoryMenu();
+	//	menuStore.getCategoryMenu();
 	isLoading.value = false;
 });
 </script>

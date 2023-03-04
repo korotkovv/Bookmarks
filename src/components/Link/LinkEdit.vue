@@ -1,5 +1,11 @@
 <template>
-	<div v-if="isOpen" class="modal modal__editLink active">
+	<div
+		v-if="isOpen"
+		class="modal modal__editLink active"
+		@click.self="dialogEditClose"
+		@keyup.esc="dialogEditClose"
+		tabindex="0"
+	>
 		<div class="modal__dialog">
 			<div class="modal__header">
 				<div class="modal__title">

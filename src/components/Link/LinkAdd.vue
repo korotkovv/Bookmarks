@@ -1,5 +1,11 @@
 <template>
-	<div v-if="isOpen" class="modal active">
+	<div
+		v-if="isOpen"
+		class="modal active"
+		@click.self="dialogClose"
+		@keyup.esc="dialogClose"
+		tabindex="0"
+	>
 		<div class="modal__dialog">
 			<div class="modal__header">
 				<div class="modal__title">Добавить ссылку</div>

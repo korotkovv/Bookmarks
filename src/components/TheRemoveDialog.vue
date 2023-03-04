@@ -1,5 +1,11 @@
 <template>
-	<div v-if="isOpen" class="modal active modal_center">
+	<div
+		v-if="isOpen"
+		class="modal active modal_center"
+		@click.self="dialogClose"
+		@keyup.esc="dialogClose"
+		tabindex="0"
+	>
 		<div class="modal__remove">
 			<div class="modal__header">
 				<div class="modal__title">Подтвердите удаление</div>

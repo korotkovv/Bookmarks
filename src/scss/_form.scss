@@ -143,7 +143,7 @@ input {
 	padding: 0 15px;
 
 	&::placeholder {
-		color: #464d61;
+		color: var(--placeholder);
 	}
 
 	&:disabled {
@@ -322,7 +322,7 @@ textarea {
 	padding: 10px 15px;
 
 	&::placeholder {
-		color: #464d61;
+		color: var(--placeholder);
 	}
 	&:disabled {
 		background: #e7e7e7;
@@ -466,7 +466,7 @@ select {
 	cursor: pointer;
 
 	&::placeholder {
-		color: #ccc;
+		color: var(--placeholder);
 	}
 
 	option {

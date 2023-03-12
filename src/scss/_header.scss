@@ -173,7 +173,7 @@
 			width: 500px;
 
 			&::placeholder {
-				color: #464d61;
+				color: var(--placeholder);
 			}
 		}
 

@@ -4,7 +4,7 @@
 			userStore.userData.widgetWeather.active &&
 			userStore.userData.widgetWeather.option &&
 			weather &&
-			weather.weathercode
+			(weather.weathercode || weather.weathercode === 0)
 		"
 		class="widgets__weather weather"
 	>

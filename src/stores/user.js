@@ -103,11 +103,11 @@ export const useUserStore = defineStore('user', () => {
 	const tokenChecked = async () => {
 		const tokenStorage = localStorage.getItem('token') || null;
 		if (tokenStorage) {
-			//		console.log(tokenStorage);
+			console.log(tokenStorage);
 			await user
 				.getAuth()
 				.then((response) => {
-					//	console.log(response);
+					console.log(response);
 					setUserData(
 						tokenStorage,
 						response.data.id,
@@ -126,6 +126,7 @@ export const useUserStore = defineStore('user', () => {
 				.catch((error) => {
 					router.push('/auth');
 					console.log(error);
+					tokenRemove();
 				});
 			return true;
 		} else {

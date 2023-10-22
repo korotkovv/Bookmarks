@@ -5,7 +5,6 @@
 				<div class="modal__title">Выбрать иконку</div>
 				<div class="modal__close" @click.prevent="dialogClose">&times;</div>
 			</div>
-
 			<div class="modal__body">
 				<div class="app-icons">
 					<div class="app-icons__list">
@@ -30,7 +29,6 @@
 					<button class="btn modal__btn_save" @click.prevent="dialogAddSuccess">
 						<i class="las la-plus"></i> Выбрать
 					</button>
-
 					<button
 						class="btn_outline modal__btn_close"
 						@click.prevent="dialogClose"
@@ -60,7 +58,6 @@ const props = defineProps({
 		default: false,
 	},
 });
-
 const currentIcon = ref('');
 const currentIconIdx = ref(null);
 

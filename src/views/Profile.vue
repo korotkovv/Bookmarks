@@ -27,7 +27,6 @@
 								</div>
 							</template>
 						</div>
-
 						<div class="form__group_max">
 							<label for="firstName">Имя <span>*</span></label>
 						</div>
@@ -184,9 +183,7 @@ import { minLength, required, helpers } from '@vuelidate/validators';
 const router = useRouter();
 const settingStore = useSettingStore();
 const userStore = useUserStore();
-
 const isUpdate = ref(false);
-
 const userInfo = reactive({
 	id: null,
 	username: null,
@@ -200,7 +197,6 @@ const userInfo = reactive({
 	wWeatherOption: null,
 	searchEngine: null,
 });
-
 // Валидация
 const requiredNameLength = ref(4);
 const rules = computed(() => ({
@@ -226,7 +222,6 @@ const rules = computed(() => ({
 		),
 	},
 }));
-
 const v$ = useVuelidate(rules, userInfo);
 
 /**
@@ -236,7 +231,6 @@ const getUser = async () => {
 	await user
 		.getAuth()
 		.then((response) => {
-			//	console.log(response.data);
 			if (response.data) {
 				userInfo.id = response.data.id;
 				userInfo.username = response.data.username;
@@ -250,7 +244,6 @@ const getUser = async () => {
 				userInfo.wWeatherOption = response.data.wWeatherOption;
 				userInfo.searchEngine = response.data.searchEngine;
 			}
-
 			return response.data;
 		})
 		.catch((error) => {
@@ -263,10 +256,7 @@ getUser();
 
 const editUserSubmit = async () => {
 	v$.value.$touch();
-	//	console.log(v$.value.$error);
 	if (v$.value.$error) return;
-	//console.log(userInfo);
-
 	isUpdate.value = false;
 	if (!v$.value.$error) {
 		await user
@@ -284,7 +274,6 @@ const editUserSubmit = async () => {
 				userInfo.searchEngine
 			)
 			.then((response) => {
-				//console.log(response);
 				if (response.status === 200) {
 					isUpdate.value = true;
 					settingStore.addToast('success', `Изменения сохранены!'`);

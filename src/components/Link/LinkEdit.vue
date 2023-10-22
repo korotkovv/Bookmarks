@@ -228,15 +228,12 @@ import {
 	helpers,
 	numeric,
 	minValue,
-	url,
 } from '@vuelidate/validators';
 
 const userStore = useUserStore();
 const settingStore = useSettingStore();
 const menuStore = useMenuStore();
-
 const emit = defineEmits(['close', 'success']);
-
 const props = defineProps({
 	idLink: {
 		type: Number,
@@ -252,7 +249,6 @@ const props = defineProps({
 		default: false,
 	},
 });
-
 const form = ref(false);
 const editLink = reactive({
 	id: null,
@@ -265,13 +261,11 @@ const editLink = reactive({
 	category: null,
 });
 const icon = ref(true);
-
 const removeDialog = reactive({
 	status: false,
 	id: null,
 	title: null,
 });
-
 // Валидация
 const myURL = helpers.regex(
 	/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
@@ -302,7 +296,6 @@ const rules = computed(() => ({
 		),
 	},
 }));
-
 const rulesIcon = computed(() => ({
 	icon: {
 		required: helpers.withMessage(`Поле не заполнено`, required),
@@ -312,7 +305,6 @@ const rulesIcon = computed(() => ({
 		),
 	},
 }));
-
 const v$ = useVuelidate(rules, editLink);
 const vI$ = useVuelidate(rulesIcon, editLink);
 
@@ -324,12 +316,10 @@ const getLink = async (id) => {
 	await links
 		.getLink(id)
 		.then((response) => {
-			//console.log(response.data?.data.attributes);
 			if (response.data?.data.attributes) {
 				editLink.id = id;
 				editLink.title = response.data?.data.attributes.title;
 				editLink.link = response.data?.data.attributes.url;
-
 				editLink.sort = response.data?.data.attributes.sort;
 				editLink.color = response.data?.data.attributes.color
 					? response.data?.data.attributes.color
@@ -376,7 +366,6 @@ const editLinkSend = async (
 	await links
 		.putLink(id, title, link, icon, sort, color, desc, categotyId, userId)
 		.then((response) => {
-			//console.log(response.data);
 			return response.data;
 		})
 		.then(() => {
@@ -402,9 +391,7 @@ const dialogEditClose = () => {
  */
 const dialogEditSuccess = () => {
 	v$.value.$touch();
-	//	console.log(v$.value.$error);
 	if (v$.value.$error) return;
-
 	if (icon.value) {
 		vI$.value.$touch();
 		if (vI$.value.$error) return;
@@ -430,9 +417,6 @@ const dialogEditSuccess = () => {
 			editLink.category,
 			userStore.userData.id
 		);
-	} else {
-		console.log('Что то не заполнено');
-		//console.log(v$.value.$error);
 	}
 };
 
@@ -464,9 +448,7 @@ const getCategoryId = (id) => {
 const removeLink = async (id, title) => {
 	await links
 		.delLink(id)
-		.then((response) => {
-			//console.log(response.data);
-		})
+		.then((response) => {})
 		.then(() => {
 			settingStore.addToast('error', `Ссылка '${title}' удалена`);
 			emit('success');
@@ -510,7 +492,6 @@ const removeDialogNo = () => {
 
 onMounted(() => {
 	getLink(props.idLink);
-	//getCategoryId(props.idCategory);
 });
 
 watch(

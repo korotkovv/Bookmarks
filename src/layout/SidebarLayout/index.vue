@@ -66,13 +66,10 @@ import ThePreloader from '@/components/ThePreloader.vue';
 
 const menuStore = useMenuStore();
 const settingStore = useSettingStore();
-
 const isLoading = ref(false);
-
 const dialogCategoryAdd = reactive({
 	status: false,
 });
-
 const dialogCategoryEdit = reactive({
 	status: false,
 	id: 0,
@@ -113,8 +110,8 @@ const dialogYes = () => {
 onBeforeMount(() => {
 	isLoading.value = true;
 });
+
 onMounted(() => {
-	//	menuStore.getCategoryMenu();
 	isLoading.value = false;
 });
 </script>

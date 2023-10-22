@@ -45,7 +45,6 @@
 	align-items: center;
 	flex-wrap: nowrap;
 	position: relative;
-
 	&__spinner-small {
 		display: block;
 		position: relative;
@@ -69,7 +68,6 @@
 			background: var(--primary);
 		}
 	}
-
 	&__spinner {
 		display: block;
 		position: relative;
@@ -93,7 +91,6 @@
 			background: var(--primary);
 		}
 	}
-
 	@keyframes spinner {
 		0% {
 			-webkit-transform: rotate(0deg);

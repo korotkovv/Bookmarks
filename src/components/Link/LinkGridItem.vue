@@ -46,12 +46,10 @@ const props = defineProps({
 		required: false,
 	},
 });
-
 const isOpenEditLink = ref(false);
 const dialogLinkEdit = reactive({
 	status: false,
 });
-
 const colorTheme = computed(() => {
 	switch (props.linkItem.color) {
 		case 'standard':

@@ -1,11 +1,9 @@
 .widgets {
 	width: 230px;
 	// .widgets__deadline
-
 	&__deadline {
 		margin-bottom: 25px;
 	}
-
 	// .widgets__weather
 	&__empty {
 		padding: 20px 16px 20px 16px;
@@ -23,14 +21,12 @@
 	border-radius: var(--border-radius);
 	width: 230px;
 	// .deadline__title
-
 	&__title {
 		font-size: 20px;
 		font-weight: 700;
 		color: var(--grey-light);
 		margin-bottom: 20px;
 	}
-
 	&__table {
 		margin-bottom: 40px;
 		font-size: 14px;
@@ -46,24 +42,18 @@
 			}
 		}
 	}
-
 	// .deadline__footer
-
 	&__footer {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 	}
-
 	// .deadline__start
-
 	&__start {
 		color: var(--grey-grey-light);
 		font-size: 12px;
 	}
-
 	// .deadline__end
-
 	&__end {
 		color: var(--grey-grey-light);
 		font-size: 12px;
@@ -78,83 +68,66 @@
 	align-items: flex-start;
 	width: 230px;
 	// .weather__left
-
 	&__left {
 		padding-top: 20px;
 		flex-grow: 1;
 	}
-
 	// .weather__title
-
 	&__title {
 		font-size: 20px;
 		font-weight: 700;
 		color: var(--grey-light);
 		margin-bottom: 30px;
 	}
-
 	// .weather__morning
-
 	&__morning {
 		margin-bottom: 3px;
 		span {
 			margin-left: 10px;
 		}
 	}
-
 	&__info {
 		margin-bottom: 8px;
 		& > span {
 			margin-left: 5px;
 		}
 	}
-
 	// .weather__night
-
 	&__night {
 		span {
 			margin-left: 10px;
 		}
 		margin-bottom: 40px;
 	}
-
 	// .weather__clouds
-
 	&__clouds {
 		color: var(--grey-grey-light);
 		font-size: 12px;
 	}
-
 	// .weather__right
-
 	&__right {
 		display: flex;
 		flex-flow: column;
 		justify-content: flex-end;
 		padding-top: 5px;
 	}
-
 	&__img {
 		max-width: 46px;
 		margin-top: 12px;
 		margin-bottom: 7px;
 	}
-
 	// .weather__temperature
-
 	&__temperature {
 		font-size: 22px;
 		font-weight: 700;
 		text-align: center;
 	}
-
 	&__link {
 		display: flex;
 		align-items: center;
 		margin-top: 20px;
 		color: var(--grey-grey-light);
 		font-size: 12px;
-
 		i {
 			font-size: 13px;
 			margin-right: 4px;

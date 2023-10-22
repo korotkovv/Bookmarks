@@ -7,39 +7,33 @@
 	background: var(--bg-block);
 	border: 1px solid var(--border-color-sidebar);
 	margin-bottom: 20px;
-
 	&__left {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		flex-grow: 1;
 	}
-
 	// .header__logo
 	&__logo {
 		margin: 0;
 		padding: 0;
 		line-height: 0;
 	}
-
 	// .header__search
 	&__search {
 		margin-left: 100px;
 		flex-grow: 1;
-		//	background: red;
 		input {
 			border: none;
 			width: 100%;
 		}
 	}
-
 	// .header__account
 	&__account {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
-
 	&__menu {
 		display: none;
 		padding: 0 5px;
@@ -48,7 +42,6 @@
 			display: inline-flex;
 		}
 	}
-
 	// .header__setting
 	&__setting {
 		color: var(--grey-light);
@@ -73,11 +66,9 @@
 	position: relative;
 	cursor: pointer;
 	padding-right: 30px;
-
 	&:hover::after {
 		border-top-color: var(--primary);
 	}
-
 	&::after {
 		content: '';
 		position: absolute;
@@ -91,7 +82,6 @@
 		transition: transform 0.2s ease 0s, -webkit-transform 0.2s ease 0s;
 		transition: var(--transition);
 	}
-
 	&.user_open {
 		&::after {
 			right: 8px;
@@ -100,7 +90,6 @@
 			transform: rotate(180deg) !important;
 		}
 	}
-
 	// .user__avatar
 	&__avatar {
 		display: flex;
@@ -117,13 +106,11 @@
 		background: var(--primary);
 		margin-right: 10px;
 	}
-
 	// .user__name
 	&__name {
 		color: var(--grey-light);
 		font-size: 16px;
 	}
-
 	// .user__menu
 	&__menu {
 		display: block;
@@ -138,12 +125,10 @@
 		transition: var(--transition);
 		z-index: 98;
 		box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.1);
-
 		&:hover {
 			display: block;
 		}
 	}
-
 	// .user__item
 	&__item {
 		padding: 14px 100px 14px 30px;
@@ -154,7 +139,6 @@
 		a {
 			color: var(--grey-light);
 		}
-
 		&:hover {
 			color: var(--primary);
 			background: var(--bg-main);
@@ -167,7 +151,6 @@
 	&__wrap {
 		position: relative;
 		margin: 0 20px 0 0;
-
 		input {
 			height: 60px;
 			padding-left: 60px;
@@ -177,12 +160,10 @@
 			width: 100%;
 			border: 2px dashed var(--bg-main);
 			margin: 0;
-
 			&::placeholder {
 				color: var(--placeholder);
 			}
 		}
-
 		button {
 			position: absolute;
 			border: none;
@@ -198,13 +179,11 @@
 			border: none;
 			transition: var(--transition);
 			cursor: pointer;
-
 			i {
 				font-size: 24px;
 				color: var(--grey-grey-light);
 				transition: var(--transition);
 			}
-
 			&:hover {
 				i {
 					color: var(--primary);

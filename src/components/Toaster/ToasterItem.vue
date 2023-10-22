@@ -10,9 +10,7 @@ import { onMounted, computed } from 'vue';
 import { useSettingStore } from '@/stores/settings';
 
 const settingStore = useSettingStore();
-
 const emit = defineEmits(['close-toast']);
-
 const props = defineProps({
 	type: {
 		type: String,
@@ -25,7 +23,6 @@ const props = defineProps({
 		default: 'success',
 	},
 });
-
 const colorToast = computed(() => {
 	switch (props.type) {
 		case 'success':

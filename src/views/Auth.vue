@@ -3,7 +3,6 @@
 		<div class="page-auth__img">
 			<img class="page-auth__image" src="@/assets/auth.svg" alt="auth" />
 		</div>
-
 		<div class="page-auth__auth">
 			<img class="page-auth__logo" src="@/assets/logo.svg" alt="Bookmarks" />
 			<div class="auth">
@@ -54,7 +53,6 @@ import user from '@/service/endpoints/user';
 const userStore = useUserStore();
 const menuStore = useMenuStore();
 const router = useRouter();
-
 const isError = ref(false);
 const errorText = ref('');
 const auth = reactive({
@@ -65,12 +63,10 @@ const auth = reactive({
 const onAuth = async () => {
 	isError.value = false;
 	errorText.value = false;
-	//console.log(auth);
 	if (auth.identifier && auth.identifier) {
 		await user
 			.postAuth(auth)
 			.then((response) => {
-				// console.log(response);
 				userStore.setUserData(
 					response.data.jwt,
 					response.data.user.id,
@@ -96,7 +92,6 @@ const onAuth = async () => {
 		errorText.value = 'Заполните данные для авторизации';
 	}
 };
-//
 </script>
 
 <style lang="scss" scoped></style>

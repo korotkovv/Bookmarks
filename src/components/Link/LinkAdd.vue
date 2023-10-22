@@ -158,7 +158,6 @@
 										placeholder="Иконка"
 										readonly
 									/>
-
 									<icon-add
 										:icons="addLink.icon"
 										@update:icons="addLink.icon = $event"
@@ -182,7 +181,6 @@
 						<button class="btn modal__btn_save" type="submit">
 							<i class="las la-plus"></i> Добавить
 						</button>
-
 						<button
 							class="btn_outline modal__btn_close"
 							@click.prevent="dialogClose"
@@ -210,15 +208,12 @@ import {
 	helpers,
 	numeric,
 	minValue,
-	url,
 } from '@vuelidate/validators';
 
 const userStore = useUserStore();
 const settingStore = useSettingStore();
 const menuStore = useMenuStore();
-
 const emit = defineEmits(['close', 'success']);
-
 const props = defineProps({
 	idCategory: {
 		type: Number,
@@ -230,7 +225,6 @@ const props = defineProps({
 		default: false,
 	},
 });
-
 const form = ref(false);
 const addLink = reactive({
 	title: null,
@@ -242,7 +236,6 @@ const addLink = reactive({
 	category: null,
 });
 const icon = ref(true);
-
 // Валидация
 const myURL = helpers.regex(
 	/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
@@ -273,7 +266,6 @@ const rules = computed(() => ({
 		),
 	},
 }));
-
 const rulesIcon = computed(() => ({
 	icon: {
 		required: helpers.withMessage(`Поле не заполнено`, required),
@@ -283,7 +275,6 @@ const rulesIcon = computed(() => ({
 		),
 	},
 }));
-
 const v$ = useVuelidate(rules, addLink);
 const vI$ = useVuelidate(rulesIcon, addLink);
 
@@ -311,7 +302,6 @@ const addLinkSend = async (
 	await links
 		.postLink(title, link, icon, sort, color, desc, categotyId, userId)
 		.then((response) => {
-			//console.log(response.data);
 			return response.data;
 		})
 		.then(() => {
@@ -337,14 +327,11 @@ const dialogClose = () => {
  */
 const dialogAddSuccess = () => {
 	v$.value.$touch();
-	//	console.log(v$.value.$error);
 	if (v$.value.$error) return;
-
 	if (icon.value) {
 		vI$.value.$touch();
 		if (vI$.value.$error) return;
 	}
-
 	if (
 		!v$.value.$error &&
 		addLink.title &&
@@ -364,9 +351,6 @@ const dialogAddSuccess = () => {
 			addLink.category,
 			userStore.userData.id
 		);
-	} else {
-		console.log('Что-то не заполнено');
-		//console.log(v$.value.$error);
 	}
 };
 

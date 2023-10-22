@@ -29,7 +29,6 @@
 									</div>
 								</template>
 							</div>
-
 							<div class="form__group_max">
 								<label for="text">Текст <span>*</span></label>
 							</div>
@@ -81,7 +80,6 @@
 						<button class="btn modal__btn_save" type="submit">
 							<i class="las la-plus"></i> Добавить
 						</button>
-
 						<button
 							class="btn_outline modal__btn_close"
 							@click.prevent="dialogClose"
@@ -101,7 +99,6 @@ import { useUserStore } from '@/stores/user';
 import { useSettingStore } from '@/stores/settings';
 import infos from '@/service/endpoints/infos';
 import useVuelidate from '@vuelidate/core';
-
 import {
 	minLength,
 	required,
@@ -112,9 +109,7 @@ import {
 
 const userStore = useUserStore();
 const settingStore = useSettingStore();
-
 const emit = defineEmits(['close', 'success']);
-
 const props = defineProps({
 	isOpen: {
 		type: Boolean,
@@ -122,15 +117,12 @@ const props = defineProps({
 		default: false,
 	},
 });
-
 const form = ref(false);
 const addInfo = reactive({
 	title: null,
 	text: null,
 	sort: 1,
 });
-const icon = ref(true);
-
 // Валидация
 const requiredNameLength = ref(2);
 const rules = computed(() => ({
@@ -157,7 +149,6 @@ const rules = computed(() => ({
 		),
 	},
 }));
-
 const v$ = useVuelidate(rules, addInfo);
 
 /**
@@ -171,7 +162,6 @@ const addInfoSend = async (title, text, sort, userId) => {
 	await infos
 		.postInfo(title, text, sort, userId)
 		.then((response) => {
-			//console.log(response.data);
 			return response.data;
 		})
 		.then(() => {
@@ -197,9 +187,7 @@ const dialogClose = () => {
  */
 const dialogAddSuccess = () => {
 	v$.value.$touch();
-
 	if (v$.value.$error) return;
-
 	if (!v$.value.$error && addInfo.title && addInfo.text && addInfo.sort > -1) {
 		addInfoSend(
 			addInfo.title,
@@ -207,9 +195,6 @@ const dialogAddSuccess = () => {
 			addInfo.sort,
 			userStore.userData.id
 		);
-	} else {
-		console.log('Что-то не заполнено');
-		//console.log(v$.value.$error);
 	}
 };
 

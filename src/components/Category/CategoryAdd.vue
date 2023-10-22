@@ -79,11 +79,9 @@
 									</div>
 								</template>
 							</div>
-
 							<div class="form__group_max">
 								<label for="icon">Иконка <span>*</span></label>
 							</div>
-
 							<div class="form__group">
 								<input
 									v-model="v$.icon.$model"
@@ -93,7 +91,6 @@
 									placeholder="Иконка"
 									readonly
 								/>
-
 								<icon-add
 									:icons="addCategory.icon"
 									@update:icons="addCategory.icon = $event"
@@ -116,7 +113,6 @@
 						<button class="btn modal__btn_save" type="submit">
 							<i class="las la-plus"></i> Добавить
 						</button>
-
 						<button
 							class="btn_outline modal__btn_close"
 							@click.prevent="dialogClose"
@@ -147,9 +143,7 @@ import {
 
 const userStore = useUserStore();
 const settingStore = useSettingStore();
-
 const emit = defineEmits(['close', 'success']);
-
 const props = defineProps({
 	isOpen: {
 		type: Boolean,
@@ -157,7 +151,6 @@ const props = defineProps({
 		default: false,
 	},
 });
-
 const form = ref(false);
 const addCategory = reactive({
 	isMain: true,
@@ -166,7 +159,6 @@ const addCategory = reactive({
 	icon: '',
 	sort: 1,
 });
-
 // Валидация
 const requiredNameLength = ref(2);
 const rules = computed(() => ({
@@ -215,7 +207,6 @@ const addCategorySend = async (title, slug, icon, sort, userId) => {
 	await links
 		.postMainCategory(title, slug, icon, sort, userId)
 		.then((response) => {
-			//	console.log(response.data);
 			settingStore.addToast('success', `Добавлена категория '${title}'`);
 			emit('success');
 			resetFields();
@@ -246,9 +237,7 @@ const dialogClose = () => {
  */
 const dialogAddSuccess = () => {
 	v$.value.$touch();
-	//	console.log(v$.value.$error);
 	if (v$.value.$error) return;
-
 	if (
 		!v$.value.$error &&
 		addCategory.title &&
@@ -263,9 +252,6 @@ const dialogAddSuccess = () => {
 			addCategory.sort,
 			userStore.userData.id
 		);
-	} else {
-		console.log('Что то не заполнено');
-		//	console.log(v$.value.$error);
 	}
 };
 

@@ -40,18 +40,15 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useUserStore } from '@/stores/user';
 
 const userStore = useUserStore();
-
 const today = ref(null);
 const daysLeft = ref(null);
 const daysHavePassed = ref(null);
 const percentageOfCompletion = ref(null);
-
 const startDate = computed(() => {
 	return userStore.userData.widgetDL.start
 		? userStore.userData.widgetDL.start.split('-').reverse().join('.')
 		: '-';
 });
-
 const endDate = computed(() => {
 	return userStore.userData.widgetDL.end
 		? userStore.userData.widgetDL.end.split('-').reverse().join('.')
@@ -72,7 +69,6 @@ const getToDay = () => {
 /**
  * Вычисляем разницу между датами
  */
-
 const dateDiff = (startDate, endDate) => {
 	const start = +parseDate(startDate);
 	const end = +parseDate(endDate);
@@ -80,13 +76,16 @@ const dateDiff = (startDate, endDate) => {
 };
 
 /**
- * преобразовываем дату в миллисекунды
+ * Преобразовываем дату в миллисекунды
  */
 const parseDate = (str) => {
 	const date = new Date(str);
 	return date.getTime();
 };
 
+/**
+ * Вычисление данных
+ */
 const dataCalculation = () => {
 	if (userStore.userData.widgetDL.end) {
 		daysLeft.value = dateDiff(today.value, userStore.userData.widgetDL.end);
@@ -101,7 +100,6 @@ const dataCalculation = () => {
 	} else {
 		daysHavePassed.value = '-';
 	}
-
 	if (
 		userStore.userData.widgetDL.start &&
 		userStore.userData.widgetDL.end &&
@@ -137,8 +135,6 @@ watch(
 		dataCalculation();
 	}
 );
-
-//
 </script>
 
 <style lang="scss" scoped></style>

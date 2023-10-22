@@ -81,11 +81,9 @@
 									</div>
 								</template>
 							</div>
-
 							<div class="form__group_max">
 								<label for="icon">Иконка <span>*</span></label>
 							</div>
-
 							<div class="form__group">
 								<input
 									v-model="v$.icon.$model"
@@ -95,7 +93,6 @@
 									placeholder="Иконка"
 									readonly
 								/>
-
 								<icon-add
 									:icons="editCategory.icon"
 									@update:icons="editCategory.icon = $event"
@@ -118,7 +115,6 @@
 						<button class="btn modal__btn_save" type="submit">
 							<i class="las la-save"></i> Сохранить
 						</button>
-
 						<button
 							class="btn_outline modal__btn_close"
 							@click.prevent="dialogClose"
@@ -168,9 +164,7 @@ import {
 const userStore = useUserStore();
 const settingStore = useSettingStore();
 const router = useRouter();
-
 const emit = defineEmits(['close', 'success']);
-
 const props = defineProps({
 	isOpen: {
 		type: Boolean,
@@ -182,7 +176,6 @@ const props = defineProps({
 		required: true,
 	},
 });
-
 const form = ref(false);
 const editCategory = reactive({
 	id: null,
@@ -192,7 +185,6 @@ const editCategory = reactive({
 	icon: '',
 	sort: 1,
 });
-
 const removeDialog = reactive({
 	status: false,
 	id: null,
@@ -243,7 +235,6 @@ const getCategory = async (id) => {
 	await links
 		.getCategory(id)
 		.then((response) => {
-			//console.log(response.data?.data.attributes);
 			if (response.data?.data.attributes) {
 				editCategory.title = response.data?.data.attributes.title;
 				editCategory.slug = response.data?.data.attributes.slug;
@@ -278,8 +269,6 @@ const editCategorySend = async (id, title, slug, icon, sort, userId) => {
 	await links
 		.putMainCategory(id, title, slug, icon, sort, userId)
 		.then((response) => {
-			//console.log(response.data);
-
 			settingStore.addToast('success', `Категория '${title}' изменена`);
 			emit('success');
 			resetFields();
@@ -300,7 +289,6 @@ const removeCategory = async (id, title) => {
 	await links
 		.delCategory(id)
 		.then((response) => {
-			//	console.log(response.data);
 			settingStore.addToast('error', `Категория '${title}' удалена`);
 			emit('success');
 			resetFields();
@@ -324,9 +312,7 @@ const dialogClose = () => {
  */
 const dialogAddSuccess = () => {
 	v$.value.$touch();
-	//	console.log(v$.value.$error);
 	if (v$.value.$error) return;
-
 	if (
 		!v$.value.$error &&
 		props.idCategory &&
@@ -343,9 +329,6 @@ const dialogAddSuccess = () => {
 			editCategory.sort,
 			userStore.userData.id
 		);
-	} else {
-		console.log('Что то не заполнено');
-		//console.log(v$.value.$error);
 	}
 };
 

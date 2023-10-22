@@ -22,10 +22,8 @@ const props = defineProps({
 		default: false,
 	},
 });
-
 const isOpen = ref(false);
 const icon = ref('');
-
 const emit = defineEmits(['update:icons']);
 
 /**
@@ -48,7 +46,6 @@ const dialogClose = () => {
 const dialogYes = () => {
 	isOpen.value = false;
 	emit('update:icons', icon);
-	//	console.log(icon);
 };
 </script>
 

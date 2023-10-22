@@ -29,7 +29,6 @@
 					</div>
 				</li>
 			</template>
-
 			<li class="subcategory__add" @click.prevent="openDialogSubCategoryAdd">
 				<i class="las la-plus"></i> <span>Добавить</span>
 			</li>
@@ -41,7 +40,6 @@
 			@success="dialogYes"
 			@close="dialogClose"
 		></sub-category-add>
-
 		<sub-category-edit
 			v-if="dialogSubCategoryEdit.status && dialogSubCategoryEdit.id"
 			:id-category="menuStore.currentMainCategory"
@@ -62,13 +60,10 @@ import SubCategoryEdit from './SubCategoryEdit.vue';
 
 const settingStore = useSettingStore();
 const menuStore = useMenuStore();
-
 const isLoading = ref(false);
-
 const dialogSubCategoryAdd = reactive({
 	status: false,
 });
-
 const dialogSubCategoryEdit = reactive({
 	status: false,
 	id: 0,
@@ -118,14 +113,12 @@ const subCat = computed(() => {
 		const links = res[0]?.attributes.links.data;
 		const id = res[0]?.id;
 		const name = res[0]?.attributes.title;
-		//	console.log('name', name);
 		if (Array.isArray(sub) && sub.length > 0) {
 			menuStore.setIdCategory(sub[0].id);
 			menuStore.setCurrentMainCategory(id);
 			menuStore.setNameCategory(sub[0]?.attributes.title);
 			if (Array.isArray(links) && links.length > 0) {
 				const findItem = sub.find((el) => el.attributes.title === 'Общее');
-				//		console.log('findItem', findItem);
 				if (!findItem)
 					sub.push({
 						id: id,

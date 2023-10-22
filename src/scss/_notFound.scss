@@ -1,11 +1,9 @@
 // 404
-
 .not-found {
 	display: flex;
 	align-items: flex-start;
 	justify-content: flex-start;
 	height: 100vh;
-
 	&__img {
 		flex: 1 1 60%;
 		max-width: 60%;
@@ -17,7 +15,6 @@
 		flex-direction: column;
 		padding-bottom: 30px;
 	}
-
 	&__logo {
 		width: 350px;
 		margin-bottom: 80px;
@@ -25,7 +22,6 @@
 	&__image {
 		max-width: 500px;
 	}
-
 	&__info {
 		flex: 1 1 40%;
 		max-width: 40%;
@@ -36,7 +32,6 @@
 		flex-direction: column;
 		padding-bottom: 20px;
 	}
-
 	// .not-found__title
 	&__title {
 		font-size: 56px;
@@ -45,7 +40,6 @@
 		font-weight: bold;
 		text-align: center;
 	}
-
 	// .not-found__desc
 	&__desc {
 		font-size: 16px;
@@ -53,7 +47,6 @@
 		margin-bottom: 60px;
 		text-align: center;
 	}
-
 	// .not-found__btn
 	&__btn {
 		display: inline-flex;

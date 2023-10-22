@@ -20,7 +20,6 @@ const iconArr = [
 	'las la-tasks',
 	'las la-table',
 	'las la-paper-plane',
-
 	'las la-link',
 	'las la-file',
 	'las la-file-alt',
@@ -43,7 +42,6 @@ const iconArr = [
 	'las la-balance-scale',
 	'las la-question-circle',
 	'las la-bell',
-
 	'las la-skull-crossbones',
 	'las la-exclamation',
 	'las la-exclamation-triangle',
@@ -53,7 +51,6 @@ const iconArr = [
 	'las la-frog',
 	'las la-dragon',
 	'las la-history',
-
 	'las la-sort',
 	'las la-broadcast-tower',
 	'las la-rss',
@@ -88,7 +85,6 @@ const iconArr = [
 	'las la-cloud-upload-alt',
 	'las la-cloud-download-alt',
 	'las la-feather-alt',
-
 	'las la-school',
 	'las la-address-book',
 	'las la-address-card',
@@ -105,7 +101,6 @@ const iconArr = [
 	'las la-route',
 	'las la-toilet-paper',
 	'las la-tree',
-
 	'las la-dollar-sign',
 	'las la-dove',
 	'las la-gift',
@@ -128,7 +123,6 @@ const iconArr = [
 	'las la-smile',
 	'las la-icons',
 	'las la-poo',
-
 	'las la-baby',
 	'las la-bath',
 	'las la-cookie',
@@ -165,7 +159,6 @@ const iconArr = [
 	'lab la-microsoft',
 	'lab la-npm',
 	'lab la-yarn',
-
 	'lab la-trello',
 	'lab la-centos',
 	'lab la-ubuntu',
@@ -180,7 +173,6 @@ const iconArr = [
 	'lab la-patreon',
 	'lab la-whatsapp',
 	'lab la-skype',
-
 	'lab la-slack',
 	'lab la-codepen',
 	'lab la-android',
@@ -215,14 +207,12 @@ const iconArr = [
 	'lab la-symfony',
 	'lab la-php',
 	'lab la-swift',
-
 	'lab la-usb',
 	'lab la-sellsy',
 	'lab la-mixcloud',
 	'lab la-simplybuilt',
 	'lab la-medapps',
 	'lab la-medium',
-
 	'las la-biking',
 	'las la-gamepad',
 	'las la-ice-cream',
@@ -236,7 +226,6 @@ const iconArr = [
 	'las la-keyboard',
 	'las la-shield-alt',
 	'las la-fire-extinguisher',
-
 	'las la-shapes',
 	'las la-graduation-cap',
 	'las la-hat-cowboy',
@@ -254,7 +243,6 @@ const iconArr = [
 	'las la-laptop-code',
 	'las la-microchip',
 	'las la-project-diagram',
-
 	'las la-plug',
 	'las la-mobile',
 	'las la-brush',
@@ -265,7 +253,6 @@ const iconArr = [
 	'las la-wrench',
 	'las la-ruler',
 	'lab la-bitcoin',
-
 	'las la-money-check',
 	'las la-money-bill',
 	'las la-ruble-sign',

@@ -26,7 +26,6 @@
 						/>
 						<img v-else src="@/assets/plus-small.svg" alt="plus" />
 					</div>
-
 					<div class="addInfo__body" @click="openDialogAdd">
 						<div class="addInfo__title">Добавить запись</div>
 					</div>
@@ -35,7 +34,6 @@
 			<div v-else class="info-loading">
 				<the-preloader size="standard"></the-preloader>
 			</div>
-
 			<the-widgets v-if="settingStore.isWatchWidgets"></the-widgets>
 		</div>
 		<info-add
@@ -72,14 +70,11 @@ import InfoEdit from '@/components/Information/InfoEdit.vue';
 
 const userStore = useUserStore();
 const settingStore = useSettingStore();
-
 const isLoading = ref(false);
 const infosList = ref([]);
-
 const dialogAdd = reactive({
 	status: false,
 });
-
 const dialogEdit = reactive({
 	status: false,
 	id: null,
@@ -87,14 +82,13 @@ const dialogEdit = reactive({
 
 /**
  * Получаем список всех записей
- *
+ * @param {number} id - ID Записи
  */
 const getInfos = async (id) => {
 	isLoading.value = true;
 	infosList.value = await infos
 		.getInfos(id)
 		.then((response) => {
-			//	console.log(response.data.data);
 			return response.data.data;
 		})
 		.catch((error) => {
@@ -113,7 +107,6 @@ getInfos(userStore.userData.id);
 const openDialogEdit = (id) => {
 	dialogEdit.id = id;
 	dialogEdit.status = true;
-	//	console.log(id);
 };
 
 /**

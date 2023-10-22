@@ -36,7 +36,6 @@ layout.value = route.meta.layout || 'auth';
  */
 const setTheme = () => {
 	let htmlElement = document.documentElement;
-
 	if (settingStore.appTheme === 'dark') {
 		localStorage.setItem('theme', 'dark');
 		htmlElement.setAttribute('theme', 'dark');

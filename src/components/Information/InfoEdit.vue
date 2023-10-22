@@ -29,7 +29,6 @@
 									</div>
 								</template>
 							</div>
-
 							<div class="form__group_max">
 								<label for="text">Текст <span>*</span></label>
 							</div>
@@ -128,9 +127,7 @@ import {
 
 const userStore = useUserStore();
 const settingStore = useSettingStore();
-
 const emit = defineEmits(['close', 'success']);
-
 const props = defineProps({
 	idInfo: {
 		type: Number,
@@ -142,7 +139,6 @@ const props = defineProps({
 		default: false,
 	},
 });
-
 const form = ref(false);
 const editInfo = reactive({
 	id: null,
@@ -150,13 +146,11 @@ const editInfo = reactive({
 	text: null,
 	sort: 1,
 });
-
 const removeDialog = reactive({
 	status: false,
 	id: null,
 	title: null,
 });
-
 // Валидация
 const requiredNameLength = ref(2);
 const rules = computed(() => ({
@@ -183,7 +177,6 @@ const rules = computed(() => ({
 		),
 	},
 }));
-
 const v$ = useVuelidate(rules, editInfo);
 
 /**
@@ -194,7 +187,6 @@ const getInfo = async (id) => {
 	await infos
 		.getInfo(id)
 		.then((response) => {
-			//	console.log(response.data?.data.attributes);
 			if (response.data?.data.attributes) {
 				editInfo.id = id;
 				editInfo.title = response.data?.data.attributes.title;
@@ -216,13 +208,11 @@ const getInfo = async (id) => {
  * @param {string} text - Url ссылки
  * @param {number} sort - Сортировка ссылки
  * @param {number} userId - ID пользователя
-
  */
 const editInfoSend = async (id, title, text, sort, userId) => {
 	await infos
 		.putInfo(id, title, text, sort, userId)
 		.then((response) => {
-			//	console.log(response.data);
 			return response.data;
 		})
 		.then(() => {
@@ -249,7 +239,6 @@ const dialogEditClose = () => {
 const dialogEditSuccess = () => {
 	v$.value.$touch();
 	if (v$.value.$error) return;
-
 	if (
 		!v$.value.$error &&
 		editInfo.id &&
@@ -264,9 +253,6 @@ const dialogEditSuccess = () => {
 			editInfo.sort,
 			userStore.userData.id
 		);
-	} else {
-		console.log('Что то не заполнено');
-		//console.log(v$.value.$error);
 	}
 };
 

@@ -97,11 +97,9 @@
 									</div>
 								</template>
 							</div>
-
 							<div class="form__group_max">
 								<label for="icon">Иконка <span>*</span></label>
 							</div>
-
 							<div class="form__group">
 								<input
 									v-model="v$.icon.$model"
@@ -111,7 +109,6 @@
 									placeholder="Иконка"
 									readonly
 								/>
-
 								<icon-add
 									:icons="editSubCategory.icon"
 									@update:icons="editSubCategory.icon = $event"
@@ -134,7 +131,6 @@
 						<button class="btn modal__btn_save" type="submit">
 							<i class="las la-save"></i> Сохранить
 						</button>
-
 						<button
 							class="btn_outline modal__btn_close"
 							@click.prevent="dialogClose"
@@ -186,9 +182,7 @@ import {
 const userStore = useUserStore();
 const settingStore = useSettingStore();
 const menuStore = useMenuStore();
-
 const emit = defineEmits(['close', 'success']);
-
 const props = defineProps({
 	isOpen: {
 		type: Boolean,
@@ -204,7 +198,6 @@ const props = defineProps({
 		required: true,
 	},
 });
-
 const form = ref(false);
 const editSubCategory = reactive({
 	category: null,
@@ -215,13 +208,11 @@ const editSubCategory = reactive({
 	icon: '',
 	sort: 1,
 });
-
 const removeDialog = reactive({
 	status: false,
 	id: null,
 	title: null,
 });
-
 // Валидация
 const requiredNameLength = ref(2);
 const rules = computed(() => ({
@@ -255,7 +246,6 @@ const rules = computed(() => ({
 		),
 	},
 }));
-
 const v$ = useVuelidate(rules, editSubCategory);
 
 /**
@@ -267,7 +257,6 @@ const getSubCategory = async (id, userId) => {
 	await links
 		.getCategory(id, userId)
 		.then((response) => {
-			//console.log(response.data?.data.attributes);
 			if (response.data?.data.attributes) {
 				editSubCategory.title = response.data?.data.attributes.title;
 				editSubCategory.slug = response.data?.data.attributes.slug;
@@ -311,7 +300,6 @@ const editSubCategorySend = async (
 	await links
 		.putSubCategory(idCategory, id, title, slug, icon, sort, userId)
 		.then((response) => {
-			//console.log(response.data);
 			return response.data;
 		})
 		.then(() => {
@@ -334,7 +322,6 @@ const removeSubCategory = async (id, title) => {
 	await links
 		.delCategory(id)
 		.then((response) => {
-			//	console.log(response.data);
 			settingStore.addToast('error', `Подкатегория '${title}' удалена`);
 			emit('success');
 			resetFields();
@@ -357,9 +344,7 @@ const dialogClose = () => {
  */
 const dialogAddSuccess = () => {
 	v$.value.$touch();
-	//	console.log(v$.value.$error);
 	if (v$.value.$error) return;
-
 	if (
 		!v$.value.$error &&
 		editSubCategory.category &&
@@ -378,9 +363,6 @@ const dialogAddSuccess = () => {
 			editSubCategory.sort,
 			userStore.userData.id
 		);
-	} else {
-		console.log('Что-то не заполнено');
-		//console.log(v$.value.$error);
 	}
 };
 

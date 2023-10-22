@@ -51,7 +51,6 @@
 					:linksList="linksList"
 					@refresh="refreshLinksList"
 				></link-compact>
-
 				<div v-if="pagination.pageCount > 1" class="pagination">
 					<ul>
 						<li v-if="pagination.page > 1" @click.prevent="prevPaginationPage">
@@ -76,7 +75,6 @@
 				</div>
 			</div>
 			<div v-else class="main__wrap"><h3>Категория не выбрана!</h3></div>
-
 			<the-widgets v-if="settingStore.isWatchWidgets"></the-widgets>
 		</div>
 	</main>
@@ -88,7 +86,6 @@ import { useRouter, useRoute } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import { useSettingStore } from '@/stores/settings';
 import { useMenuStore } from '@/stores/menu';
-
 import TheWidgets from '@/components/Widgets/TheWidgets.vue';
 import SubCategory from '@/components/Category/SubCategory.vue';
 import LinkGrid from '@/components/Link/LinkGrid.vue';
@@ -101,9 +98,7 @@ const route = useRoute();
 const userStore = useUserStore();
 const settingStore = useSettingStore();
 const menuStore = useMenuStore();
-
 const linksList = ref([]);
-
 const pagination = reactive({
 	page: 1,
 	pageSize: 50,
@@ -122,7 +117,6 @@ const getLinks = async (id, page, pageSize, userId) => {
 	linksList.value = await links
 		.getLinks(id, page, pageSize, userId)
 		.then((response) => {
-			//	console.log(response.data);
 			if (response.status === 200) {
 				pagination.page = response.data.meta.pagination.page;
 				pagination.pageSize = response.data.meta.pagination.pageSize;
@@ -190,7 +184,6 @@ const nextPaginationPage = () => {
 
 onMounted(() => {
 	menuStore.setSlug(route.params.slug);
-
 	if (route.path === '/category' || route.path === '/category/') {
 		router.push(`/category/${menuStore.slugArr[0]}`);
 	}

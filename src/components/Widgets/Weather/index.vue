@@ -40,11 +40,9 @@ import { useUserStore } from '@/stores/user';
 import axios from 'axios';
 
 const userStore = useUserStore();
-
 const weather = reactive({});
 const weatherImg = ref(new URL('@/assets/weather/d.svg', import.meta.url));
 const weatherTitle = ref('не определено');
-
 const coordinates = reactive({
 	latitude: 57.68,
 	longitude: 39.81,
@@ -53,14 +51,12 @@ const coordinates = reactive({
 /**
  * Получаем координаты из строки опций
  */
-
 const getCoordinates = () => {
 	if (userStore.userData.widgetWeather.option) {
 		const arr = userStore.userData.widgetWeather.option.split('|');
 		if (arr.length > 1) {
 			coordinates.latitude = arr[0];
 			coordinates.longitude = arr[1];
-			//console.log(coordinates);
 		}
 	}
 };
@@ -145,7 +141,6 @@ const setWeathercode = () => {
 			weatherImg.value = new URL('@/assets/weather/c3_r3.svg', import.meta.url);
 			weatherTitle.value = 'сильный дождь';
 			break;
-
 		//66, 67	Freezing Rain: Light and heavy intensity
 		case 66:
 			weatherImg.value = new URL(
@@ -161,7 +156,6 @@ const setWeathercode = () => {
 			);
 			weatherTitle.value = 'сильный ледяной дождь';
 			break;
-
 		//71, 73, 75	Snow fall: Slight, moderate, and heavy intensity
 		case 71:
 			weatherImg.value = new URL('@/assets/weather/c3_s1.svg', import.meta.url);
@@ -249,7 +243,6 @@ const getWeather = async () => {
 			`https://api.open-meteo.com/v1/forecast?latitude=${coordinates.latitude}&longitude=${coordinates.longitude}&current_weather=true&windspeed_unit=ms`
 		)
 		.then((response) => {
-			//console.log(response.data.current_weather);
 			if (response.data.current_weather) {
 				weather.temperature = Math.round(
 					response.data.current_weather.temperature

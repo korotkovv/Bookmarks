@@ -16,7 +16,6 @@ const links = {
 		api.get(
 			`/api/categoties/${idMain}?filters[user][id]=${userId}&sort[0]=sort%3Aasc&populate=categoties`
 		),
-
 	getLinks: (idCategory, page, pageSize, userId) =>
 		api.get(
 			`/api/links?filters[user][id]=${userId}&sort[0]=sort%3Aasc&populate=categoty&pagination%5Bpage%5D=${

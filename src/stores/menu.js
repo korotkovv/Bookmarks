@@ -7,7 +7,6 @@ export const useMenuStore = defineStore('menu', () => {
 	const userStore = useUserStore();
 	const menu = ref([]);
 	const slugArr = ref([]);
-
 	const slug = ref(null);
 	const idCategory = ref(null);
 	const currentMainCategory = ref(null);
@@ -17,7 +16,6 @@ export const useMenuStore = defineStore('menu', () => {
 		menu.value = await links
 			.getCategoryAll(userStore.userData.id)
 			.then((response) => {
-				// console.log(response.data.data);
 				setSlugArr(response.data.data);
 				return response.data.data;
 			})

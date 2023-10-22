@@ -19,7 +19,6 @@
 					<button class="btn modal__del" @click.prevent="dialogSuccess">
 						<i class="las la-trash"></i> Удалить
 					</button>
-
 					<button
 						class="btn_outline modal__btn_close"
 						@click.prevent="dialogClose"

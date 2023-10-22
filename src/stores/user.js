@@ -25,7 +25,6 @@ export const useUserStore = defineStore('user', () => {
 		},
 		searchEngine: null,
 	});
-
 	const router = useRouter();
 
 	/**
@@ -57,7 +56,6 @@ export const useUserStore = defineStore('user', () => {
 		wWeatherOption,
 		searchEngine
 	) => {
-		//	console.log('Авторизация');
 		localStorage.setItem('token', token);
 		userData.id = id;
 		userData.token = token;
@@ -65,7 +63,6 @@ export const useUserStore = defineStore('user', () => {
 		userData.lastName = lastName;
 		userData.firstName = firstName;
 		userData.email = email;
-
 		userData.widgetDL.active = wDLActive;
 		userData.widgetDL.start = wDLStart;
 		userData.widgetDL.end = wDLEnd;
@@ -103,11 +100,9 @@ export const useUserStore = defineStore('user', () => {
 	const tokenChecked = async () => {
 		const tokenStorage = localStorage.getItem('token') || null;
 		if (tokenStorage) {
-			console.log(tokenStorage);
 			await user
 				.getAuth()
 				.then((response) => {
-					console.log(response);
 					setUserData(
 						tokenStorage,
 						response.data.id,

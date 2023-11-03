@@ -197,6 +197,7 @@ const userInfo = reactive({
 	wWeatherOption: null,
 	searchEngine: null,
 });
+
 // Валидация
 const requiredNameLength = ref(4);
 const rules = computed(() => ({
@@ -207,6 +208,7 @@ const rules = computed(() => ({
 			minLength(requiredNameLength.value)
 		),
 	},
+
 	firstName: {
 		required: helpers.withMessage(`Поле не заполнено`, required),
 		minLength: helpers.withMessage(
@@ -214,6 +216,7 @@ const rules = computed(() => ({
 			minLength(requiredNameLength.value)
 		),
 	},
+
 	username: {
 		required: helpers.withMessage(`Поле не заполнено`, required),
 		minLength: helpers.withMessage(
@@ -222,6 +225,7 @@ const rules = computed(() => ({
 		),
 	},
 }));
+
 const v$ = useVuelidate(rules, userInfo);
 
 /**
